@@ -1,0 +1,27 @@
+{
+  "name": "gentleman.server",
+  "version": "0.0.1",
+  "description": "Server for ***ThoughtfulGentleman",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scheduleGifts/gentleman.server.git"
+  },
+  "author": "Armando Perez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scheduleGifts/gentleman.server/issues"
+  },
+  "homepage": "https://github.com/scheduleGifts/gentleman.server#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "mysql": "^2.8.0"
+  },
+  "devDependencies": {
+    "mysql": "^2.8.0",
+    "nodemon": "^1.4.0"
+  }
+}

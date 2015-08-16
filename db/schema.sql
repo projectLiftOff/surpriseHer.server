@@ -1,9 +1,9 @@
 USE gentleman;
 
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS addresses;
-DROP TABLE IF EXISTS subscription_plans;
 DROP TABLE IF EXISTS subscriptions;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS subscription_plans;
 
 CREATE TABLE users(
     user_id INT NOT NULL AUTO_INCREMENT,
@@ -13,10 +13,15 @@ CREATE TABLE users(
     dob DATE NOT NULL,
     phone BIGINT NOT NULL UNIQUE,
     credit_card BIGINT UNIQUE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY(user_id)
 );
-
+CREATE TABLE subscription_plans(
+    plan_id INT NOT NULL AUTO_INCREMENT,
+    plan_name VARCHAR(120) NOT NULL,
+    price BIGINT(100) NOT NULL,
+    PRIMARY KEY (plan_id)
+);
 CREATE TABLE addresses(
     address_id INT NOT NULL AUTO_INCREMENT,
     address VARCHAR(120) NOT NULL,
@@ -25,32 +30,19 @@ CREATE TABLE addresses(
     zip_code BIGINT NOT NULL,
     special_packageing BIT(1) NOT NULL,
     nick_name VARCHAR(100) NOT NULL,
+    user_id INT NOT NULL,
     PRIMARY KEY (address_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
-
-CREATE TABLE subscription_plans(
-    subscription_plans_id INT NOT NULL AUTO_INCREMENT,
-    plan_name VARCHAR(120) NOT NULL,
-    price BIGINT(100) NOT NULL,
-    PRIMARY KEY (subscription_plans_id)
-);
-
 CREATE TABLE subscriptions(
     subscription_id INT NOT NULL AUTO_INCREMENT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    plan_id INT NOT NULL,
+    user_id INT NOT NULL,
     FOREIGN KEY(plan_id) REFERENCES subscription_plans(plan_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id),
     PRIMARY KEY (subscription_id)
 );
-
-/* test data */
--- test users
--- insert into users (username, password, email, phone, credit_card) values ('armando', 'armando', 'aaa@aaa.com', 155555523, 2);
--- insert into users (username, password, email, phone, credit_card) values ('david', 'david', 'bbb@bbb.com', 325555551, 3);
--- insert into users (username, password, email, phone, credit_card) values ('mai', 'mai', 'ccc@ccc.com', 425555552, 4);
--- insert into users (username, password, email, phone, credit_card) values ('eddie', 'eddie', 'ddd@ddd.com', 255555535, 5);
-
 -- -- test campagins
 -- insert into campaigns( campaign_title, user_id, clicks, views, tablet, desktop, android, iphone, webmail ) values ( 'Winter Sale', 1, 4000, 10000, 400, 2000, 800, 700, 1000 );
 -- insert into campaigns( campaign_title, user_id, clicks, views, tablet, desktop, android, iphone, webmail ) values ( 'Fall Sale', 1, 3000, 9000, 400, 1500, 600, 500, 700 );

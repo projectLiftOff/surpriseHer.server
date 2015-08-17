@@ -28,7 +28,7 @@ CREATE TABLE addresses(
     city VARCHAR(100) NOT NULL,
     state VARCHAR(100) NOT NULL,
     zip_code BIGINT NOT NULL,
-    special_packageing BIT(1) NOT NULL,
+    special_packageing INT(1) NOT NULL,
     nick_name VARCHAR(100) NOT NULL,
     user_id INT NOT NULL,
     PRIMARY KEY (address_id),
@@ -36,6 +36,7 @@ CREATE TABLE addresses(
 );
 CREATE TABLE subscriptions(
     subscription_id INT NOT NULL AUTO_INCREMENT,
+    txt_interval VARCHAR(40) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     plan_id INT NOT NULL,
     user_id INT NOT NULL,

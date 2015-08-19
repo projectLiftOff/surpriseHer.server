@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/scheduleGifts/gentleman.server#readme",
   "dependencies": {
+    "async": "^1.4.2",
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "mysql": "^2.8.0"

@@ -18,3 +18,11 @@ exports.create = function( subscription ) {
     }
     return createSubscription;
 }
+
+exports.update = function( req, res, sendData ) { 
+    var values = [ req.body.deposit, Number( req.params.id )]; 
+    connection.query('UPDATE subscriptions SET deposit = ? WHERE subscription_id = ?', values, function(err, results){
+        if (err) sendData( err, res );
+        sendData( false, res, results );
+    });
+}

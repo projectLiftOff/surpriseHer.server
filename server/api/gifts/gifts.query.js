@@ -20,7 +20,6 @@ exports.create = function( user ) {
 
 exports.forThisMonth = function( date ) {
     function getGifts(callback) {
-        console.log( 'inside createGifts:', date );
         connection.query({ 
             sql: 'SELECT * FROM gifts WHERE month_of = ?;', 
             values: [date]

@@ -23,3 +23,11 @@ exports.create = function( req, res, sendData ) {
         sendData( err, res, results );
     });
 }
+exports.ofUserWithPhone = function( phone, callback ){
+    connection.query({ 
+        sql: 'SELECT nick_name, user_id FROM addresses JOIN users USING(user_id) WHERE phone = ?;', 
+        values: [phone]
+    }, function (err, results, fields){
+        callback(err, results);
+    });
+}

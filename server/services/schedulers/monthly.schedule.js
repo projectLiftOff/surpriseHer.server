@@ -1,8 +1,8 @@
 'use strict';
 var Users = require('../../api/users/users.query.js');
 var Gifts = require('../../api/gifts/gifts.query.js');
+var TxtMessenger = require('../twilio/twilio.main.js');
 var async = require('async');
-
 // C: initate interval
 
 function monthlyScheduler() {
@@ -15,7 +15,7 @@ function monthlyScheduler() {
     console.log( currentMonth + '/' +currentYear );
     // C: if dateTime === 1st && 11am || 12pm
     // if( currentDay === 1 && (currentHour === 11 || currentHour === 12 ) ) {
-    if( currentHour === 18 ) {
+    if( 1 ) {
         // C: Get all users [first_name, phone] WHERE deposit === 1 && gifts_ordered < gifts (join users, plans, subscriptions)
         // C: Get avalible gift options: select * from gifts where month/year === CURRENTMONTH/CURRENTYEAR
         var dateForGiftLookUp = currentMonth + '/' + currentYear;
@@ -25,10 +25,15 @@ function monthlyScheduler() {
             var users = results[0];
             var gifts = results[1];
             
+            // C: Setup cached Gifts
+
             // C: Construct Txt Message && Send Text Message to all users
-            sendTxtMessages( users, gifts, currentMonth );
+            // sendTxtMessages( users, gifts, currentMonth );
+
             // C: Log sent mesages
+
         });
+        
     }
 }
 
@@ -36,13 +41,13 @@ function sendTxtMessages( users, gifts, month ){
     var usersMessages = [];
     users.forEach(function( user ){
         var message = constuctAvalibleGiftsMessages( user, gifts, month );
-        console.log( message );
+        TxtMessenger.send( user.phone, '4152148005', message, null );
     });
 }
 function constuctAvalibleGiftsMessages( user, gifts, month ){ 
     var message = 'Hello '+ user.first_name +'! \n' +
-        'just reminding you to do something for your special someone! ' +
-        'here is our curated gift selection for this month: \n \n' + 
+        'Just reminding you to do something for your special someone! ' +
+        'Here is our curated gift selection for this month: \n \n' + 
         constructGiftOptionsStr( gifts ) + 'PRDUCT URL' + '\n \n' +
         "txt back the gift code and the day in month you'd like us to ship " +
         '(e.g 3/'+month+' '+ gifts[0].look_up + gifts[0].gift_id +', 18/'+ month + 

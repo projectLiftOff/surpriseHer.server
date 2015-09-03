@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS subscriptions;
 DROP TABLE IF EXISTS gifts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS plans;
+DROP TABLE IF EXISTS transactions;
 
 CREATE TABLE users(
     user_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -57,3 +58,13 @@ CREATE TABLE subscriptions(
     FOREIGN KEY(plan_id) REFERENCES plans(plan_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
+CREATE TABLE transactions(
+    transactions_id BIGINT NOT NULL AUTO_INCREMENT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    gift_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    PRIMARY KEY (transactions_id),
+    FOREIGN KEY(gift_id) REFERENCES gifts(gift_id),
+    FOREIGN KEY(user_id) REFERENCES users(user_id)
+);
+

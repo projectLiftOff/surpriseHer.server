@@ -1,9 +1,16 @@
-'use strict';
+    'use strict';
 
 var expect = require('chai').expect;
 var request = require('superagent');
 var baseUrl = 'http://localhost:6060'
 var _Seperator = '\n/////////////////////////////////////////////////////////////';
+
+var connection = require('../../../config/dbConnection.js').connectToTestDB;
+
+connection.connect(function(err){
+  if(err) console.log(err);
+  console.log('connected to local db');
+});
 
 describe('Transactions API'+_Seperator, function(){
     

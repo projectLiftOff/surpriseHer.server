@@ -25,7 +25,9 @@
     "moment": "^2.10.6",
     "mysql": "^2.8.0",
     "q": "^1.4.1",
-    "twilio": "^2.3.0"
+    "twilio": "^2.3.0",
+    "winston": "^1.0.1",
+    "winston-bishop-slack": "^0.2.1",
   },
   "devDependencies": {
     "chai": "^3.2.0",

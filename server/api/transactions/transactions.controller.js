@@ -5,22 +5,23 @@ var TransactionsServices = require('./transactions.services.js');
 var Gifts = require('../gifts/gifts.query.js');
 var Addresses = require('../addresses/addresses.query.js');
 var async = require('async');
+var log = require('../../config/winstonLogger.js');
 var _ = require('lodash');
 // var inMemoryCache = require('../../services/cache/cache.constructor.js');
 
 // exports.getAll = function(req, res, next) {
-//     console.log( 'inside transactions.contoller.sendData' );
 //     transactions.getAll( req, res, sendData );
 // }
 exports.create = function(req, res, next) {
     console.log( 'req.body -------------------------------------------------------- : \n', req.body, '\n' );
     var currentDate = TransactionsServices.createDate();
 
-    //C: Check transaction came in before the 1am of the 5th
-    // if( currentDate.day > 5 && currentDate.hour > 1 ) {
-    //     TransactionsServices.sendErrorMessage( 'missedOrderWindow', res );
-    //     return
-    // }
+    //C: Check transaction came in before the 1am of the 5th of the month
+    if( currentDate.day > 5 && currentDate.hour > 1 ) {
+        log.error('Transactions.create controller faild: Missed order window', req.body.Body);
+        TransactionsServices.sendErrorMessage( 'missedOrderWindow', res );
+        return;
+    }
     //C: Check that there are exactly 3 arguments in the req.body and organize the data
     var reqData = TransactionsServices.organizeReqData( req.body.Body );
     if( reqData.errorMessage !== '' ) {
@@ -33,7 +34,7 @@ exports.create = function(req, res, next) {
     async.waterfall([
         //////////////////////////////////////////////////////////////////////////
         //C: Check if selected giftId is valid
-        Gifts.forThisMonth( currentDate.month + '/' + currentDate.year ),
+        Gifts.forThisMonth.bind(null, currentDate.month + '/' + currentDate.year),
         function(gifts, callback) {
             gifts.forEach(function(gift){
                 var lookupId = gift.look_up + gift.gift_id;

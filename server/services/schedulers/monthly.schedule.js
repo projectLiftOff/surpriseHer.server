@@ -3,6 +3,7 @@ var Users = require('../../api/users/users.query.js');
 var Gifts = require('../../api/gifts/gifts.query.js');
 var TxtMessenger = require('../twilio/twilio.main.js');
 var async = require('async');
+var log = require('../../config/winstonLogger.js');
 // C: initate interval
 
 function monthlyScheduler() {
@@ -12,26 +13,28 @@ function monthlyScheduler() {
     var currentHour = currentDate.getHours();
     var currentYear = currentDate.getFullYear();
     var currentMonth = currentDate.getMonth() + 1;
-    console.log( currentMonth + '/' +currentYear );
     // C: if dateTime === 1st && 11am || 12pm
-    // if( currentDay === 1 && (currentHour === 11 || currentHour === 12 ) ) {
-    if( 1 ) {
+    if( currentDay === 1 && (currentHour === 11 || currentHour === 12 ) ) {
+    // if( 1 ) {
+        log.info('Beginning of the month has triggered mas-text of gifts');
         // C: Get all users [first_name, phone] WHERE deposit === 1 && gifts_ordered < gifts (join users, plans, subscriptions)
         // C: Get avalible gift options: select * from gifts where month/year === CURRENTMONTH/CURRENTYEAR
         var dateForGiftLookUp = currentMonth + '/' + currentYear;
-        var functions = [ Users.availableForGifts, Gifts.forThisMonth( dateForGiftLookUp ) ];
+        var functions = [ Users.availableForGifts, Gifts.forThisMonth.bind( null, dateForGiftLookUp ) ];
         async.parallel( functions, function(err, results){ 
-            // TODO: if( err ) slack the shit out me!!
+            if( err ) log.error( 'Query of Users and or Gifts for blast txt has faild:' , err );
             var users = results[0];
             var gifts = results[1];
             
+            if( gifts.length === 0 ) {
+                log.error( 'Gift query found no gifts' );
+                return;
+            }
+            if( users.length === 0 ) log.error( 'Users query found no Users' );
             // C: Setup cached Gifts
 
             // C: Construct Txt Message && Send Text Message to all users
-            // sendTxtMessages( users, gifts, currentMonth );
-
-            // C: Log sent mesages
-
+            sendTxtMessages( users, gifts, currentMonth );
         });
         
     }
@@ -41,7 +44,8 @@ function sendTxtMessages( users, gifts, month ){
     var usersMessages = [];
     users.forEach(function( user ){
         var message = constuctAvalibleGiftsMessages( user, gifts, month );
-        TxtMessenger.send( user.phone, '4152148005', message, null );
+        log.info( 'Before sending the following message to the following user:', {user: user, message: message} );
+        TxtMessenger.send( user.phone, '4152148005', message, 0 );
     });
 }
 function constuctAvalibleGiftsMessages( user, gifts, month ){ 

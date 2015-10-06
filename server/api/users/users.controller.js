@@ -3,17 +3,38 @@
 var Users = require('./users.query.js');
 var Subscriptions = require('../subscriptions/subscriptions.query.js');
 var async = require('async');
+var log = require('../../config/winstonLogger.js');
 
 exports.getAll = function(req, res, next) {
-    console.log( 'inside users.contoller.sendData' );
-    Users.getAll( req, res, sendData );
+    async.waterfall([
+        Users.getAll ], 
+        function( err, Users ){
+            if( err ) {
+                log.error( 'Users.getAll query failed', {error: err} );
+                res.status(400).send( err );
+                return;
+            }
+            log.info( 'Users.getAll query was successfull' );
+            res.status(200).send( Users );
+        })
+    ;
 }
 
 exports.create = function(req, res, next) {
-    var insertFunctios = [ Users.create( req.body.user ), Subscriptions.create( req.body.subscription ) ];
-    async.waterfall( insertFunctios, function(err, results){ 
-        sendData( err, res, results ) } 
-    );
+    // Validate user
+    var insertFunctions = [ 
+        Users.create.bind( null, req.body.user ), 
+        Subscriptions.create.bind( null, req.body.subscription ) 
+    ];
+    async.waterfall( insertFunctions, function(err, Users){ 
+        if( err ) {
+            log.error( 'Users.create query failed' );
+            res.status(400).send( Users );
+            return;
+        }
+        log.info( 'Users.create query was successfull' );
+        res.status(200).send( Users );
+    });
 }
 
 function sendData(err, res, data) {

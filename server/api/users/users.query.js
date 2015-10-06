@@ -2,20 +2,16 @@
 var connectToDB = require('../../config/dbConnection');
 var connection = connectToDB();
 
-exports.getAll = function( req, res, sendData ) {
+exports.getAll = function( callback ) {
     connection.query('SELECT * FROM users;', function(err, rows, fields) {
-        if (err) sendData( err, res );
-        sendData( false, res, rows );
+        callback( err, rows );
     });
 }
 
-exports.create = function( user ) {
-    function createUser(callback) {
-        connection.query('INSERT INTO users SET ?;', user, function(err, results){
-            callback(err, results);
-        });
-    }
-    return createUser;
+exports.create = function( user, callback ) {
+    connection.query('INSERT INTO users SET ?;', user, function(err, results){
+        callback(err, results);
+    });
 }
 
 exports.availableForGifts = function( callback ) {

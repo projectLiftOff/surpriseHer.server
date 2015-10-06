@@ -2,30 +2,23 @@
 var connectToDB = require('../../config/dbConnection');
 var connection = connectToDB();
 
-exports.getAll = function( req, res, sendData ) {
+exports.getAll = function( callback ) {
     connection.query('SELECT * FROM gifts;', function(err, rows, fields) {
-        if (err) sendData( err, res );
-        sendData( false, res, rows );
+        callback(err, rows);
     });
 }
 
-exports.create = function( user ) {
-    function createGifts(callback) {
-        connection.query('INSERT INTO gifts SET ?;', user, function(err, results){
-            callback(err, results);
-        });
-    }
-    return createGifts;
+exports.create = function( gift, callback ) {
+    connection.query('INSERT INTO gifts SET ?;', gift, function(err, results){
+        callback(err, results);
+    });
 }
 
-exports.forThisMonth = function( date ) {
-    function getGifts(callback) {
-        connection.query({ 
-            sql: 'SELECT * FROM gifts WHERE month_of = ?;', 
-            values: [date]
-        }, function (err, results, fields){
-            callback(err, results);
-        });
-    }
-    return getGifts;
+exports.forThisMonth = function( date, callback ) {
+    connection.query({
+        sql: 'SELECT * FROM gifts WHERE month_of = ?;', 
+        values: [date]
+    }, function (err, results, fields){
+        callback(err, results);
+    });
 }

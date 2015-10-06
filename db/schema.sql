@@ -16,6 +16,7 @@ CREATE TABLE users(
     phone BIGINT NOT NULL UNIQUE,
     credit_card BIGINT UNIQUE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    -- stripe_customer_token
     PRIMARY KEY(user_id)
 );
 CREATE TABLE plans(
@@ -61,6 +62,9 @@ CREATE TABLE subscriptions(
 CREATE TABLE transactions(
     transactions_id BIGINT NOT NULL AUTO_INCREMENT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    -- paid_status
+    -- refund_status
+    -- charge_back
     gift_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     PRIMARY KEY (transactions_id),

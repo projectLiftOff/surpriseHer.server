@@ -18,5 +18,8 @@ insert into subscriptions(txt_interval, deposit, tos, plan_id, user_id) values (
 insert into gifts(gift_name, look_up, month_of) values ( 'The Really Cool Neckless', 'neckless', '8/2015');
 insert into gifts(gift_name, look_up, month_of) values ( 'Make Her Say WOW Picture Frame', 'frame', '8/2015');
 insert into gifts(gift_name, look_up, month_of) values ( 'Awesome Head Flower Head Ban', 'ban', '8/2015');
+insert into gifts(gift_name, look_up, month_of) values ( 'Some cool water bottle', 'bottle', '9/2015');
+insert into gifts(gift_name, look_up, month_of) values ( 'Another really cool gift', 'gift', '9/2015');
+insert into gifts(gift_name, look_up, month_of) values ( 'A f-ing amazing goldfish', 'fish', '9/2015');
 
 insert into transactions(gift_id, user_id) values ( 1, 1 );

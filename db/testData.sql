@@ -1,4 +1,5 @@
 /* test data */
+USE gentleman;
 
 insert into users (first_name, last_name, email, dob, phone) values ('Armando', 'Perez', 'aaa@aaa.com', NOW(), 5034282359);
 insert into users (first_name, last_name, email, dob, phone) values ('Travis', 'Ostergard', 'bbbb@bbb.com', NOW(), 8157039039);

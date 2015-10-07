@@ -9,7 +9,6 @@ function connectToDB() {
     var connection = mysql.createConnection({
       host     : 'localhost',
       user     : 'root',
-      password : 'a1438JR420JR420',
       database : 'gentleman'
     });
     connection.connect(function(err){
@@ -23,7 +22,6 @@ function connectToTestDB() {
     var connection = mysql.createConnection({
       host     : 'localhost',
       user     : 'root',
-      password : 'a1438JR420JR420',
       database : 'gentlemanTest'
     });
     connection.connect(function(err){

@@ -1,6 +1,4 @@
-// TODO: Set as env variables
-// Q: How the hell do I set up a process.ENV ????
-var client = require('twilio')();
+var client = require('twilio')(process.env.twilio_account_sid, process.env.twilio_auth_token);
 var log = require('../../config/winstonLogger.js');
 
 exports.send = send;

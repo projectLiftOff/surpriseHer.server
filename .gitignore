@@ -28,3 +28,6 @@ node_modules
 
 # OS garbage
 .DS_Store
+
+# Secrets
+environmentVariables.json

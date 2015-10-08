@@ -14,7 +14,7 @@ exports.getAll = function(req, res, next) {
                 res.status(400).send( err );
                 return;
             }
-            log.info( 'Users.getAll query was successfull' );
+            log.info( 'Users.getAll query was successful' );
             res.status(200).send( Users );
         })
     ;
@@ -32,7 +32,7 @@ exports.create = function(req, res, next) {
             res.status(400).send( Users );
             return;
         }
-        log.info( 'Users.create query was successfull' );
+        log.info( 'Users.create query was successful' );
         res.status(200).send( Users );
     });
 }

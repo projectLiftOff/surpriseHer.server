@@ -21,7 +21,7 @@ function send( to, from, body, attempts ) {
         }
         else {
             // TODO: log successful message sent in db
-            log.info( 'Monthly Options text message was sent successfully', {to: to, from: from, message: body, resendAttempts: attempts} )
+            log.info( 'Monthly Options text message was sent successfuly', {to: to, from: from, message: body, resendAttempts: attempts} )
         }
     });
 }

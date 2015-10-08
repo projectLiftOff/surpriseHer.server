@@ -3,7 +3,7 @@ var slack = require('winston-bishop-slack').Slack;
 
 winston.emitErrs = true;
 
-var logger = new winston.Logger({
+var log = new winston.Logger({
     transports: [
         new winston.transports.File({
             level: 'info',
@@ -36,20 +36,9 @@ var logger = new winston.Logger({
             maxsize: 5242880, //5MB
             maxFiles: 5,
             colorize: true
-        }),
-
-        // new something({
-        //     domain: 'ilove2party',
-        //     apiToken: 'xoxp-4186932621-4186932639-10324292422-47a7c9',
-        //     channel: '#general',
-        //     level: 'info',
-        //     username: "ErrorBot",
-        //     handleExceptions : true
-        // })
-
+        })
     ],
     exitOnError: false,
-
     colors: {
         info: 'blue',
         error: 'red',
@@ -58,47 +47,47 @@ var logger = new winston.Logger({
     }
 });
 
-logger._info = function(){
+log._info = function(){
     var args = [];
     for( var i = 0; i < arguments.length; i++ ) {
         args.push( arguments[i] );
     }
     args.push( {pid: process.pid} );
-    logger.info.apply( null, args );
+    log.info.apply( null, args );
 }
-logger._warn = function(){
+log._warn = function(){
     var args = [];
     for( var i = 0; i < arguments.length; i++ ) {
         args.push( arguments[i] );
     }
     args.push( {pid: process.pid} );
-    logger.warn.apply( null, args );
+    log.warn.apply( null, args );
 }
-logger._error = function(){
+log._error = function(){
     var args = [];
     for( var i = 0; i < arguments.length; i++ ) {
         args.push( arguments[i] );
     }
     args.push( {pid: process.pid} );
-    logger.error.apply( null, args );
+    log.error.apply( null, args );
 }
-logger._debug = function(){
+log._debug = function(){
     var args = [];
     for( var i = 0; i < arguments.length; i++ ) {
         args.push( arguments[i] );
     }
     args.push( {pid: process.pid} );
-    logger.debug.apply( null, args );
+    log.debug.apply( null, args );
 }
 
 // C: Slack logging intergration
-logger.add(slack, {
-  webhook_url: "",
+log.add(slack, {
+  webhook_url: process.env.slack_webhook_url,
   icon_url: "https://twylalalala.files.wordpress.com/2014/01/dafuq-100981.jpg?w=390",
-  channel: "#tg-errors",
+  channel: "#sh-errors-dev",
   username: "The Error Dude",
   level: 'error',
   handleExceptions: true
 })
 
-module.exports = logger;
+module.exports = log;

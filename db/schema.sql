@@ -2,10 +2,10 @@ USE gentleman;
 
 DROP TABLE IF EXISTS addresses;
 DROP TABLE IF EXISTS subscriptions;
+DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS gifts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS plans;
-DROP TABLE IF EXISTS transactions;
 
 CREATE TABLE users(
     user_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -48,8 +48,6 @@ CREATE TABLE addresses(
 );
 CREATE TABLE subscriptions(
     subscription_id BIGINT NOT NULL AUTO_INCREMENT,
-    txt_interval VARCHAR(40) NOT NULL,
-    deposit INT(1),
     tos INT(1) NOT NULL,
     gifts_ordered BIGINT DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -71,4 +69,3 @@ CREATE TABLE transactions(
     FOREIGN KEY(gift_id) REFERENCES gifts(gift_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
-

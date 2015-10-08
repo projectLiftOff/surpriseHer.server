@@ -6,21 +6,21 @@ var log = require('../../config/winstonLogger.js');
 
 exports.getAll = function(req, res, next) {
     async.waterfall([
-        Addresses.getAll ], 
+        Addresses.getAll ],
         function( err, addresses ){
             if( err ) {
                 log.error( 'addresses.getAll query failed' );
                 res.status(400).send( addresses );
                 return;
             }
-            log.info( 'addresses.getAll query was successfull' );
+            log.info( 'addresses.getAll query was successful' );
             res.status(200).send( addresses );
         })
     ;
 }
 
 exports.create = function(req, res, next) {
-    var inserts = req.body.map( function(address){  
+    var inserts = req.body.map( function(address){
         return Addresses.create.bind( null, address );
     });
 
@@ -30,7 +30,7 @@ exports.create = function(req, res, next) {
             res.status(400).send( addresses );
             return;
         }
-        log.info( 'addresses.create query was successfull' );
+        log.info( 'addresses.create query was successful' );
         res.status(200).send( addresses );
     });
 }

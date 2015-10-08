@@ -13,8 +13,8 @@ insert into plans(plan_id, plan_name, gifts, price) values (1, 'Entry', 1, 90);
 insert into plans(plan_id, plan_name, gifts, price) values (2, 'Standard', 3, 180);
 insert into plans(plan_id, plan_name, gifts, price) values (3, 'Premium', 6, 320);
 
-insert into subscriptions(txt_interval, deposit, tos, plan_id, user_id) values ('monthly', 1, 1, 2, 1);
-insert into subscriptions(txt_interval, deposit, tos, plan_id, user_id) values ('monthly', 1, 1, 1, 2);
+insert into subscriptions(tos, plan_id, user_id) values (1, 2, 1);
+insert into subscriptions(tos, plan_id, user_id) values (1, 1, 2);
 
 insert into gifts(gift_name, look_up, month_of) values ( 'The Really Cool Neckless', 'neckless', '8/2015');
 insert into gifts(gift_name, look_up, month_of) values ( 'Make Her Say WOW Picture Frame', 'frame', '8/2015');

@@ -13,7 +13,7 @@ exports.getAll = function(req, res, next) {
                 res.status(400).send( subscriptions );
                 return;
             }
-            log.info( 'subscriptions.getAll query was successfull' );
+            log.info( 'subscriptions.getAll query was successful' );
             res.status(200).send( subscriptions );
         })
     ;
@@ -28,7 +28,7 @@ exports.create = function(req, res, next) {
                 res.status(400).send( subscriptions );
                 return;
             }
-            log.info( 'subscriptions.create query was successfull' );
+            log.info( 'subscriptions.create query was successful' );
             res.status(200).send( subscriptions );
         })
     ;
@@ -44,7 +44,7 @@ exports.update = function(req, res, next) {
                 res.status(400).send( subscriptions );
                 return;
             }
-            log.info( 'subscriptions.update query was successfull' );
+            log.info( 'subscriptions.update query was successful' );
             res.status(200).send( subscriptions );
         })
     ;

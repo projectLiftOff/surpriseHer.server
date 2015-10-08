@@ -1,6 +1,4 @@
-// TODO: Set as env variables
-// Q: How the hell do I set up a process.ENV ????
-var client = require('twilio')();
+var client = require('twilio')(process.env.twilio_account_sid, process.env.twilio_auth_token);
 var log = require('../../config/winstonLogger.js');
 
 exports.send = send;
@@ -21,7 +19,7 @@ function send( to, from, body, attempts ) {
         }
         else {
             // TODO: log successful message sent in db
-            log.info( 'Monthly Options text message was sent successfully', {to: to, from: from, message: body, resendAttempts: attempts} )
+            log.info( 'Monthly Options text message was sent successfuly', {to: to, from: from, message: body, resendAttempts: attempts} )
         }
     });
 }

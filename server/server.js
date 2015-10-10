@@ -1,16 +1,9 @@
 'use strict';
 
-// Set environment variables
-if(process.env.NODE_ENV === 'production'){
-  console.log('running in production mode');
-} else {
-  console.log('runnning in dev mode');
-  var fs = require('fs');
-  var environmentVariables = JSON.parse(fs.readFileSync('local_environment_variables.json', 'utf-8'));
-  for (var key in environmentVariables) {
-    process.env[key] = environmentVariables[key];
-  }
-}
+///////////////////////////////////////////////////
+// C: Set environment variables
+var setupEnvironmentVariables = require('./config/environment.setup.js');
+setupEnvironmentVariables();
 
 var express = require('express');
 var configExpress = require('./config/express.middle.js');

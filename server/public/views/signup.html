@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Surprise Her</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/creative.css" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+
+    <!-- Nav Bar -->
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <img class="" src="../img/surpriseHer-logo.png">
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="btn btn-signup page-scroll" href="#subscriptions" style="color: white;">Sign Up</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#what">What</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#how">How</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#gifts">Gifts</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <!-- Nav Bar End -->
+
+    <!-- Sign Up -->
+    <div class="container top-40">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 top-40 text-center wow tada">
+                <h1 class="section-heading">Sign Up</h1>
+                <p class="h4">Some txt about the sign up process</p>
+            </div>
+        </div>
+    </div>
+    <!-- Sign Up End -->
+
+    <!-- Sign Up -->
+    <form autocomplete="off">
+        <div class="container">
+            <div class="row">
+                
+                <!-- Basic Info -->
+                <div class="form-group col-sm-6">
+                    <label class="control-label">First Name</label>
+                    <input type="text" class="form-control" id="s-firstName" required />
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label">Last Name</label>
+                    <input type="text" class="form-control" id="s-lastName" required />
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <label class="control-label">Date Of Birth</label>
+                    <input type="text" placeholder="MM/DD/YYYY" class="form-control" id="s-dob" required />
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label">Email</label>
+                    <input type="text" class="form-control" id="s-email" required />
+                    <small class="text-danger" id="s-emailError" style="display: none;"></small>
+                </div>
+                <!-- Basic Info End -->
+
+                <!-- Shipping Addresses -->
+                <div class="col-sm-12 text-center">
+                    <hr class="primary">
+                    <h2 class="section-heading">Shipping Addresses</h2>
+                    <p class="h4 col-sm-10 col-sm-offset-1">
+                        Please enter all shipping addresses you might want to send the gift to (e.g. home, her work, your work...).
+                        For each address enter an address code (EXPALAIN WHY A CODE?).
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Addresses One*</label>
+                        <input type="text" class="form-control" id="s-addressOne" required />
+                        <small class="text-danger" id="s-addressOneError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Addresses One - Code Name*</label>
+                        <input type="text" class="form-control" id="s-addressOneCode" required />
+                        <small class="text-danger" id="s-addressOneCodeError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Addresses One - Delivery For</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-6" id="s-addressGroupTwo" style="display: none;">
+                    <div class="form-group">
+                        <label class="control-label">Addresses Two</label>
+                        <input type="text" class="form-control" id="s-addressTwo" />
+                        <small class="text-danger" id="s-addressTwoError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Addresses Two - Code Name</label>
+                        <input type="text" class="form-control" id="s-addressTwoCode" />
+                        <small class="text-danger" id="s-addressTwoCodeError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Addresses Two - Delivery For</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-6" id="s-addressGroupThree" style="display: none;">
+                    <div class="form-group">
+                        <label class="control-label">Addresses Three</label>
+                        <input type="text" class="form-control" id="s-addressThree" />
+                        <small class="text-danger" id="s-addressThreeError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Addresses Three - Code Name</label>
+                        <input type="text" class="form-control" id="s-addressThreeCode" />
+                        <small class="text-danger" id="s-addressThreeCodeError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">    
+                        <label class="control-label">Addresses Three - Delivery For</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-6" id="s-addressGroupFour" style="display: none;">
+                    <div class="form-group">
+                        <label class="control-label">Addresses Four</label>
+                        <input type="text" class="form-control" id="s-addressFour" />
+                        <small class="text-danger" id="s-addressFourError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Addresses Four - Code Name</label>
+                        <input type="text" class="form-control" id="s-addressFourCode" />
+                        <small class="text-danger" id="s-addressFourCodeError" style="display: none;"></small>
+                    </div>
+                    <div class="form-group">    
+                        <label class="control-label">Addresses Four - Delivery For</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <div class="hidden-xs" style="height: 80px"></div>
+                    <a class="btn btn-secondary btn-xl page-scroll col-sm-8 col-sm-offset-2 col-xs-12" 
+                        id="s-addAddress"> Add Additional Address </a>
+                    <span class="clearfix"></span>
+                </div>
+                <!-- Shipping Addresses End -->
+                
+                <!-- Shipping Addresses Option -->
+                <div class="col-sm-12 text-center">
+                    <p class="h4 col-sm-10 col-sm-offset-1"> 
+                        Please choose an address you'd like the {{ SELECTED_GIFT }} gift to be shipped 
+                        to by entering one of the codes you entered above. 
+                    </p>
+                </div>
+                <div class="form-group col-sm-6 col-sm-offset-3">
+                    <label class="control-label">Code for This Gifts Shipping Address</label>
+                    <input type="text" class="form-control" id="s-selectedShippingAddress" />
+                    <small class="text-danger" id="s-selectedShippingAddressError" style="display: none;"></small>
+                </div>
+                <!-- Shipping Addresses Option End-->
+
+                <!-- Card Info -->
+                <div class="col-sm-12 text-center">
+                    <hr class="primary">
+                    <h2 class="section-heading">Card Info</h2>                    
+                    <p class="h4"><i>Just a reminder that we only charge after you have placed an order</i></p>
+                </div>
+
+                <div id="dropin-container"></div>
+                <!-- Card Info End -->
+
+                <div class="col-sm-6 col-sm-offset-3 text-center">
+                    <small class="help-block top-20">
+                        By continuing, I agree to the 
+                        <a href="#" target="_blank">
+                            Terms of Service
+                        </a>
+                    </small>
+                </div>
+
+                <div class="col-sm-12 text-center">
+                    <input type="submit" id="s-submit" class="btn btn-primary btn-xl page-scroll col-sm-8 col-sm-offset-2 col-xs-12 bottom-25" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Sign Up End -->
+
+    <footer>
+        
+    </footer>
+
+    <!-- jQuery -->
+    <script src="../js/libs/jquery.js"></script>
+    <script src="../js/libs/bootstrap.min.js"></script>
+    <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeqwUr4Q6wiyYz3iy1c4dRhEjG5YCtvY8&libraries=places"></script>
+
+    <script src="../js/libs/inputmask.min.js" type="text/javascript"></script>
+    <script src="../js/libs/jquery.inputmask.min.js" type="text/javascript"></script>
+    <script src="../js/libs/inputmask.extensions.min.js" type="text/javascript"></script>
+    <script src="../js/libs/inputmask.date.extensions.min.js" type="text/javascript"></script>
+    <script src="../js/libs/moment.min.js" type="text/javascript"></script>
+    
+    <script src="../js/signup.js"></script>
+
+
+
+</body>
+
+</html>

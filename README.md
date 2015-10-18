@@ -31,17 +31,8 @@ APIs
 POST payload =
 ```json
 {
-    "user": {
-        "first_name": "fristName",
-        "last_name": "LastName",
-        "email": "someEmail@someDomain.com",
-        "dob": "2015-01-12",
-        "phone": 5413124834
-    },
-    "subscription": {
-        "tos": 1,
-        "plan_id": 2
-    }
+    "tos": 1,
+    "phone": 5413124834
 }
 ```
-* Note payload.subscription.tos can be 1:agreed or 0:didn't agree. *
+* Note payload.tos can be 1:agreed or 0:didn't agree. *

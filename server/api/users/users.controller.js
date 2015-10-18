@@ -21,12 +21,12 @@ exports.getAll = function(req, res, next) {
 }
 
 exports.create = function(req, res, next) {
-    // Validate user
-    var insertFunctions = [ 
-        Users.create.bind( null, req.body.user ), 
-        Subscriptions.create.bind( null, req.body.subscription ) 
+    // Create User
+    req.body.registration_complete = 0;
+    var queryFunctions = [ 
+        Users.create.bind( null, req.body )
     ];
-    async.waterfall( insertFunctions, function(err, Users){ 
+    async.waterfall( queryFunctions, function(err, Users){ 
         if( err ) {
             log.error( 'Users.create query failed' );
             res.status(400).send( Users );

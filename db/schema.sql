@@ -17,7 +17,7 @@ CREATE TABLE users(
     registration_complete INT(1) NOT NULL,
     tos INT(1) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    -- stripe_customer_token
+    -- processor_customer_token
     PRIMARY KEY(user_id)
 );
 CREATE TABLE gifts(
@@ -35,8 +35,8 @@ CREATE TABLE addresses(
     city VARCHAR(100) NOT NULL,
     state VARCHAR(100) NOT NULL,
     zip_code BIGINT NOT NULL,
-    special_packageing INT(1) NOT NULL,
-    nick_name VARCHAR(100) NOT NULL,
+    code_name VARCHAR(100) NOT NULL,
+    addressed_to VARCHAR(60),
     user_id BIGINT NOT NULL,
     PRIMARY KEY (address_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id)
@@ -44,6 +44,7 @@ CREATE TABLE addresses(
 CREATE TABLE transactions(
     transactions_id BIGINT NOT NULL AUTO_INCREMENT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    status VARCHAR(40) NOT NULL, -- pendingUserRegistration, unfulfilled, fulfilled, shippied, delivered
     -- paid_status
     -- refund_status
     -- charge_back

@@ -8,6 +8,12 @@ exports.getAll = function( callback ) {
     });
 }
 
+exports.update = function( data, callback ) {
+    connection.query('UPDATE users SET ? WHERE user_id = ?;', data, function(err, results){
+        callback(err, results);
+    });
+}
+
 exports.create = function( user, callback ) {
     connection.query('INSERT INTO users SET ?;', user, function(err, results){
         callback(err, results);

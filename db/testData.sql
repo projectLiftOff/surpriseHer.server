@@ -16,4 +16,6 @@ insert into gifts(gift_name, look_up, month_of, price) values ( 'Some cool water
 insert into gifts(gift_name, look_up, month_of, price) values ( 'Another really cool gift', 'gift', '9/2015', 45);
 insert into gifts(gift_name, look_up, month_of, price) values ( 'A f-ing amazing goldfish', 'fish', '9/2015', 45);
 
-insert into transactions(status, gift_id, user_id) values ( 'fulfilled', 1, 1 );
+insert into transactions(status, paid, gift_id, user_id) values ( 'pendingUserRegistration', 0, 1, 1 );
+-- insert into transactions(status, paid, gift_id, user_id) values ( 'pendingUserRegistration', 0, 1, 4 );
+

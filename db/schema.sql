@@ -1,8 +1,8 @@
 USE gentleman;
 
+DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS addresses;
 DROP TABLE IF EXISTS subscriptions;
-DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS gifts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS plans;
@@ -45,12 +45,14 @@ CREATE TABLE transactions(
     transactions_id BIGINT NOT NULL AUTO_INCREMENT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     status VARCHAR(40) NOT NULL, -- pendingUserRegistration, unfulfilled, fulfilled, shippied, delivered
-    -- paid_status
+    paid INT(1) NOT NULL,
     -- refund_status
     -- charge_back
     gift_id BIGINT NOT NULL,
+    address_id BIGINT,
     user_id BIGINT NOT NULL,
     PRIMARY KEY (transactions_id),
     FOREIGN KEY(gift_id) REFERENCES gifts(gift_id),
+    FOREIGN KEY(address_id) REFERENCES addresses(address_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );

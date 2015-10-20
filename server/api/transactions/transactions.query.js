@@ -18,3 +18,16 @@ exports.forUserWithGiftIds = function( userId, giftIds, callback ) {
         callback(err, results, userId);
     });
 }
+
+exports.pendingUserRegistration = function( userId, callback ) {
+    var values = [userId];
+    connection.query( 'SELECT * FROM transactions WHERE status = "pendingUserRegistration" AND user_id = ?;', values, function (err, results, fields){
+        callback(err, results);
+    });
+}
+
+exports.update = function( data, callback ) {
+    connection.query('UPDATE transactions SET ? WHERE transactions_id = ?;', data, function(err, results){
+        callback(err, results);
+    });
+}

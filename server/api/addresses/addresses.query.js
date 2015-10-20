@@ -22,3 +22,9 @@ exports.ofUserWithPhone = function( phone, callback ){
         callback(err, results);
     });
 }
+
+exports.ofUserAndCode = function( data, callback ){
+    connection.query( 'SELECT address_id FROM addresses WHERE code_name = ? AND user_id = ?;', data, function (err, results, fields){
+        callback(err, results);
+    });
+}

@@ -62,10 +62,13 @@ PUT payload =
             "zip_code": 94103,
             "code_name": "Really Far007"
         }
-    ]
+    ],
+    "transaction": {
+        "shipToAddressCode": "Really Far006"
+    }
 }
 ```
-* Note MISSING processor_customer_token in payload *
+* Notes: MISSING processor_customer_token in payload, assumes unregistered user & pendind transaction have already been created*
 
 
 ### /addresses

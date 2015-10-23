@@ -6,7 +6,7 @@ var Gifts = require('../gifts/gifts.query.js');
 var Addresses = require('../addresses/addresses.query.js');
 var Users = require('../users/users.query.js');
 var async = require('async');
-var log = require('../../config/winstonLogger.js');
+var log = require('../../config/log.js');
 var _ = require('lodash');
 // var inMemoryCache = require('../../services/cache/cache.constructor.js');
 
@@ -14,7 +14,7 @@ exports.getAll = function(req, res, next) {
     transactions.getAll( req, res, sendData );
 }
 exports.create = function(req, res, next) {
-    console.log( 'req.body -------------------------------------------------------- : \n', req.body, '\n' );
+    log.debug( 'req.body -------------------------------------------------------- : \n', req.body, '\n' );
     var currentDate = TransactionsServices.createDate();
 
     //C: Check transaction came in before the 1am of the 5th of the month
@@ -24,11 +24,11 @@ exports.create = function(req, res, next) {
     //     return;
     // }
     var phoneNumber = TransactionsServices.formatPhoneForQuery( req.body.From );
-    async.waterfall([ Users.withPhoneNumber.bind( null, phoneNumber ) ], function(err, users){
+    async.waterfall([ Users.withPhoneNumber.bind( null, phoneNumber ) ], function(error, users){
         // TODO: handle error
-
-        ////////////////////////////////////////////////////////////////////////// 
-        // C: If User is fully registered 
+        log.error('transactions controller create failed',{error});
+        //////////////////////////////////////////////////////////////////////////
+        // C: If User is fully registered
         var _user = users.pop()
         if( !!_user.registration_complete ) {
             //C: Check that there are exactly 3 arguments in the req.body and organize the data
@@ -76,7 +76,7 @@ exports.create = function(req, res, next) {
                         return;
                     }
                 //////////////////////////////////////////////////////////////////////////
-                //C: Check if user has already ordred a gift this month 
+                //C: Check if user has already ordred a gift this month
                     callback( null, userAddressesLookUp[ reqData.address ].user_id, giftIds);
                 },
                 Transactions.forUserWithGiftIds,
@@ -87,25 +87,24 @@ exports.create = function(req, res, next) {
                         return;
                     }
                 //////////////////////////////////////////////////////////////////////////
-                //C: Save transaction        
+                //C: Save transaction
                     else {
                         var transactionCreationData = { user_id: userId, gift_id: reqData.selectedGiftInfo.gift_id };
                         callback( null, transactionCreationData);
                     }
                 },
                 Transactions.create
-            ], function (err, result) {
-                //TODO: Charge for the gift 
-                if( err ) {
-                    //TODO: Log the error and ring the fucking bells!!
-                    console.log( 'err:', err );
+            ], function (error, result) {
+                //TODO: Charge for the gift
+                if (error) {
+                    log.error( 'transactions controller error when user completed registration:', {error} );
                     TransactionsServices.sendErrorMessage( 'generic', res );
                 }
                 else TransactionsServices.sendSuccessMessageCR( reqData, res );
             });
         }
-        ////////////////////////////////////////////////////////////////////////// 
-        // C: If User is NOT fully registered 
+        //////////////////////////////////////////////////////////////////////////
+        // C: If User is NOT fully registered
         else {
             // C: Check that there are exactly 2 arguments (date, giftId) in the req.body and organize the data
             var reqData = TransactionsServices.organizeDataIR( req.body.Body );
@@ -129,14 +128,14 @@ exports.create = function(req, res, next) {
                         TransactionsServices.sendErrorMessage( reqData.errorMessage, res );
                         return;
                     }
-                
+
                 //////////////////////////////////////////////////////////////////////////
                 //C: Create transaction with pending status
-                    var transactionCreationData = { 
-                        user_id: _user.user_id, 
-                        gift_id: reqData.selectedGiftInfo.gift_id, 
-                        status: 'pendingUserRegistration', 
-                        paid: 0 
+                    var transactionCreationData = {
+                        user_id: _user.user_id,
+                        gift_id: reqData.selectedGiftInfo.gift_id,
+                        status: 'pendingUserRegistration',
+                        paid: 0
                     };
                     callback( null, transactionCreationData);
                 },
@@ -145,22 +144,20 @@ exports.create = function(req, res, next) {
                 // Check if user already has a transaction with pending status
                 // if true send register link again
                 // NOTE: handle above situation in the registration endpoint by only completing the most recent transaction
-            ], function (err, result) {
+            ], function (error, result) {
                 reqData.userId = _user.user_id;
-                if( err ) {
-                    //TODO: Log the error and ring the fucking bells!!
-                    console.log( 'err:', err );
+                if (error) {
+                    log.error('transactions controller error when user not completely registered:', {error});
                     TransactionsServices.sendErrorMessage( 'generic', res );
                 }
                 // TODO: Construct link to signup page with query param that contains userId, (maybe giftLookUp)
                 else TransactionsServices.sendSuccessMessageIR( reqData, res );
-            });            
+            });
         }
     });
 }
 
-
 // exports.update = function(req, res, next) {
-//     console.log( 'inside transactions.contoller.create' );
+//     log.debug('inside transactions.controller.create');
 //     transactions.update( req, res, sendData );
 // }

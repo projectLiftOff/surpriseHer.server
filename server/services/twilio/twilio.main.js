@@ -1,5 +1,5 @@
 var client = require('twilio')(process.env.twilio_account_sid, process.env.twilio_auth_token);
-var log = require('../../config/winstonLogger.js');
+var log = require('../../config/log.js');
 
 exports.send = send;
 
@@ -8,18 +8,19 @@ function send( to, from, body, attempts ) {
         to: '+1' + to,
         from: '+1' + from,
         body: body
-    }, function( err, data ){
-        if( err ) {
+    }, function( error, data ){
+        if (error) {
+            log.error('Sending Monthly Options text using twilio falied', {error}, {to, from, message: body, resendAttempts: attempts} );
+
             // C: Retry sending
             if( attempts < 3 ) {
                 attempts++;
                 send( to, from, body, attempts );
             }
-            else log.error( 'Sending Monthly Options text using twilio falied', {to: to, from: from, message: body, resendAttempts: attempts} );
         }
         else {
             // TODO: log successful message sent in db
-            log.info( 'Monthly Options text message was sent successfuly', {to: to, from: from, message: body, resendAttempts: attempts} )
+            log.info( 'Monthly Options text message was sent successfuly', {to, from, message: body, resendAttempts: attempts} )
         }
     });
 }

@@ -4,15 +4,15 @@ var Users = require('./users.query.js');
 var Addresses = require('../addresses/addresses.query.js');
 var Transactions = require('../transactions/transactions.query.js');
 var async = require('async');
-var log = require('../../config/winstonLogger.js');
+var log = require('../../config/log.js');
 
 exports.getAll = function(req, res, next) {
     async.waterfall([
-        Users.getAll ], 
-        function( err, Users ){
-            if( err ) {
-                log.error( 'Users.getAll query failed', {error: err} );
-                res.status(400).send( err );
+        Users.getAll ],
+        function( error, Users ){
+            if( error ) {
+                log.error( 'Users.getAll query failed', {error} );
+                res.status(400).send(error);
                 return;
             }
             log.info( 'Users.getAll query was successful' );
@@ -24,12 +24,12 @@ exports.getAll = function(req, res, next) {
 exports.create = function(req, res, next) {
     // Create User
     req.body.registration_complete = 0;
-    var queryFunctions = [ 
+    var queryFunctions = [
         Users.create.bind( null, req.body )
     ];
-    async.waterfall( queryFunctions, function(err, Users){ 
-        if( err ) {
-            log.error( 'Users.create query failed', err );
+    async.waterfall( queryFunctions, function(error, Users){
+        if( error ) {
+            log.error( 'Users.create query failed', {error} );
             res.status(400).send( Users );
             return;
         }
@@ -52,18 +52,18 @@ exports.finishRegistration = function(req, res, next) {
         return Addresses.create.bind( null, address );
     });
     // C: Save all addresses to DB
-    async.parallel( addressQueryFunctions, function( err, addresses ) {
-        if( err ) {
-            log.error( 'Users.finishRegistration.Addresses.create query failed' );
-            res.status(500).send( addresses );
+    async.parallel( addressQueryFunctions, function( error, addresses ) {
+        if (error) {
+            log.error('Users.finishRegistration.Addresses.create query failed', {error});
+            res.status(500).send(addresses);
             return;
         }
-        log.info( 'Users.finishRegistration.Addresses.create query was successful' );
-        
+        log.info('Users.finishRegistration.Addresses.create query was successful');
+
         // C: Prepare user data
         req.body.user.registration_complete = 1;
         var userData = [req.body.user, userId];
-        var userQueryFunctions = [ 
+        var userQueryFunctions = [
             Users.update.bind( null, userData ),
             function( results, callback ){
                 callback( null, userId );
@@ -72,10 +72,10 @@ exports.finishRegistration = function(req, res, next) {
         ];
 
         // C: Save all user data and query for pending transaction of user
-        async.waterfall( userQueryFunctions, function(err, pendingTransaction){ 
-            // console.log( 'pendingTransaction:', pendingTransaction );
-            if( err ) {
-                log.error( 'Users.finishRegistration query failed:', err );
+        async.waterfall( userQueryFunctions, function(error, pendingTransaction){
+            // log.debug('pendingTransaction:', {pendingTransaction});
+            if (error) {
+                log.error( 'Users.finishRegistration query failed:', {error} );
                 res.status(500);
                 return;
             }
@@ -88,19 +88,19 @@ exports.finishRegistration = function(req, res, next) {
                 // TODO: charge amount....  charge was successful!
                 // C: update transaction status, and address
                 var data = [req.body.transaction.shipToAddressCode, userId]
-                // console.log( 'data', data );
-                async.waterfall( [Addresses.ofUserAndCode.bind(null, data)], function(err, addresses){
-                    // console.log( 'addresses', addresses);
-                    if( err ) {
-                        log.error( 'Users.finishRegistration - Addresses.ofUserAndCode query failed:', err );
+                // log.debug({data});
+                async.waterfall( [Addresses.ofUserAndCode.bind(null, data)], function(error, addresses){
+                    // log.debug({addresses});
+                    if (error) {
+                        log.error( 'Users.finishRegistration - Addresses.ofUserAndCode query failed:', {error} );
                         res.status(500);
                         return;
                     }
 
                     var data = [{status: 'unfulfilled', paid: 1}, addresses[0].address_id];
-                    async.waterfall( [ Transactions.update.bind(null, data)], function(err, transaction){
-                        if( err ) {
-                            log.error( 'Users.finishRegistration - Transactions.update query failed', err );
+                    async.waterfall( [ Transactions.update.bind(null, data)], function(error, transaction){
+                        if (error) {
+                            log.error( 'Users.finishRegistration - Transactions.update query failed', {error} );
                             res.status(400).send( Users );
                             return;
                         }
@@ -111,10 +111,12 @@ exports.finishRegistration = function(req, res, next) {
             }
         });
     });
-
 }
 
-function sendData(err, res, data) {
-    if(err) res.send(500, {error: err});
+function sendData(error, res, data) {
+  if (error) {
+    res.send(500, {error});
+  } else {
     res.send(data);
+  }
 }

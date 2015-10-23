@@ -1,6 +1,7 @@
 'use strict';
 
 var mysql = require('mysql');
+var log = require('./log.js')
 
 function connectToDB() {
     var connection = mysql.createConnection({
@@ -9,9 +10,9 @@ function connectToDB() {
       password : process.env.db_password,
       database : 'gentleman'
     });
-    connection.connect(function(err){
-        if(err) console.log(err);
-        else console.log('connected to testing db');
+    connection.connect(function(error){
+        if(error) log.debug('connected to testing db', {error});
+        else log.debug('connected to testing db');
     });
     return connection;
 }

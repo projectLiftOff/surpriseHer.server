@@ -8,5 +8,6 @@ var router = express.Router();
 
 router.get('/', controller.getAll );
 router.post('/', controller.create );
+router.put('/:id', controller.finishRegistration );
 
 module.exports = router;

@@ -31,17 +31,66 @@ APIs
 POST payload =
 ```json
 {
+    "tos": 1,
+    "phone": 5413124834
+}
+```
+* Note payload.tos can be 1:agreed or 0:didn't agree. *
+
+/:id
+PUT payload =
+```json
+{
     "user": {
-        "first_name": "fristName",
-        "last_name": "LastName",
-        "email": "someEmail@someDomain.com",
-        "dob": "2015-01-12",
-        "phone": 5413124834
+        "first_name": "Juan",
+        "last_name": "adfdfa", 
+        "email": "aidjfkl@aaa.com", 
+        "dob":  "2015-01-12" 
     },
-    "subscription": {
-        "tos": 1,
-        "plan_id": 2
+    "addresses": [
+        {
+            "address": "006 Clemexntina St",
+            "city": "San Francisco",
+            "state": "California",
+            "zip_code": 94103,
+            "code_name": "Really Far006"
+        },
+        {
+            "address": "007 Clemexntina St",
+            "city": "San Francisco",
+            "state": "California",
+            "zip_code": 94103,
+            "code_name": "Really Far007"
+        }
+    ],
+    "transaction": {
+        "shipToAddressCode": "Really Far006"
     }
 }
 ```
-* Note payload.subscription.tos can be 1:agreed or 0:didn't agree. *
+* Notes: MISSING processor_customer_token in payload, assumes unregistered user & pendind transaction have already been created*
+
+
+### /addresses
+
+POST payload =
+```json
+[
+    {
+        "address": "006 Clemexntina St",
+        "city": "San Francisco",
+        "state": "California",
+        "zip_code": 94103,
+        "code_name": "Really Far006",
+        "user_id": 1
+    },
+    {
+        "address": "007 Clemexntina St",
+        "city": "San Francisco",
+        "state": "California",
+        "zip_code": 94103,
+        "code_name": "Really Far007",
+        "user_id": 1
+    }
+]
+```

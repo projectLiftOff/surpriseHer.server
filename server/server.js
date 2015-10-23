@@ -13,7 +13,6 @@ var log = require('./config/winstonLogger.js');
 var app = express();
 configExpress( app );
 routes( app );
-
 ///////////////////////////////////////////////////
 // C: Start server services
 var monthlyGiftMessanger = require('./services/schedulers/monthly.schedule.js');

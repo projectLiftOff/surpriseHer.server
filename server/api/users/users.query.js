@@ -25,3 +25,9 @@ exports.availableForGifts = function( callback ) {
         callback(err, results);
     });
 }
+
+exports.withPhoneNumber = function( date, callback ) {
+    connection.query('SELECT * FROM users WHERE phone = ?;', date, function (err, results, fields){
+        callback(err, results);
+    });
+}

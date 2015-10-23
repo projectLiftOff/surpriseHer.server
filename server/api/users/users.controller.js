@@ -33,6 +33,7 @@ exports.create = function(req, res, next) {
             res.status(400).send( Users );
             return;
         }
+        // TODO: Send user first txt message with first gift options
         log.info( 'Users.create query was successfull' );
         res.status(200).send( Users );
     });
@@ -85,7 +86,7 @@ exports.finishRegistration = function(req, res, next) {
             else if( pendingTransaction.length > 0 ) {
                 // TODO: handle multiple pendingTransactions
                 // TODO: charge amount....  charge was successful!
-                // update transaction status, and address
+                // C: update transaction status, and address
                 var data = [req.body.transaction.shipToAddressCode, userId]
                 // console.log( 'data', data );
                 async.waterfall( [Addresses.ofUserAndCode.bind(null, data)], function(err, addresses){

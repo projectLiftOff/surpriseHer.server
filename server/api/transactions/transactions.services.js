@@ -9,10 +9,10 @@ var errorMessageLookUp = {
     generic: 'oops.. looks like there was an error please try again or contact customer support: adfkjdf@ask.com or 444444444'
 }
 
-exports.organizeReqData = function( dataStr ) {
+exports.organizeDataCR = function( dataStr ) {
     var data = {};
     if( !dataStr ) {
-        data.errorMessage = 'Please only send the following info: date, gift and address.';
+        data.errorMessage = 'Please send the following info: date, gift and address';
         return data;
     }
     var dataList = dataStr.split(' ');
@@ -21,6 +21,19 @@ exports.organizeReqData = function( dataStr ) {
     data.address = dataList[2];
     data.giftsOfTheMonth = {};
     data.errorMessage = dataList.length === 3 ? '' : 'Please only send the following info: date, gift and address.';
+    return data;
+}
+exports.organizeDataIR = function( dataStr ) {
+    var data = {};
+    if( !dataStr ) {
+        data.errorMessage = 'Please send the following info: date, gift';
+        return data;
+    }
+    var dataList = dataStr.split(' ');
+    data.date = dataList[0];
+    data.gift = dataList[1];
+    data.giftsOfTheMonth = {};
+    data.errorMessage = dataList.length === 2 ? '' : 'Please only send the following info: date, gift';
     return data;
 }
 exports.verifyDate = function( data ){
@@ -51,7 +64,7 @@ exports.sendErrorMessage = function( message, res ) {
     res.set('Content-Type', 'text/xml');
     res.status(400).send( twiml.toString() );
 }
-exports.sendSuccessMessage = function( reqData, res ) {
+exports.sendSuccessMessageCR = function( reqData, res ) {
     var twiml = twilio.TwimlResponse();
     var message = "You're order of " + reqData.giftsOfTheMonth[ reqData.gift ].gift_name + 
         " has been placed and will be shipped on " + reqData.date + '. if there are any ' + 
@@ -59,6 +72,17 @@ exports.sendSuccessMessage = function( reqData, res ) {
     twiml.message( message );
     res.set('Content-Type', 'text/xml');
     res.status(200).send( twiml.toString() );
+}
+
+exports.sendSuccessMessageIR = function( reqData, res ) {
+    var twiml = twilio.TwimlResponse();
+    var message = "You're order of " + reqData.giftsOfTheMonth[ reqData.gift ].gift_name + 
+        " has been placed!  To finish up the process please complete your registration and provide a " +
+        "billing option by clicking on the following link: _URL_?uId="+ reqData.userId + "&giftId=" +reqData.giftsOfTheMonth[ reqData.gift ].gift_id;
+    // twiml.message( message );
+    // res.set('Content-Type', 'text/xml');
+    // res.status(200).send( twiml.toString() );
+    res.status(200).send( message );
 }
 exports.formatPhoneForQuery = function( phone ) {
     var phoneFormated = '';

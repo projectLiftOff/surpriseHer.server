@@ -24,6 +24,8 @@ Dev Setup
 0. `$ node server/server.js`
 0. `$ curl localhost:6060/users`
 
+also run eslint with `$ npm run lint`
+
 APIs
 ----------------
 ### /users

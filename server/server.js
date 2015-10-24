@@ -8,7 +8,7 @@ setupEnvironmentVariables();
 var express = require('express');
 var configExpress = require('./config/express.middle.js');
 var routes = require('./routes');
-var log = require('./config/winstonLogger.js');
+var log = require('./config/log.js');
 
 var app = express();
 configExpress( app );

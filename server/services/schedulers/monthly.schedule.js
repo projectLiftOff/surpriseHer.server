@@ -3,7 +3,7 @@ var Users = require('../../api/users/users.query.js');
 var Gifts = require('../../api/gifts/gifts.query.js');
 var TxtMessenger = require('../twilio/twilio.main.js');
 var async = require('async');
-var log = require('../../config/winstonLogger.js');
+var log = require('../../config/log.js');
 // C: initate interval
 
 function monthlyScheduler() {
@@ -16,27 +16,27 @@ function monthlyScheduler() {
     // C: if dateTime === 1st && 11am || 12pm
     if( currentDay === 1 && (currentHour === 11 || currentHour === 12 ) ) {
     // if( 1 ) {
-        log.info('Beginning of the month has triggered mas-text of gifts');
+        log.info('Beginning of the month has triggered mass-text of gifts');
         // C: Get all users [first_name, phone] WHERE deposit === 1 && gifts_ordered < gifts (join users, plans, subscriptions)
         // C: Get avalible gift options: select * from gifts where month/year === CURRENTMONTH/CURRENTYEAR
         var dateForGiftLookUp = currentMonth + '/' + currentYear;
         var functions = [ Users.availableForGifts, Gifts.forThisMonth.bind( null, dateForGiftLookUp ) ];
-        async.parallel( functions, function(err, results){ 
-            if( err ) log.error( 'Query of Users and or Gifts for blast txt has faild:' , err );
+        async.parallel( functions, function(error, results){
+            if (error) log.error('Query of Users and or Gifts for blast txt has faild:', {error});
             var users = results[0];
             var gifts = results[1];
-            
-            if( gifts.length === 0 ) {
-                log.error( 'Gift query found no gifts' );
+
+            if (gifts.length === 0) {
+                log.error( 'Gift query found no gifts');
                 return;
             }
-            if( users.length === 0 ) log.error( 'Users query found no Users' );
+            if (users.length === 0) log.error( 'Users query found no Users');
             // C: Setup cached Gifts
 
             // C: Construct Txt Message && Send Text Message to all users
             sendTxtMessages( users, gifts, currentMonth );
         });
-        
+
     }
 }
 
@@ -48,15 +48,15 @@ function sendTxtMessages( users, gifts, month ){
         TxtMessenger.send( user.phone, '4152148005', message, 0 );
     });
 }
-function constuctAvalibleGiftsMessages( user, gifts, month ){ 
+function constuctAvalibleGiftsMessages( user, gifts, month ){
     var message = 'Hello '+ user.first_name +'! \n' +
         'Just reminding you to do something for your special someone! ' +
-        'Here is our curated gift selection for this month: \n \n' + 
+        'Here is our curated gift selection for this month: \n \n' +
         constructGiftOptionsStr( gifts ) + 'PRDUCT URL' + '\n \n' +
         "txt back the gift code and the day in month you'd like us to ship " +
-        '(e.g 3/'+month+' '+ gifts[0].look_up + gifts[0].gift_id +', 18/'+ month + 
+        '(e.g 3/'+month+' '+ gifts[0].look_up + gifts[0].gift_id +', 18/'+ month +
         ' '+ gifts[1].look_up + gifts[1].gift_id +')';
-    
+
     return message;
 }
 function constructGiftOptionsStr( gifts ){

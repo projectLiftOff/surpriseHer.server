@@ -7,17 +7,19 @@ var _Seperator = '\n////////////////////////////////////////////////////////////
 
 var connection = require('../../../config/dbConnection.js').connectToTestDB;
 
-connection.connect(function(err){
-  if(err) console.log(err);
-  console.log('connected to local db');
+connection.connect(function(error){
+  if (error) {
+    log.error('db connection.connect error', {error})
+  } else {
+    log.debug('connected to local db')
+  }
 });
 
 describe('Transactions API'+_Seperator, function(){
-    
     describe('When empty POST request.body: {} at /transactions', function(){
-        it('should respond with err and 400', function(done){
-            request.post( baseUrl + '/transactions' ).end(function assert(err, res){
-                expect(err).to.be.ok;
+        it('should respond with error and 400', function(done){
+            request.post( baseUrl + '/transactions' ).end(function assert(error, res){
+                expect(error).to.be.ok;
                 expect(res).to.have.property('status', 400);
                 // TODO: test error message
                 done();
@@ -26,10 +28,10 @@ describe('Transactions API'+_Seperator, function(){
     });
 
     describe('When POST request.body has incorrect date', function(){
-        it('should respond with err and 400', function(done){
+        it('should respond with error and 400', function(done){
             var data = { "Body": "32 neckless1 Home", "From": "+15034282359" };
-            request.post( baseUrl + '/transactions' ).send().end(function assert(err, res){
-                expect(err).to.be.ok;
+            request.post( baseUrl + '/transactions' ).send().end(function assert(error, res){
+                expect(error).to.be.ok;
                 expect(res).to.have.property('status', 400);
                 // TODO: test error message
                 done();

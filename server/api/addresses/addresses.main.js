@@ -1,12 +1,10 @@
-'use strict';
+const express = require("express")
+const controller = require("./addresses.controller")
+// todo var auth = ???
 
-var express = require('express');
-var controller = require('./addresses.controller');
-// var auth = ???
+const router = express.Router() // eslint-disable-line new-cap
 
-var router = express.Router();
+router.get("/", controller.getAll)
+router.post("/", controller.create)
 
-router.get('/', controller.getAll );
-router.post('/', controller.create );
-
-module.exports = router;
+module.exports = router

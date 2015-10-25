@@ -4,7 +4,7 @@
   "description": "Server for ***ThoughtfulGentleman",
   "main": "server.js",
   "scripts": {
-    "start": "node_modules/.bin/nodemon --harmony server/server.js",
+    "start": "mysql.server start; node_modules/.bin/nodemon --use_strict server/server.js",
     "lint": "node_modules/.bin/eslint ./**/*.js --fix"
   },
   "repository": {
@@ -70,6 +70,8 @@
       "no-sequences": 2,
       "no-throw-literal": 2,
       "no-unused-expressions": 2,
+      "no-useless-call": 2,
+      "no-useless-concat": 2,
       "no-void": 2,
       "no-warning-comments": 0,
       "no-with": 2,
@@ -108,7 +110,7 @@
       "consistent-this": [2, "context"],
       "eol-last": 2,
       "func-names": 2,
-      "func-style": [2, "declaration", { "allowArrowFunctions": true }],
+      "func-style": [2, "declaration"],
       "indent": [2,2],
       "jsx-quotes": 2,
       "key-spacing": 2,
@@ -163,7 +165,7 @@
       "object-shorthand": 1,
       "prefer-arrow-callback": 1,
       "prefer-const": 1,
-      "prefer-reflect": 1,
+      "prefer-reflect": 0,
       "prefer-spread": 1,
       "prefer-template": 1,
       "require-yield": 1,
@@ -173,7 +175,8 @@
     },
     "env": {
       "es6": true,
-      "node": true
+      "node": true,
+      "jasmine": true
     },
     "ecmaFeatures": {
       "arrowFunctions": true,

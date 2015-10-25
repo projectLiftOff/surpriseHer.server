@@ -1,6 +1,6 @@
 const connectToDB = require("../../config/dbConnection")
 const connection = connectToDB()
-const log = require("./../../config/log.js")
+const log = require("../../config/log.js")
 
 exports.getAll = callback => {
   connection.query("SELECT * FROM addresses", (error, rows) => {
@@ -10,10 +10,7 @@ exports.getAll = callback => {
 }
 
 exports.create = (address, callback) => {
-  connection.query("INSERT INTO addresses SET ?", address, (error, results) => {
-    if (error) { log.error("query failed: addresses.create", {error}) }
-    callback(error, results)
-  })
+  connection.query("INSERT INTO addresses SET ?", address, callback)
 }
 
 exports.ofUserWithPhone = (phone, callback) => {

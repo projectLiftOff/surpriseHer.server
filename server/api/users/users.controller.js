@@ -31,7 +31,7 @@ exports.create = (req, res) => {
       return
     }
     // TODO: Send user first txt message with first gift options
-    log.info("Users.create query was successfull")
+    log.info("Users.create query was successful")
     res.status(httpStatus.OK.code).send(users)
   })
 }
@@ -75,7 +75,7 @@ exports.finishRegistration = (req, res) => {
         res.status(httpStatus["Internal Server Error"].code)
         return
       } else if (pendingTransaction.length === 0) {
-        log.info("Users.finishRegistration query was successfull and no pendingTransaction found")
+        log.info("Users.finishRegistration query was successful and no pendingTransaction found")
         res.status(httpStatus.OK.code).send({registration: true, transaction: false})
       } else if (pendingTransaction.length > 0) {
         // TODO: handle multiple pendingTransactions
@@ -96,7 +96,7 @@ exports.finishRegistration = (req, res) => {
               res.status(httpStatus["Bad Request"].code).send(Users)
               return
             }
-            log.info("Users.finishRegistration & Transactions.update query was successfull")
+            log.info("Users.finishRegistration & Transactions.update query was successful")
             res.status(httpStatus.OK.code).send({registration: true, transaction: true})
           })
         })

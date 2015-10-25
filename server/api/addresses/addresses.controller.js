@@ -18,14 +18,20 @@ exports.getAll = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const inserts = req.body.map(address => { Addresses.create.bind(null, address) })
-  async.parallel(inserts, (error, addresses) => {
-    if (error) {
-      log.error("addresses.create query failed", {error})
-      res.status(httpStatus["Bad Request"].code).send(addresses)
-      return
-    }
-    log.info("addresses.create query was successful")
-    res.status(httpStatus.OK.code).send(addresses)
-  })
+  let createdAddressesCount = 0
+  function createAddress (address) {
+    Addresses.create(address, error => {
+      createdAddressesCount = createdAddressesCount + 1
+      if (error) {
+        log.error("addresses.create query failed", {error, address})
+        res.status(httpStatus["Bad Request"].code).send(req.body)
+      } else {
+        log.info("addresses.create query was successful")
+        if (createdAddressesCount === req.body.length) {
+          res.status(httpStatus.OK.code).send(req.body)
+        }
+      }
+    })
+  }
+  req.body.forEach(createAddress)
 }

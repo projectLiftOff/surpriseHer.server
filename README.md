@@ -14,7 +14,7 @@ Dev Setup
 0. `$ npm install`
 0. `$ brew install mysql`
 0. `$ mysql.server start`
-0. `$ mysqladmin -u root password`
+0. `$ mysqladmin -u root [password]`
 0. `$ mysql -u root`
 0. `mysql> CREATE DATABASE gentleman;`
 0. `mysql> use gentleman;`

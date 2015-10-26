@@ -4,6 +4,7 @@ const Gifts = require("../gifts/gifts.query.js")
 const Addresses = require("../addresses/addresses.query.js")
 const Users = require("../users/users.query.js")
 const async = require("async")
+const TxtMessenger = require('../../services/twilio/twilio.main.js')
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
 
@@ -26,12 +27,16 @@ exports.create = (req, res) => {
   log.debug("req.body -------------------------------------------------------- :\n", req.body, "\n")
   const currentDate = TransactionsServices.createDate()
 
-  // Check transaction came in before the 1am of the 5th of the month
-  // if(currentDate.day > 5 && currentDate.hour > 1) {
-  //     log.error("Transactions.create controller faild: Missed order window", req.body.Body)
-  //     TransactionsServices.sendErrorMessage("missedOrderWindow", res)
-  //     return
-  // }
+  // C: Check transaction came in before the 1am of the 5th of the month OR that gift ordered is from signup text
+  const coffeeGift = req.body.Body.indexOf('coffee') > -1;
+  const smoresGift = req.body.Body.indexOf('smores') > -1;
+  const bubblesGift = req.body.Body.indexOf('bubbles') > -1;
+  if( currentDate.day > 5 && currentDate.hour > 1 || coffeeGift || smoresGift || bubblesGift ) {
+      log.error('Transactions.create controller faild: Missed order window', req.body.Body);
+      TransactionsServices.sendErrorMessage( 'missedOrderWindow', res );
+      return;
+  }
+
   const phoneNumber = TransactionsServices.formatPhoneForQuery(req.body.From)
   async.waterfall([Users.withPhoneNumber.bind(null, phoneNumber)], (error, users) => {
     const user = users.pop()
@@ -50,7 +55,7 @@ exports.create = (req, res) => {
 
       async.waterfall([
         // Check if selected giftId is valid
-        Gifts.forThisMonth.bind(null, `${currentDate.month}/${currentDate.year}`),
+        Gifts.availableForCurrentMonth.bind(null, `${currentDate.month}/${currentDate.year}`),
         (gifts, callback) => {
           // TODO: Also hadle "first txt" gift options that are always offered
           gifts.forEach(gift => {
@@ -121,7 +126,7 @@ exports.create = (req, res) => {
       }
       async.waterfall([
         // Check if selected giftId is valid
-        Gifts.forThisMonth.bind(null, `${currentDate.month}/${currentDate.year}`),
+        Gifts.availableForCurrentMonth.bind(null, `${currentDate.month}/${currentDate.year}`),
         (gifts, callback) => {
           // TODO: Also hadle "first txt" gift options that are always offered
           gifts.forEach(gift => {

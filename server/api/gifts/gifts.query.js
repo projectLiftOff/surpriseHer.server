@@ -16,12 +16,21 @@ exports.create = (gift, callback) => {
   })
 }
 
-exports.forThisMonth = (date, callback) => {
+
+exports.availableForCurrentMonth = (date, callback) => {
   connection.query({
-    sql: "SELECT * FROM gifts WHERE month_of = ?",
+    sql: 'SELECT * FROM gifts WHERE month_of = ? OR month_of = "0";',
     values: [date]
   }, (error, results) => {
     if (error) { log.error("query failed: gifts.forThisMonth", {error}) }
     callback(error, results)
   })
 }
+
+exports.afterSignUp = ( callback ) => {
+    connection.query('SELECT * FROM gifts WHERE month_of = "0";', (error, results, fields) => {
+        if (error) { log.error("query failed: gifts.afterSignUp", {error}) } 
+        callback(err, results);
+    });
+}
+

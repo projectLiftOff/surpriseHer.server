@@ -5,7 +5,6 @@ const Addresses = require("../addresses/addresses.query.js")
 const Users = require("../users/users.query.js")
 const async = require("async")
 const log = require("../../config/log.js")
-const _ = require("lodash")
 const httpStatus = require("../../../httpStatuses.json")
 
 // var inMemoryCache = require("../../services/cache/cache.constructor.js")
@@ -76,7 +75,7 @@ exports.create = (req, res) => {
           const userAddressesLookUp = results.reduce((addresses, address) => {
             addresses[address.nick_name] = address
           }, {})
-          const giftIds = _.map(reqData.giftsOfTheMonth, gift => { // todo possible to do without lodash?
+          const giftIds = reqData.giftsOfTheMonth.map(gift => { // todo possible to do without lodash?
             return gift.gift_id
           })
           if (!userAddressesLookUp[reqData.address]) {

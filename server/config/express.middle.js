@@ -1,13 +1,10 @@
-'user strict'
+const bodyParser = require("body-parser")
+const express = require("express")
+const path = require("path")
+const publicPath = path.join(__dirname, "../public")
 
-var bodyParser = require('body-parser');
-var express = require('express');
-var path = require('path');
-
-var publicPath = path.join(__dirname, '../public')
-
-module.exports = function(app) {
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(bodyParser.json());
-    app.use(express.static(publicPath));
+module.exports = app => {
+  app.use(bodyParser.urlencoded({extended: false}))
+  app.use(bodyParser.json())
+  app.use(express.static(publicPath))
 }

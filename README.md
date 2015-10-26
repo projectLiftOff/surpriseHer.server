@@ -12,9 +12,9 @@ Dev Setup
 ----------------
 0. `$ cd [repo]`
 0. `$ npm install`
-0. `$ brew install`
+0. `$ brew install mysql`
 0. `$ mysql.server start`
-0. `$ mysqladmin -u root password`
+0. `$ mysqladmin -u root [password]`
 0. `$ mysql -u root`
 0. `mysql> CREATE DATABASE gentleman;`
 0. `mysql> use gentleman;`
@@ -24,11 +24,18 @@ Dev Setup
 0. `$ node server/server.js`
 0. `$ curl localhost:6060/users`
 
+Linting
+----------------
+- run eslint with `$ npm run lint`
+- disable a specific rule for a line like so:
+```javascript
+const router = express.Router() // eslint-disable-line new-cap`
+```
+
 APIs
 ----------------
 ### /users
-
-POST payload =
+POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"tos": 1, "phone": 5413124834}' http://localhost:6060/users`
 ```json
 {
     "tos": 1,
@@ -37,15 +44,15 @@ POST payload =
 ```
 * Note payload.tos can be 1:agreed or 0:didn't agree. *
 
-/:id
-PUT payload =
+### users/:id
+PUT payload = `curl -X PUT -H 'Content-Type: application/json' -d '{ "user": { "first_name": "Juan", "last_name": "adfdfa", "email": "aidjfkl@aaa.com", "dob": "2015-01-12" }, "addresses": [ { "address": "006 Clemexntina St", "city": "San Francisco", "state": "California", "zip_code": 94103, "code_name": "Really Far006" }, { "address": "007 Clemexntina St", "city": "San Francisco", "state": "California", "zip_code": 94103, "code_name": "Really Far007" } ], "transaction": { "shipToAddressCode": "Really Far006" } }' http://localhost:6060/users/1`
 ```json
 {
     "user": {
         "first_name": "Juan",
-        "last_name": "adfdfa", 
-        "email": "aidjfkl@aaa.com", 
-        "dob":  "2015-01-12" 
+        "last_name": "adfdfa",
+        "email": "aidjfkl@aaa.com",
+        "dob":  "2015-01-12"
     },
     "addresses": [
         {
@@ -68,12 +75,11 @@ PUT payload =
     }
 }
 ```
-* Notes: MISSING processor_customer_token in payload, assumes unregistered user & pendind transaction have already been created*
-
+* Notes: MISSING processor_customer_token in payload, assumes unregistered user & pending transaction have already been created*
 
 ### /addresses
 
-POST payload =
+POST payload = `curl -X POST -H 'Content-Type: application/json' -d '[ { "address": "006 Clemexntina St", "city": "San Francisco", "state": "California", "zip_code": 94103, "code_name": "Really Far006", "user_id": 1 }, { "address": "007 Clemexntina St", "city": "San Francisco", "state": "California", "zip_code": 94103, "code_name": "Really Far007", "user_id": 1 } ]' http://localhost:6060/addresses`
 ```json
 [
     {

@@ -1,17 +1,15 @@
-'use strict';
+const usersRequestHandlers = require("./api/users/users.main")
+const addressesRequestHandlers = require("./api/addresses/addresses.main")
+const subscriptionsRequestHandlers = require("./api/subscriptions/subscriptions.main")
+const transactionsRequestHandlers = require("./api/transactions/transactions.main")
+const viewsRequestHandlers = require("./public/views.routing")
 
-var usersRequestHandlers = require('./api/users/users.main');
-var addressesRequestHandlers = require('./api/addresses/addresses.main');
-var subscriptionsRequestHandlers = require('./api/subscriptions/subscriptions.main');
-var transactionsRequestHandlers = require('./api/transactions/transactions.main');
-var viewsRequestHandlers = require('./public/views.routing');
-
-module.exports = routes;
-    
-function routes( app ){
-    app.use('/users', usersRequestHandlers);
-    app.use('/addresses', addressesRequestHandlers);
-    app.use('/subscriptions', subscriptionsRequestHandlers);
-    app.use('/transactions', transactionsRequestHandlers);
-    app.use('/', viewsRequestHandlers);
+function routes (app) {
+  app.use("/users", usersRequestHandlers)
+  app.use("/addresses", addressesRequestHandlers)
+  app.use("/subscriptions", subscriptionsRequestHandlers)
+  app.use("/transactions", transactionsRequestHandlers)
+  app.use("/", viewsRequestHandlers)
 }
+
+module.exports = routes

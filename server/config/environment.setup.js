@@ -1,18 +1,15 @@
-'use strict';
+const fs = require("fs")
 
-function setupEnvironmentVariables() {
-    if (process.env.NODE_ENV === 'production') {
-        var log = require('./log.js')
-        log.info('running in production mode');
-    } else {
-        var fs = require('fs');
-        var environmentVariables = JSON.parse(fs.readFileSync('environmentVariables.json', 'utf-8'));
-        for (var key in environmentVariables) {
-            process.env[key] = environmentVariables[key];
-        }
-        var log = require('./log.js')
-        log.debug('runnning in dev mode');
+function setupEnvironmentVariables () {
+  if (process.env.NODE_ENV === "production") {
+    require("./log.js").info("running in production mode") // eslint-disable-line global-require
+  } else {
+    const environmentVariables = JSON.parse(fs.readFileSync("environmentVariables.json", "utf-8")) // eslint-disable-line no-sync
+    for (let key in environmentVariables) { // eslint-disable-line prefer-const
+      process.env[key] = environmentVariables[key]
     }
+    require("./log.js").debug("runnning in dev mode") // eslint-disable-line global-require
+  }
 }
 
-module.exports = setupEnvironmentVariables;
+module.exports = setupEnvironmentVariables

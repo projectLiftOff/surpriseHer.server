@@ -1,27 +1,21 @@
-'use strict';
+"user strict"
 
-///////////////////////////////////////////////////
-// C: Set environment variables
-var setupEnvironmentVariables = require('./config/environment.setup.js');
-setupEnvironmentVariables();
+const setupEnvironmentVariables = require("./config/environment.setup.js")
+setupEnvironmentVariables()
 
-var express = require('express');
-var configExpress = require('./config/express.middle.js');
-var routes = require('./routes');
-var log = require('./config/log.js');
+const express = require("express")
+const configExpress = require("./config/express.middle.js")
+const routes = require("./routes")
+const log = require("./config/log.js")
 
-var app = express();
-configExpress( app );
-routes( app );
-///////////////////////////////////////////////////
-// C: Start server services
-var monthlyGiftMessanger = require('./services/schedulers/monthly.schedule.js');
-// monthlyGiftMessanger.monthlyScheduler();
+const app = express()
+configExpress(app)
+routes(app)
 
+// Start server services
+// todo const monthlyGiftMessenger = require("./services/schedulers/monthly.schedule.js")
+// todo monthlyGiftMessenger.monthlyScheduler()
 
-
-///////////////////////////////////////////////////
-
-var port = 6060;
-app.listen( port );
-log.info('listening to PORT:', port)
+const port = 6060
+app.listen(port)
+log.info("listening to PORT:", port)

@@ -19,15 +19,19 @@ module.exports = {
     const callback = arguments[hasValues ? 2 : 1]
 
     pool.getConnection((connectionError, connection) => {
-      function callbackAndRelease (error, rows) {
-        if (connection) { connection.release() }
-        return callback(error, rows)
-      }
-      if (connectionError) {
-        callbackAndRelease(connectionError)
-      } else {
-        connection.query(options, callbackAndRelease)
-      }
+      connection.beginTransaction(err => {
+        if (err) { throw err }
+        function callbackAndRelease (error, result) {
+          callback(error, result, connection) // eslint-disable-line callback-return
+          connection.commit()
+          connection.release()
+        }
+        if (connectionError) {
+          callbackAndRelease(connectionError)
+        } else {
+          connection.query(options, callbackAndRelease)
+        }
+      })
     })
   }
 }

@@ -17,8 +17,11 @@
     });
 
     function getUserToken(){
-        $.get( _baseUrl + "/payments/client_token", function( data ) {
-            console.log( data );
+        $.get( _baseUrl + "/payments/client_token", function( clientToken ) {
+            // TODO: error handling
+            braintree.setup(clientToken, "dropin", {
+                container: "payment-form"
+            });
         });
     }
 

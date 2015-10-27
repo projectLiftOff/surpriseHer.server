@@ -212,7 +212,7 @@
                     <p class="h4"><i>Just a reminder that we only charge after you have placed an order</i></p>
                 </div>
 
-                <div id="dropin-container"></div>
+                <div id="payments"></div>
                 <!-- Card Info End -->
 
                 <div class="col-sm-6 col-sm-offset-3 text-center">
@@ -229,6 +229,12 @@
                 </div>
             </div>
         </div>
+    </form>
+
+    <!-- C FOR TESTING ONLY!! -->
+    <form id="checkout" method="post" action="payments/checkout">
+      <div id="payment-form"></div>
+      <input type="submit" value="Pay $10">
     </form>
     <!-- Sign Up End -->
 

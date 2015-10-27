@@ -25,7 +25,7 @@ exports.getAll = (req, res) => {
 
 exports.create = (req, res) => {
   // Create User
-  // todo why assign values into req.body? vvv
+  // TODO use ecma6 object deconstructor to evalute all params that are expected are in req.body
   req.body.registration_complete = 0 // eslint-disable-line camelcase
   const queryFunctions = [Users.create.bind(null, req.body)]
   async.waterfall(queryFunctions, (error, users) => {
@@ -34,7 +34,6 @@ exports.create = (req, res) => {
       res.status(httpStatus["Bad Request"].code).send(users)
       return
     }
-    // TODO: Send user first txt message with first gift options
     log.info("Users.create query was successful")
     async.waterfall([ Gifts.afterSignUp ], function( error, gifts ){
       if( error ) {

@@ -10,6 +10,27 @@ const gateway = braintree.connect({
 
 exports.gateway = gateway
 
+exports.createCustomer = (req, res) => {
+  const nonceFromTheClient = req.body.payment_method_nonce
+  gateway.customer.create({
+    firstName: "Charity",
+    lastName: "Smith",
+    paymentMethodNonce: nonceFromTheClient
+  }, (error, result) => {
+    if (error) {
+      res.send(httpStatus["Internal Server Error"].code)
+      throw error
+    } else {
+      log.info({
+        status: result.success, // true
+        customerId: result.customer.id, // e.g 160923
+        paymentMethodToken: result.customer.paymentMethods[0].token // e.g f28wm
+      })
+      res.send(httpStatus.OK.code)
+    }
+  })
+}
+
 exports.checkout = (req, res) => {
   const nonceFromTheClient = req.body.payment_method_nonce
   // Use payment method nonce here
@@ -21,7 +42,7 @@ exports.checkout = (req, res) => {
       res.send(httpStatus["Internal Server Error"].code)
       throw error
     } else {
-      log.info("payment", {result})
+      log.info("payment received", {statusHistory: result.transaction.statusHistory})
       res.send(httpStatus.OK.code)
     }
   })

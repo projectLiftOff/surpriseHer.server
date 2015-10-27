@@ -12,6 +12,8 @@ router.get("/client_token", (req, res) => {
   })
 })
 
+router.post("/create_customer", controller.createCustomer)
+
 router.post("/checkout", controller.checkout)
 
 module.exports = router

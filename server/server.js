@@ -1,5 +1,3 @@
-"user strict"
-
 const setupEnvironmentVariables = require("./config/environment.setup.js")
 setupEnvironmentVariables()
 

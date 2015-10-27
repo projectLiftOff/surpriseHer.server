@@ -4,10 +4,10 @@ const Gifts = require("../gifts/gifts.query.js")
 const Addresses = require("../addresses/addresses.query.js")
 const Users = require("../users/users.query.js")
 const async = require("async")
-const TxtMessenger = require('../../services/twilio/twilio.main.js')
+// const txtMessenger = require("../../services/twilio/twilio.main.js")
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
-
+const monthCutoff = 5
 // var inMemoryCache = require("../../services/cache/cache.constructor.js")
 
 function sendData (error, res, data) {
@@ -28,13 +28,13 @@ exports.create = (req, res) => {
   const currentDate = TransactionsServices.createDate()
 
   // C: Check transaction came in before the 1am of the 5th of the month OR that gift ordered is from signup text
-  const coffeeGift = req.body.Body.indexOf('coffee') > -1;
-  const smoresGift = req.body.Body.indexOf('smores') > -1;
-  const bubblesGift = req.body.Body.indexOf('bubbles') > -1;
-  if( currentDate.day > 5 && currentDate.hour > 1 || coffeeGift || smoresGift || bubblesGift ) {
-      log.error('Transactions.create controller faild: Missed order window', req.body.Body);
-      TransactionsServices.sendErrorMessage( 'missedOrderWindow', res );
-      return;
+  const coffeeGift = req.body.Body.indexOf("coffee") >= 0
+  const smoresGift = req.body.Body.indexOf("smores") >= 0
+  const bubblesGift = req.body.Body.indexOf("bubbles") >= 0
+  if (currentDate.day > monthCutoff && currentDate.hour > 1 || coffeeGift || smoresGift || bubblesGift) {
+    log.error("Transactions.create controller failed: Missed order window", req.body.Body)
+    TransactionsServices.sendErrorMessage("missedOrderWindow", res)
+    return
   }
 
   const phoneNumber = TransactionsServices.formatPhoneForQuery(req.body.From)

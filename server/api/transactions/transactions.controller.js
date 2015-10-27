@@ -31,7 +31,7 @@ exports.create = (req, res) => {
   const coffeeGift = req.body.Body.indexOf("coffee") >= 0
   const smoresGift = req.body.Body.indexOf("smores") >= 0
   const bubblesGift = req.body.Body.indexOf("bubbles") >= 0
-  if (currentDate.day > monthCutoff && currentDate.hour > 1 || coffeeGift || smoresGift || bubblesGift) {
+  if (currentDate.day > monthCutoff && currentDate.hour > 1 && !coffeeGift && !smoresGift && !bubblesGift) {
     log.error("Transactions.create controller failed: Missed order window", req.body.Body)
     TransactionsServices.sendErrorMessage("missedOrderWindow", res)
     return

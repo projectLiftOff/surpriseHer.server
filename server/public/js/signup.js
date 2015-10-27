@@ -1,18 +1,26 @@
 (function($) {
     "use strict";
     var _googleAddresses = {};
+    var _baseUrl = window.location.origin;
 
     $(document).ready(function(){
 
         addStylingFunctionality();
         enableAddingAddresses();
         addGoogleAddressAutoComplete();
-        // enableBraintree();
+        getUserToken();
+        console.log(window.location.origin)
         
         $("#s-submit").click(function(){
             validateForm();
         })
     });
+
+    function getUserToken(){
+        $.get( _baseUrl + "/payments/client_token", function( data ) {
+            console.log( data );
+        });
+    }
 
     function addStylingFunctionality(){
         $("#s-dob").inputmask('mm/dd/yyyy', {yearrange: { minyear: 1900, maxyear: 2000 }, 'clearIncomplete': true});

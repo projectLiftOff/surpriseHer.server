@@ -1,11 +1,8 @@
-/*!
- * Start Bootstrap - Creative Bootstrap Theme (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
 (function($) {
     "use strict"; // Start of use strict
+
+    $('#s-phone').inputmask('mask', { mask: "(999) 999-9999"});
+
 
     // jQuery for page scrolling feature - requires jQuery Easing plugin
     $('a.page-scroll').bind('click', function(event) {

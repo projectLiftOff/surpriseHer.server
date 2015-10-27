@@ -24,10 +24,10 @@ describe("gifts", () => {
     })
   })
 
-  it(".forThisMonth", done => {
+  it(".availableForCurrentMonth", done => {
     const date = "8/2015"
     const expectedGiftCount = 3
-    gifts.forThisMonth(date, (error, result) => {
+    gifts.availableForCurrentMonth(date, (error, result) => {
       expect(error).to.equal(null)
       expect(result.length).to.equal(expectedGiftCount)
       expect(result[0]).to.include({gift_name: "The Really Cool Neckless", look_up: "neckless", month_of: "8/2015", price: 45})

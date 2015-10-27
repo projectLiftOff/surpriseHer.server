@@ -1,8 +1,12 @@
 const Users = require("./users.query.js")
 const Addresses = require("../addresses/addresses.query.js")
 const Transactions = require("../transactions/transactions.query.js")
+const UsersServices = require('./users.services.js')
+
+const Gifts = require('../gifts/gifts.query.js')
 const async = require("async")
 const log = require("../../config/log.js")
+const twilio = require('twilio')
 const httpStatus = require("../../../httpStatuses.json")
 
 exports.getAll = (req, res) => {
@@ -21,7 +25,7 @@ exports.getAll = (req, res) => {
 
 exports.create = (req, res) => {
   // Create User
-  // todo why assign values into req.body? vvv
+  // TODO use ecma6 object deconstructor to evalute all params that are expected are in req.body
   req.body.registration_complete = 0 // eslint-disable-line camelcase
   const queryFunctions = [Users.create.bind(null, req.body)]
   async.waterfall(queryFunctions, (error, users) => {
@@ -30,8 +34,23 @@ exports.create = (req, res) => {
       res.status(httpStatus["Bad Request"].code).send(users)
       return
     }
-    // TODO: Send user first txt message with first gift options
     log.info("Users.create query was successful")
+    async.waterfall([ Gifts.afterSignUp ], function( error, gifts ){
+      if( error ) {
+        log.error( 'Gifts.afterSignUp query failed', {error: error} );
+        res.status(400).send( error );
+        return;
+      }
+      log.info( 'Gifts.afterSignUp query was successful' );
+
+      const twiml = twilio.TwimlResponse();
+      let message = UsersServices.constuctSignUpGiftOptionsMessages( gifts );
+      twiml.message( message );
+      res.set('Content-Type', 'text/xml');
+      // C: Send user first txt message with first gift options
+      // TxtMessenger.send( req.body.phone, '4152148005', message, 0 );
+      res.status(200).send( twiml.toString() );
+    })
     res.status(httpStatus.OK.code).send(users)
   })
 }
@@ -67,7 +86,6 @@ exports.finishRegistration = (req, res) => {
       },
       Transactions.pendingUserRegistration
     ]
-
     // Save all user data and query for pending transaction of user
     async.waterfall(userQueryFunctions, (error1, pendingTransaction) => {
       if (error1) {
@@ -88,7 +106,6 @@ exports.finishRegistration = (req, res) => {
             res.status(httpStatus["Internal Server Error"].code)
             return
           }
-
           const unfulfilledAddress = [{status: "unfulfilled", paid: 1}, addresses2[0].address_id]
           async.waterfall([Transactions.update.bind(null, unfulfilledAddress)], error3 => { // eslint-disable-line max-nested-callbacks
             if (error3) {

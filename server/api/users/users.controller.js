@@ -1,12 +1,12 @@
 const Users = require("./users.query.js")
 const Addresses = require("../addresses/addresses.query.js")
 const Transactions = require("../transactions/transactions.query.js")
-const UsersServices = require('./users.services.js')
+const UsersServices = require("./users.services.js")
 
-const Gifts = require('../gifts/gifts.query.js')
+const Gifts = require("../gifts/gifts.query.js")
 const async = require("async")
 const log = require("../../config/log.js")
-const twilio = require('twilio')
+const twilio = require("twilio")
 const httpStatus = require("../../../httpStatuses.json")
 
 exports.getAll = (req, res) => {
@@ -35,21 +35,20 @@ exports.create = (req, res) => {
       return
     }
     log.info("Users.create query was successful")
-    async.waterfall([ Gifts.afterSignUp ], function( error, gifts ){
-      if( error ) {
-        log.error( 'Gifts.afterSignUp query failed', {error: error} );
-        res.status(400).send( error );
-        return;
+    async.waterfall([Gifts.afterSignUp], (error2, gifts) => {
+      if (error2) {
+        log.error("Gifts.afterSignUp query failed", {error2})
+        res.status(httpStatus["Bad Request"].code).send(error2)
+      } else {
+        log.info("Gifts.afterSignUp query was successful")
+        const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
+        const message = UsersServices.constuctSignUpGiftOptionsMessages(gifts)
+        twiml.message(message)
+        res.set("Content-Type", "text/xml")
+        // C: Send user first txt message with first gift options
+        // TxtMessenger.send( req.body.phone, '4152148005', message, 0 )
+        res.status(httpStatus.OK.code).send(twiml.toString())
       }
-      log.info( 'Gifts.afterSignUp query was successful' );
-
-      const twiml = twilio.TwimlResponse();
-      let message = UsersServices.constuctSignUpGiftOptionsMessages( gifts );
-      twiml.message( message );
-      res.set('Content-Type', 'text/xml');
-      // C: Send user first txt message with first gift options
-      // TxtMessenger.send( req.body.phone, '4152148005', message, 0 );
-      res.status(200).send( twiml.toString() );
     })
     res.status(httpStatus.OK.code).send(users)
   })

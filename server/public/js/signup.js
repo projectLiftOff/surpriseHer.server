@@ -10,17 +10,17 @@
         addGoogleAddressAutoComplete();
         getUserToken();
         console.log(window.location.origin)
-        
-        $("#s-submit").click(function(){
-            validateForm();
-        })
     });
 
     function getUserToken(){
         $.get( _baseUrl + "/payments/client_token", function( clientToken ) {
             // TODO: error handling
             braintree.setup(clientToken, "dropin", {
-                container: "payment-form"
+                container: "payments",
+                onPaymentMethodReceived: function (obj) {
+                    validateForm();
+                    alert( 'form validation ' )
+                }
             });
         });
     }

@@ -1,45 +1,84 @@
 (function($) {
-    "use strict"; // Start of use strict
+    "use strict";
+    var _baseUrl = window.location.origin;
 
-    $('#s-phone').inputmask('mask', { mask: "(999) 999-9999"});
-
-
-    // jQuery for page scrolling feature - requires jQuery Easing plugin
-    $('a.page-scroll').bind('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: ($($anchor.attr('href')).offset().top - 50)
-        }, 1250, 'easeInOutExpo');
-        event.preventDefault();
+    $(document).ready(function(){
+        addStylingFunctionality();
+        listenToButtons();
     });
+    
 
-    // Highlight the top nav as scrolling occurs
-    $('body').scrollspy({
-        target: '.navbar-fixed-top',
-        offset: 51
-    })
+    function listenToButtons() {
+        $('#s-just-get-text').click(function(){
+            var number = $('#s-phone').val();
+            var userData = { tos: 1, phone: number };
+            $.ajax({
+                type: "POST",
+                url: _baseUrl + '/users',
+                data: userData,
+                dataType: 'json',
+                success: success,
+                error: error
+            });
+            function success(data) {
+                // TODO congrates message
+                console.log('you signed up!!!')
+            }
+            function error(){
+                // TODO: handle duplicate error
+                console.log('damit!')
+            }
+        });
 
-    // Closes the Responsive Menu on Menu Item Click
-    $('.navbar-collapse ul li a').click(function() {
-        $('.navbar-toggle:visible').click();
-    });
+        $('#s-signup').click(function(){
+            var number = $('#s-phone').val();
+            $('#s-goto-signup').attr('href', '/signup?p=' + number);
+            $("#s-modal-signup").modal('show');
+        });
+    }
 
-    // Fit Text Plugin for Main Header
-    $(".header-content h1").fitText(
-        1.2, {
-            minFontSize: '35px',
-            maxFontSize: '65px'
-        }
-    );
+    function addStylingFunctionality(){
 
-    // Offset for Main Navigation
-    $('#mainNav').affix({
-        offset: {
-            top: 100
-        }
-    })
+        // Add phone mask
+        $('#s-phone').inputmask('mask', { mask: "(999) 999-9999", autoUnmask: true});
 
-    // Initialize WOW.js Scrolling Animations
-    new WOW().init();
+        // jQuery for page scrolling feature - requires jQuery Easing plugin
+        $('a.page-scroll').bind('click', function(event) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: ($($anchor.attr('href')).offset().top - 50)
+            }, 1250, 'easeInOutExpo');
+            event.preventDefault();
+        });
+
+        // Highlight the top nav as scrolling occurs
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 51
+        })
+
+        // Closes the Responsive Menu on Menu Item Click
+        $('.navbar-collapse ul li a').click(function() {
+            $('.navbar-toggle:visible').click();
+        });
+
+        // Fit Text Plugin for Main Header
+        $(".header-content h1").fitText(
+            1.2, {
+                minFontSize: '35px',
+                maxFontSize: '65px'
+            }
+        );
+
+        // Offset for Main Navigation
+        $('#mainNav').affix({
+            offset: {
+                top: 100
+            }
+        })
+
+        // Initialize WOW.js Scrolling Animations
+        new WOW().init();
+    }
 
 })(jQuery); // End of use strict

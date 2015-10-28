@@ -4,12 +4,10 @@
     var _baseUrl = window.location.origin;
 
     $(document).ready(function(){
-
         addStylingFunctionality();
         enableAddingAddresses();
         addGoogleAddressAutoComplete();
         getUserToken();
-        console.log(window.location.origin)
     });
 
     function getUserToken(){
@@ -26,7 +24,7 @@
     }
 
     function addStylingFunctionality(){
-        $("#s-dob").inputmask('mm/dd/yyyy', {yearrange: { minyear: 1900, maxyear: 2000 }, 'clearIncomplete': true});
+        $("#s-dob").inputmask('mm/dd/yyyy', {yearrange: { minyear: 1900, maxyear: 2000 }, 'clearIncomplete': true, "placeholder": "MM/DD/YYYY"});
 
         // Highlight the top nav as scrolling occurs
         $('body').scrollspy({

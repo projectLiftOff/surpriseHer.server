@@ -275,10 +275,8 @@
             
             <div class="row price-list wow animated fadeInUp animated">
                 <div class="col-md-offset-3 col-md-7 col-sm-offset-2 col-sm-9 col-xs-12">
-                    <form class="form-inline">
-                        <input type="text" class="form-control landing-phone-input pull-left" id="s-phone" placeholder="ENTER PHONE NUMBER" required />
-                        <button class="btn btn-primary btn-inline btn-xl col-xs-4 btn-get-gifts" type="submit" style="padding: 15px">Get Gift List</button>
-                    </form>
+                    <input type="text" class="form-control landing-phone-input pull-left" id="s-phone" placeholder="ENTER PHONE NUMBER" required />
+                    <button class="btn btn-primary btn-inline btn-xl col-xs-4 btn-get-gifts" id="s-signup" type="button" style="padding: 15px">Get Gift List</button>
                 </div>
             </div>
         </div>
@@ -311,6 +309,26 @@
     </section>
     <!-- Contact Us End -->
 
+    <!-- SignUp Modal -->
+    <div class="modal fade" id="s-modal-signup">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                    </div>
+                    <div class="modal-footer">
+                    <a type="button" class="btn btn-secondary" id="s-just-get-text" data-dismiss="modal">No Thanks</a>
+                    <a type="button" class="btn btn-primary" id="s-goto-signup" href="/signup" style="padding: 8px 12px;">Finish Signup!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SignUp Modal End -->
+
     <footer>
         
     </footer>
@@ -329,6 +347,7 @@
     <script src="../js/libs/jquery.inputmask.min.js" type="text/javascript"></script>
     <script src="../js/libs/inputmask.extensions.min.js" type="text/javascript"></script>
     <script src="../js/libs/inputmask.phone.extensions.min.js" type="text/javascript"></script>
+    
 
     <!-- Custom Theme JavaScript -->
     <script src="js/creative.js"></script>

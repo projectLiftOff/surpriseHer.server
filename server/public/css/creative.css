@@ -559,6 +559,10 @@ img::-moz-selection {
 .signup-top .form-group {
     margin-bottom: 5px;
 }
+#braintree-paypal-button {
+    width: 100%;
+    border-radius: 0px;
+}
 
 .top-0       { margin-top:0px !important;}
 .top-5       { margin-top:5px !important;}

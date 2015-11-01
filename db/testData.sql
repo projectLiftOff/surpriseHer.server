@@ -6,9 +6,9 @@ insert into users ( phone, registration_complete, tos) values ( 5034282359, 0, 1
 insert into users (first_name, last_name, email, dob, phone, registration_complete, tos) values ('Travis', 'Ostergard', 'bbbb@bbb.com', NOW(), 8157039039, 1, 1);
 insert into users (first_name, last_name, email, dob, phone, registration_complete, tos) values ('Pedro', 'Marquez', '7438123@aaa.com', NOW(), 7818910000, 1, 1);
 
-insert into addresses(address, city, state, zip_code, code_name, user_id) values ('436 Clementina St', 'San Francisco', 'California', 94103, 'Home', 1);
-insert into addresses(address, city, state, zip_code, code_name, user_id) values ('407 E 11th Ave', 'Eugene', 'Oregon', 97401, 'School Addresses', 2);
-insert into addresses(address, city, state, zip_code, code_name, user_id) values ('407 E 11th Ave', 'Eugene', 'Oregon', 97401, 'School Addresses', 3);
+insert into addresses(full_address, address, city, state, zip_code, country, code_name, user_id) values ('436.. full_address', '436 Clementina St', 'San Francisco', 'California', 94103, 'USA', 'Home', 1);
+insert into addresses(full_address, address, city, state, zip_code, country, code_name, user_id) values ('407.. full_address', '407 E 11th Ave', 'Eugene', 'Oregon', 97401, 'USA', 'School Addresses', 2);
+insert into addresses(full_address, address, city, state, zip_code, country, code_name, user_id) values ('234.. full_address', '407 E 11th Ave', 'Eugene', 'Oregon', 97401, 'USA', 'School Addresses', 3);
 
 insert into gifts(gift_name, look_up, month_of, price) values ( 'The Really Cool Neckless', 'neckless', '8/2015', 45);
 insert into gifts(gift_name, look_up, month_of, price) values ( 'Make Her Say WOW Picture Frame', 'frame', '8/2015', 45);

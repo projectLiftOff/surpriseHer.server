@@ -6,7 +6,7 @@ Index
 * [Dev Setup](#user-content-dev-setup)
 * [APIs](#user-content-apis)
     * [/users](#user-content-users)
-    * [/users](#user-content-users)
+    * [/addresses](#user-content-addresses)
 
 Dev Setup
 ----------------
@@ -55,18 +55,21 @@ PUT payload = `curl -X PUT -H 'Content-Type: application/json' -d '{ "user": { "
         "dob":  "2015-01-12"
     },
     "addresses": [
-        {
+        {   "full_address": "006 Clemexntina St San Francisco CA, 94103 USA",
             "address": "006 Clemexntina St",
             "city": "San Francisco",
             "state": "California",
             "zip_code": 94103,
+            "country": "USA",
             "code_name": "Really Far006"
         },
         {
+            "full_address": "007 Clemexntina St San Francisco CA, 94103 USA",
             "address": "007 Clemexntina St",
             "city": "San Francisco",
             "state": "California",
             "zip_code": 94103,
+            "country": "USA",
             "code_name": "Really Far007"
         }
     ],

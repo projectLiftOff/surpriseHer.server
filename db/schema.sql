@@ -31,11 +31,14 @@ CREATE TABLE gifts(
 );
 CREATE TABLE addresses(
     address_id BIGINT NOT NULL AUTO_INCREMENT,
+    full_address VARCHAR(120) NOT NULL,
     address VARCHAR(120) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state VARCHAR(100) NOT NULL,
     zip_code BIGINT NOT NULL,
+    country VARCHAR(100) NOT NULL,
     code_name VARCHAR(100) NOT NULL,
+    suite VARCHAR(20),
     addressed_to VARCHAR(60),
     user_id BIGINT NOT NULL,
     PRIMARY KEY (address_id),

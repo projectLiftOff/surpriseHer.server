@@ -39,7 +39,52 @@ exports.createIncomplete = (req, res) => {
     }
   })
 }
-exports.createComplete = (req, res) => { log.info({req, res}) }
+exports.createComplete = (req, res) => {
+  function addAddresses (userId) {
+    console.log("addAddresses", {userId})
+    if (req.body.addresses) {
+      var pendingQueries = 0
+      req.body.addresses.forEach(address => {
+        pendingQueries++
+        address.user_id = userId
+        Addresses.create(address, (error, results) => {
+          console.log("address query", pendingQueries,"finished:", {error, results})
+          pendingQueries--
+          if (pendingQueries === 0) {
+            console.log("user.createComplete finished", {arguments})
+            res.sendStatus(httpStatus.Created.code)
+          } else {
+            console.log("waiting on", pendingQueries, "addresses to create")
+          }
+        })
+      })
+    } else {
+      log.error("no address data provided")
+      return res.status(httpStatus["Bad Request"].code).send({message: "no user data provided"})
+    }
+  }
+
+  function createUser (callback) {
+    if (req.body.user) {
+      req.body.user.registration_complete = 1
+      return Users.create(req.body.user, (error, results) => {
+        if (error) {
+          log.error("createUser error", error)
+          return res.status(httpStatus["Bad Request"].code).send({message: "createUser error", error})
+        } else {
+          const userId = results.insertId
+          console.log("finished createUser", {userId})
+          return callback(userId)
+        }
+      })
+    } else {
+      log.error("no user data provided")
+      return res.status(httpStatus["Bad Request"].code).send({message: "no user data provided"})
+    }
+  }
+
+  createUser(addAddresses)
+}
   /*
   const userParams = {
     phone: req.body.phone,

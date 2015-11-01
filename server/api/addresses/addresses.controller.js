@@ -1,7 +1,10 @@
-const Addresses = require("./addresses.query.js")
+"use strict"
+
+const path = require("path")
 const async = require("async")
-const log = require("../../config/log.js")
-const httpStatus = require("../../../httpStatuses.json")
+const Addresses = require(path.join(__dirname, "addresses.query.js"))
+const log = require(path.join(__dirname, "../../config/log.js"))
+const httpStatus = require(path.join(__dirname, "../../../httpStatuses.json"))
 
 exports.getAll = (req, res) => {
   async.waterfall([Addresses.getAll],

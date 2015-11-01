@@ -12,7 +12,7 @@ exports.getAll = callback => {
 exports.update = (data, callback) => {
   connection.query("UPDATE users SET ? WHERE user_id = ?", data, (error, results) => {
     if (error) { log.error("query failed: users.update", {error}) }
-    callback(error, results)
+    if (callback) { return callback(error, results) }
   })
 }
 

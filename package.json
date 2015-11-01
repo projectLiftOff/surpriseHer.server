@@ -100,7 +100,7 @@
       ],
       "yoda": 2,
       "strict": [
-        2,
+        0,
         "global"
       ],
       "no-catch-shadow": 2,

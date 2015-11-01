@@ -127,17 +127,22 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">Addresses One*</label>
-                                    <input type="text" class="form-control" id="s-addressOne" required />
+                                    <input type="text" class="form-control" id="s-addressOne" placeholder="Address" required />
                                     <small class="text-danger" id="s-addressOneError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label">Suite/Apt</label>
+                                    <input type="text" class="form-control" id="s-addressOneSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                    <small class="text-danger" id="s-addressOneSuiteError" style="display: none;"></small>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label">Addresses One - Code Name*</label>
-                                    <input type="text" class="form-control" id="s-addressOneCode" placeholder="Address Code Name (e.g home, work)" required />
+                                    <input type="text" class="form-control" id="s-addressOneCode" placeholder="Address Code Name (e.g. home, work)" required />
                                     <small class="text-danger" id="s-addressOneCodeError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Addresses One - Delivery For</label>
-                                    <input type="text" class="form-control" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    <input type="text" class="form-control" id="s-addressOneDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
                                 </div>
                             </div>
                             <div class="col-sm-6" id="s-addressGroupTwo" style="display: none;">
@@ -147,13 +152,18 @@
                                     <small class="text-danger" id="s-addressTwoError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label">Suite/Apt</label>
+                                    <input type="text" class="form-control" id="s-addressTwoSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                    <small class="text-danger" id="s-addressTwoSuiteError" style="display: none;"></small>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label">Addresses Two - Code Name</label>
-                                    <input type="text" class="form-control" id="s-addressTwoCode" placeholder="Address Code Name (e.g home, work)" />
+                                    <input type="text" class="form-control" id="s-addressTwoCode" placeholder="Address Code Name (e.g. home, work)" />
                                     <small class="text-danger" id="s-addressTwoCodeError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Addresses Two - Delivery For</label>
-                                    <input type="text" class="form-control" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    <input type="text" class="form-control" id="s-addressTwoDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
                                 </div>
                             </div>
                             <div class="col-sm-6" id="s-addressGroupThree" style="display: none;">
@@ -163,13 +173,18 @@
                                     <small class="text-danger" id="s-addressThreeError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label">Suite/Apt</label>
+                                    <input type="text" class="form-control" id="s-addressThreeSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                    <small class="text-danger" id="s-addressThreeSuiteError" style="display: none;"></small>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label">Addresses Three - Code Name</label>
-                                    <input type="text" class="form-control" id="s-addressThreeCode" placeholder="Address Code Name (e.g home, work)" />
+                                    <input type="text" class="form-control" id="s-addressThreeCode" placeholder="Address Code Name (e.g. home, work)" />
                                     <small class="text-danger" id="s-addressThreeCodeError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">    
                                     <label class="control-label">Addresses Three - Delivery For</label>
-                                    <input type="text" class="form-control" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    <input type="text" class="form-control" id="s-addressThreeDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
                                 </div>
                             </div>
                             <div class="col-sm-6" id="s-addressGroupFour" style="display: none;">
@@ -179,17 +194,22 @@
                                     <small class="text-danger" id="s-addressFourError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label">Suite/Apt</label>
+                                    <input type="text" class="form-control" id="s-addressFourSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                    <small class="text-danger" id="s-addressFourSuiteError" style="display: none;"></small>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label">Addresses Four - Code Name</label>
-                                    <input type="text" class="form-control" id="s-addressFourCode" placeholder="Address Code Name (e.g home, work)" />
+                                    <input type="text" class="form-control" id="s-addressFourCode" placeholder="Address Code Name (e.g. home, work)" />
                                     <small class="text-danger" id="s-addressFourCodeError" style="display: none;"></small>
                                 </div>
                                 <div class="form-group">    
                                     <label class="control-label">Addresses Four - Delivery For</label>
-                                    <input type="text" class="form-control" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    <input type="text" class="form-control" id="s-addressFourDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
                                 </div>
                             </div>
                             <div class="form-group col-sm-6">
-                                <div class="hidden-xs" style="height: 70px"></div>
+                                <div class="hidden-xs" style="height: 85px"></div>
                                 <a class="btn btn-secondary btn-xl page-scroll col-sm-8 col-sm-offset-2 col-xs-12 bottom-30" 
                                     id="s-addAddress"> Add Additional Address </a>
                                 <span class="clearfix"></span>
@@ -200,7 +220,7 @@
                 <!-- Shipping Addresses End -->
                 
                 <!-- Shipping Addresses Option -->
-                <div>
+                <div id="s-select-shipping-address-section">
                     <div class="col-sm-12 text-center top-20">
                         <p class="h4 col-sm-10 col-sm-offset-1 text-thin"> 
                             Please choose an address you'd like the {{ SELECTED_GIFT }} gift to be shipped 

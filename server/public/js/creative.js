@@ -20,13 +20,14 @@
                 success: success,
                 error: error
             });
+
             function success(data) {
                 // TODO congrates message
-                console.log('you signed up!!!')
+                $('#success-message').show()
             }
             function error(){
                 // TODO: handle duplicate error
-                console.log('damit!')
+                $('#error-message').show()
             }
         });
 

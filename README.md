@@ -34,7 +34,7 @@ const router = express.Router() // eslint-disable-line new-cap`
 
 APIs
 ----------------
-### /users
+### POST /users/incomplete
 POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"tos": 1, "phone": 5413124834}' http://localhost:6060/users`
 ```json
 {
@@ -44,38 +44,63 @@ POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"tos": 1, 
 ```
 * Note payload.tos can be 1:agreed or 0:didn't agree. *
 
-### users/:id
-PUT payload = `curl -X PUT -H 'Content-Type: application/json' -d '{ "user": { "first_name": "Juan", "last_name": "adfdfa", "email": "aidjfkl@aaa.com", "dob": "2015-01-12" }, "addresses": [ { "address": "006 Clemexntina St", "city": "San Francisco", "state": "California", "zip_code": 94103, "code_name": "Really Far006" }, { "address": "007 Clemexntina St", "city": "San Francisco", "state": "California", "zip_code": 94103, "code_name": "Really Far007" } ], "transaction": { "shipToAddressCode": "Really Far006" } }' http://localhost:6060/users/1`
+### POST /users/complete
 ```json
 {
-    "user": {
-        "first_name": "Juan",
-        "last_name": "adfdfa",
-        "email": "aidjfkl@aaa.com",
-        "dob":  "2015-01-12"
-    },
-    "addresses": [
-        {   "full_address": "006 Clemexntina St San Francisco CA, 94103 USA",
-            "address": "006 Clemexntina St",
-            "city": "San Francisco",
-            "state": "California",
-            "zip_code": 94103,
-            "country": "USA",
-            "code_name": "Really Far006"
-        },
-        {
-            "full_address": "007 Clemexntina St San Francisco CA, 94103 USA",
-            "address": "007 Clemexntina St",
-            "city": "San Francisco",
-            "state": "California",
-            "zip_code": 94103,
-            "country": "USA",
-            "code_name": "Really Far007"
-        }
-    ],
-    "transaction": {
-        "shipToAddressCode": "Really Far006"
+  "user": {
+      "first_name": "Juan",
+      "last_name": "Don",
+      "email": "a@b.com",
+      "dob":  "2015-01-12",
+      "phone": "1234567890",
+      "tos": 1
+  },
+  "addresses": [
+    {
+      "full_address": "123 Main St San Francisco CA, 94103 USA",
+      "address": "123 Main St",
+      "city": "San Francisco",
+      "state": "California",
+      "zip_code": 94103,
+      "country": "USA",
+      "code_name": "home"
     }
+  ],
+  "transaction": {
+    "shipToAddressCode": "home"
+  },
+  "payments": {
+    "nonce": "fake-valid-nonce"
+  }
+}```
+* Note payload.tos can be 1:agreed or 0:didn't agree. *
+
+### PUT /users/:id
+```json
+{
+  "user": {
+      "first_name": "Juan",
+      "last_name": "Don",
+      "email": "a@b.com",
+      "dob":  "2015-01-12"
+  },
+  "addresses": [
+    {
+      "full_address": "123 Main St San Francisco CA, 94103 USA",
+      "address": "123 Main St",
+      "city": "San Francisco",
+      "state": "California",
+      "zip_code": 94103,
+      "country": "USA",
+      "code_name": "home"
+    }
+  ],
+  "transaction": {
+    "shipToAddressCode": "home"
+  },
+  "payments": {
+    "nonce": "fake-valid-nonce"
+  }
 }
 ```
 * Notes: MISSING processor_customer_token in payload, assumes unregistered user & pending transaction have already been created*

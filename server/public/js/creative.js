@@ -14,9 +14,8 @@
             var userData = { tos: 1, phone: number };
             $.ajax({
                 type: "POST",
-                url: _baseUrl + '/users',
+                url: _baseUrl + '/users/incomplete',
                 data: userData,
-                dataType: 'json',
                 success: success,
                 error: error
             });
@@ -25,7 +24,7 @@
                 // TODO congrates message
                 $('#success-message').show()
             }
-            function error(){
+            function error(xhr, error, obj){
                 // TODO: handle duplicate error
                 $('#error-message').show()
             }

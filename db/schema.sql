@@ -12,7 +12,7 @@ CREATE TABLE users(
     first_name VARCHAR(40),
     last_name VARCHAR(40),
     email VARCHAR(40) UNIQUE,
-    dob DATE,
+    dob BIGINT,
     phone BIGINT NOT NULL UNIQUE,
     registration_complete INT(1) NOT NULL,
     tos INT(1) NOT NULL,

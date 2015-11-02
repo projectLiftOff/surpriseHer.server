@@ -42,61 +42,66 @@
             // TODO: error handling
             braintree.setup(clientToken, "dropin", {
                 container: "payments",
-                onPaymentMethodReceived: function (obj) {
+                onPaymentMethodReceived: function (respose) {
                     validateForm( signUpType );
-                    handleUserSignUp( signUpType );
+                    var userData = getUserData( signUpType, respose.nonce );
+                    signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
                 }
             });
         });
     }
 
-    function handleUserSignUp( signUpType ){
-        var userData = getUserData( signUpType );
-        signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData)
-    }
-
     function updateIncompleteRegisteredUser( userData ) {
-        var id = userData.userId;
-        delete userData.userId;
+        var id = userData.user.userId;
+        delete userData.user.userId;
         $.ajax({
             method: 'PUT',
             url: _baseUrl + '/users' + id,
-            data: userData,
-            dataType: 'JSON',
+            contentType: 'application/json',
+            data: JSON.stringify( userData ),
             success: onSuccess,
             error: onError
         });
         function onSuccess( data ){
             console.log('user updated!!');
+            $('#s-signup-view').hide();
+            $('#s-signup-incomplete-success').show();
         }
         function onError( error ){
             console.log('FAILED: user updated!!');
+            $('#s-formError').text().show();
         }
     }
 
     function createCompleteUser( userData ){
+        userData.user.tos = 1;
         $.ajax({
             method: 'POST',
-            url: _baseUrl + '/users',
-            data: userData,
-            dataType: 'JSON',
+            url: _baseUrl + '/users/complete',
+            contentType: 'application/json',
+            data: JSON.stringify( userData ),
             success: onSuccess,
             error: onError
         });
         function onSuccess( data ){
             console.log('user created!!');
+            $('#s-signup-view').hide();
+            $('#s-signup-unregistered-success').show();
         }
         function onError( error ){
             console.log('FAILED: user created!!');
+            $('#s-formError').text().show();
         }
     }
 
-    function getUserData( signUpType ){
+    function getUserData( signUpType, nonce ){
         var userData = {};
-        userData.first_name = $("#s-firstName").val().trim();
-        userData.last_name = $("#s-lastName").val().trim();
-        userData.dob = $("#s-dob").val().trim();
-        userData.email = $("#s-email").val().trim();
+        userData.user = {}
+        var dob = $("#s-dob").val().trim();
+        userData.user.dob = moment(dob, "MM-DD-YYYY").valueOf();
+        userData.user.first_name = $("#s-firstName").val().trim();
+        userData.user.last_name = $("#s-lastName").val().trim();
+        userData.user.email = $("#s-email").val().trim();
         userData.addresses = [];
         for( var address in _validUserAddresses ) {
             var formatedAddress = {};
@@ -114,9 +119,14 @@
             userData.addresses.push( formatedAddress );
         }
         for( var param in _queryData ) {
-            userData[param] = _queryData[param];
+            userData.user[param] = _queryData[param];
         }
-        if( signUpType === 'incompleteRegistered' ) userData.shipToAddressCode = $('s-selectedShippingAddress').val().trim();
+        if( signUpType === 'incompleteRegistered' ) {
+            userData.transaction = {};
+            userData.transaction.shipToAddressCode = $('s-selectedShippingAddress').val().trim();
+        }
+        userData.payments = {};
+        userData.payments.nonce = nonce;
         return userData;
     }
 
@@ -166,8 +176,9 @@
     }
 
     function validateForm( signUpType ){
-        // TODO: close all errors 
-        var dob = $("#s-dob").val();
+        removeAllErrors();
+
+        var dob = $("#s-dob").val().trim();
         var email = $("#s-email").val().trim();
         var addressCodeHasAddress = {};
         var formErrors = false;
@@ -175,9 +186,15 @@
         // C: validate email
         var validEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
         if( !validEmail ) {
-            console.log( 'not valid Email' );
             $('#s-emailError').text( 'Please enter a valid email' ).show();
             $('#s-emailError').closest('.form-group').addClass('has-error');
+            formErrors = true;
+        }
+
+        // C: validate dob
+        if( dob === 'MM/DD/YYYY' || dob === '' ) {
+            $('#s-dobError').text( 'Please enter a valid date of Date of Birth' ).show();
+            $('#s-dobError').closest('.form-group').addClass('has-error');
             formErrors = true;
         }
 
@@ -245,6 +262,15 @@
             }, 3000);
         }
         return formErrors;
+    }
+
+    function removeAllErrors(){
+        var allErrorElements = ['#s-emailError', '#s-dobError', '#s-addressOneError', '#s-addressTwoError', '#s-addressThreeError', '#s-addressFourError', 
+            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError', '#s-selectedShippingAddress'];
+        allErrorElements.forEach(function(element){
+            $(element).hide();
+            $(element).closest('.form-group').removeClass('has-error');
+        });
     }
 
 })(jQuery);

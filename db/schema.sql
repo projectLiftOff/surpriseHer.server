@@ -16,6 +16,7 @@ CREATE TABLE users(
     phone BIGINT NOT NULL UNIQUE,
     registration_complete INT(1) NOT NULL,
     tos INT(1) NOT NULL,
+    braintree_id VARCHAR(40) UNIQUE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     -- processor_customer_token
     PRIMARY KEY(user_id)

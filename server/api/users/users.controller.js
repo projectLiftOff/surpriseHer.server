@@ -1,5 +1,6 @@
 const Users = require("./users.query.js")
 const Addresses = require("../addresses/addresses.query.js")
+const payments = require("../payments/payments.controller.js")
 // const Transactions = require("../transactions/transactions.query.js")
 // const UsersServices = require("./users.services.js")
 // const txtMessenger = require("../../services/twilio/twilio.main.js")
@@ -39,52 +40,66 @@ exports.createIncomplete = (req, res) => {
     }
   })
 }
-exports.createComplete = (req, res) => {
-  function addAddresses (userId) {
-    console.log("addAddresses", {userId})
-    if (req.body.addresses) {
-      var pendingQueries = 0
-      req.body.addresses.forEach(address => {
-        pendingQueries++
-        address.user_id = userId
-        Addresses.create(address, (error, results) => {
-          console.log("address query", pendingQueries,"finished:", {error, results})
-          pendingQueries--
-          if (pendingQueries === 0) {
-            console.log("user.createComplete finished", {arguments})
-            res.sendStatus(httpStatus.Created.code)
-          } else {
-            console.log("waiting on", pendingQueries, "addresses to create")
-          }
-        })
-      })
-    } else {
-      log.error("no address data provided")
-      return res.status(httpStatus["Bad Request"].code).send({message: "no user data provided"})
-    }
-  }
 
-  function createUser (callback) {
-    if (req.body.user) {
-      req.body.user.registration_complete = 1
-      return Users.create(req.body.user, (error, results) => {
-        if (error) {
-          log.error("createUser error", error)
-          return res.status(httpStatus["Bad Request"].code).send({message: "createUser error", error})
+function createUser (data, callback) { // {user, addresses, payments}
+  if (data.user) {
+    data.user.registration_complete = 1
+    return Users.create(data.user, (error, results) => {
+      if (error) { return callback({message: "createUser error", error}) }
+      const userId = results.insertId
+      log.debug("created user", userId, data.user)
+      return callback(null, {userId, addresses: data.addresses, nonce: data.payments.nonce})
+    })
+  } else {
+    return callback({message: "no user data provided"})
+  }
+}
+
+function addAddresses (data, callback) { // {userId, addresses, nonce}
+  if (data.addresses) {
+    const pendingQueries = {count: 0}
+    data.addresses.forEach(address => {
+      pendingQueries.count = pendingQueries.count + 1
+      address.user_id = data.userId
+      Addresses.create(address, error => {
+        if (error) { return callback({message: "address create failed", error}) }
+        pendingQueries.count = pendingQueries.count - 1
+        if (pendingQueries.count === 0) {
+          log.debug("created addresses for user", data.userId, data.addresses)
+          return callback(null, data)
         } else {
-          const userId = results.insertId
-          console.log("finished createUser", {userId})
-          return callback(userId)
+          log.debug("waiting on", pendingQueries.count, "addresses to create")
         }
       })
-    } else {
-      log.error("no user data provided")
-      return res.status(httpStatus["Bad Request"].code).send({message: "no user data provided"})
-    }
+    })
+  } else {
+    return callback({message: "no user data provided"})
   }
-
-  createUser(addAddresses)
 }
+
+function addBraintreeCustomer (data, callback) {  // {userId, nonce}
+  payments.createCustomer(data.nonce, (error, customerId) => {
+    if (error) { return callback({message: "addBraintreeCustomer error", error}) }
+    log.debug("created Braintree customer", customerId, "for user", data.userId)
+    return Users.update([{braintree_id: customerId}, data.userId], err => {
+      if (err) { return callback({message: "update user w braintree_id failed", err}) }
+      log.debug("updated user", data.userId, "with braintree_id", customerId)
+      return callback(null, data)
+    })
+  })
+}
+
+exports.createComplete = (req, res) => {
+  async.seq(createUser, addAddresses, addBraintreeCustomer)(req.body, error => {
+    if (error) {
+      log.error({error})
+      res.status(httpStatus["Bad Request"].code).send(error)
+    } else {
+      res.sendStatus(httpStatus.Created.code)
+    }
+  })
+}
+
   /*
   const userParams = {
     phone: req.body.phone,

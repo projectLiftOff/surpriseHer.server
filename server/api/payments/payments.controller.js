@@ -10,23 +10,21 @@ const gateway = braintree.connect({
 
 exports.gateway = gateway
 
-exports.createCustomer = (req, res) => {
-  const nonceFromTheClient = req.body.payment_method_nonce
+exports.createCustomer = (nonce, callback) => {
   gateway.customer.create({
     firstName: "Charity",
     lastName: "Smith",
-    paymentMethodNonce: nonceFromTheClient
+    paymentMethodNonce: nonce
   }, (error, result) => {
     if (error) {
-      res.send(httpStatus["Internal Server Error"].code)
-      throw error
+      return callback(error)
     } else {
-      log.info({
+      log.debug("created braintree customer", {
         status: result.success, // true
         customerId: result.customer.id, // e.g 160923
         paymentMethodToken: result.customer.paymentMethods[0].token // e.g f28wm
       })
-      res.send(httpStatus.OK.code)
+      return callback(null, result.customer.id)
     }
   })
 }

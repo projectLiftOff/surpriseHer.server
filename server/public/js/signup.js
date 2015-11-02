@@ -56,7 +56,7 @@
         delete userData.user.userId;
         $.ajax({
             method: 'PUT',
-            url: _baseUrl + '/users' + id,
+            url: _baseUrl + '/users/' + id,
             contentType: 'application/json',
             data: JSON.stringify( userData ),
             success: onSuccess,
@@ -123,7 +123,7 @@
         }
         if( signUpType === 'incompleteRegistered' ) {
             userData.transaction = {};
-            userData.transaction.shipToAddressCode = $('s-selectedShippingAddress').val().trim();
+            userData.transaction.shipToAddressCode = $('#s-selectedShippingAddress').val().trim();
         }
         userData.payments = {};
         userData.payments.nonce = nonce;
@@ -233,10 +233,10 @@
                 if( !(a.street_number && a.route && a.locality && a.postal_code && a.administrative_area_level_1) ) {
                     $( '#' + address + 'Error' ).text( 'Please a valid shipping address' ).show();
                     $( '#' + address ).closest('.form-group').addClass('has-error');
+                    formErrors = true;
                 }
                 else {
                     addresses[address].formatted_address = location.formatted_address;
-
                     _validUserAddresses[address] = addresses[address];
                 }
             } 

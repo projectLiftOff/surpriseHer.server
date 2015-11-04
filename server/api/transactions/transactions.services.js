@@ -88,7 +88,7 @@ exports.sendSuccessMessageCR = (reqData, res) => {
 
 exports.sendSuccessMessageIR = (reqData, res) => {
   // const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
-  const message = `Your order of ${reqData.giftsOfTheMonth[reqData.gift].gift_name} has been placed! To finish up the process please complete your registration and provide a billing option by clicking on the following link: ${url}?uId=${reqData.userId}&giftId=${reqData.giftsOfTheMonth[reqData.gift].gift_id}`
+  const message = `Your order of ${reqData.giftsOfTheMonth[reqData.gift].gift_name} has been placed! To finish up the process please complete your registration and provide a billing option by clicking on the following link: ${url}?u=${reqData.userId}`
   // twiml.message(message)
   // res.set("Content-Type", "text/xml")
   // res.status(httpStatus.OK.code).send(twiml.toString())

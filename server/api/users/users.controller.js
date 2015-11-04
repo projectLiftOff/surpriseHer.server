@@ -73,6 +73,7 @@ exports.createIncomplete = (req, res) => {
       log.error({error})
       res.status(httpStatus["Bad Request"].code).send(error)
     } else {
+      // TODO: get revolving gifts (Gifts.afterSignUp) then send initial txt message (constructSignUpGiftOptionsMessages)
       res.sendStatus(httpStatus.Created.code)
     }
   })

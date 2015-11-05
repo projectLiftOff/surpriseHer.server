@@ -20,13 +20,14 @@
   "dependencies": {
     "async": "^1.4.2",
     "body-parser": "^1.13.3",
+    "braintree": "^1.29.0",
     "express": "^4.13.3",
     "moment": "^2.10.6",
     "mysql": "^2.8.0",
+    "nodemon": "^1.4.0",
     "twilio": "^2.3.0",
     "winston": "^1.0.1",
-    "winston-bishop-slack": "^0.2.1",
-    "nodemon": "^1.4.0"
+    "winston-bishop-slack": "^0.2.1"
   },
   "devDependencies": {
     "chai": "^3.4.0",
@@ -99,7 +100,7 @@
       ],
       "yoda": 2,
       "strict": [
-        2,
+        0,
         "global"
       ],
       "no-catch-shadow": 2,

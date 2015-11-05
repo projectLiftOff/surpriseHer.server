@@ -1,3 +1,4 @@
+const activateSlackErrors = process.env.NODE_ENV === "production"
 const winston = require("winston")
 const winstonSlack = require("winston-bishop-slack").Slack
 winston.emitErrs = true
@@ -43,14 +44,16 @@ const winstonLogger = new winston.Logger({
     error: "red"
   }
 })
-winstonLogger.add(winstonSlack, {
-  webhook_url: process.env.slack_webhook_url, // eslint-disable-line camelcase
-  icon_url: "https://twylalalala.files.wordpress.com/2014/01/dafuq-100981.jpg?w=390", // eslint-disable-line camelcase
-  channel: "#sh-errors-dev",
-  username: "The Error Dude",
-  level: "error",
-  handleExceptions: true
-})
+if (activateSlackErrors) {
+  winstonLogger.add(winstonSlack, {
+    webhook_url: process.env.slack_webhook_url, // eslint-disable-line camelcase
+    icon_url: "https://twylalalala.files.wordpress.com/2014/01/dafuq-100981.jpg?w=390", // eslint-disable-line camelcase
+    channel: "#sh-errors-dev",
+    username: "The Error Dude",
+    level: "error",
+    handleExceptions: true
+  })
+}
 
 function debug () {
   // logged to console

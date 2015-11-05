@@ -12,10 +12,11 @@ CREATE TABLE users(
     first_name VARCHAR(40),
     last_name VARCHAR(40),
     email VARCHAR(40) UNIQUE,
-    dob DATE,
+    dob BIGINT,
     phone BIGINT NOT NULL UNIQUE,
     registration_complete INT(1) NOT NULL,
     tos INT(1) NOT NULL,
+    braintree_id VARCHAR(40) UNIQUE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     -- processor_customer_token
     PRIMARY KEY(user_id)
@@ -31,11 +32,14 @@ CREATE TABLE gifts(
 );
 CREATE TABLE addresses(
     address_id BIGINT NOT NULL AUTO_INCREMENT,
+    full_address VARCHAR(120) NOT NULL,
     address VARCHAR(120) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state VARCHAR(100) NOT NULL,
     zip_code BIGINT NOT NULL,
+    country VARCHAR(100) NOT NULL,
     code_name VARCHAR(100) NOT NULL,
+    suite VARCHAR(20),
     addressed_to VARCHAR(60),
     user_id BIGINT NOT NULL,
     PRIMARY KEY (address_id),

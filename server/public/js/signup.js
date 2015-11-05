@@ -1,29 +1,137 @@
 (function($) {
     "use strict";
     var _googleAddresses = {};
+    var _validUserAddresses = {};
+    var _queryData = {};
     var _baseUrl = window.location.origin;
 
     $(document).ready(function(){
-
+        determineTypeOfSignUp();
         addStylingFunctionality();
         enableAddingAddresses();
         addGoogleAddressAutoComplete();
-        getUserToken();
-        console.log(window.location.origin)
-        
-        $("#s-submit").click(function(){
-            validateForm();
-        })
     });
 
-    function getUserToken(){
-        $.get( _baseUrl + "/payments/client_token", function( data ) {
-            console.log( data );
+    function determineTypeOfSignUp(){
+        var searchQuery = window.location.search;
+        searchQuery.indexOf('p=') > -1 ? unregisteredUserViewSetup() : incompleteRegisteredUserViewSetup();
+    }
+
+    function unregisteredUserViewSetup(){
+        console.log('unregisteredUserSignUp');
+        $('#s-select-shipping-address-section').hide();
+        var queryArgs = window.location.search.slice(1).split('?');
+        if( queryArgs.length === 1 ) {
+            _queryData.phone = Number( queryArgs[0].split('=').pop() );
+        }
+        setUpOnSignUpSubmit('unregistered');
+        // TODO: need to make sure validation for code input is turned off
+    }
+
+    function incompleteRegisteredUserViewSetup(){
+        console.log('incompleteRegisteredUserSignUp');
+        var queryArgs = window.location.search.slice(1).split('?');
+        if( queryArgs.length === 1 ) {
+            _queryData.userId = Number( queryArgs[0].split('=').pop() );
+        }
+        setUpOnSignUpSubmit('incompleteRegistered');
+    }
+
+    function setUpOnSignUpSubmit( signUpType ){
+        $.get( _baseUrl + "/payments/client_token", function( clientToken ) {
+            // TODO: error handling
+            braintree.setup(clientToken, "dropin", {
+                container: "payments",
+                onPaymentMethodReceived: function (respose) {
+                    validateForm( signUpType );
+                    var userData = getUserData( signUpType, respose.nonce );
+                    signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
+                }
+            });
         });
     }
 
+    function updateIncompleteRegisteredUser( userData ) {
+        var id = userData.user.userId;
+        delete userData.user.userId;
+        $.ajax({
+            method: 'PUT',
+            url: _baseUrl + '/users/' + id,
+            contentType: 'application/json',
+            data: JSON.stringify( userData ),
+            success: onSuccess,
+            error: onError
+        });
+        function onSuccess( data ){
+            console.log('user updated!!');
+            $('#s-signup-view').hide();
+            $('#s-signup-incomplete-success').show();
+        }
+        function onError( error ){
+            console.log('FAILED: user updated!!');
+            $('#s-formError').text().show();
+        }
+    }
+
+    function createCompleteUser( userData ){
+        userData.user.tos = 1;
+        $.ajax({
+            method: 'POST',
+            url: _baseUrl + '/users/complete',
+            contentType: 'application/json',
+            data: JSON.stringify( userData ),
+            success: onSuccess,
+            error: onError
+        });
+        function onSuccess( data ){
+            console.log('user created!!');
+            $('#s-signup-view').hide();
+            $('#s-signup-unregistered-success').show();
+        }
+        function onError( error ){
+            console.log('FAILED: user created!!');
+            $('#s-formError').text().show();
+        }
+    }
+
+    function getUserData( signUpType, nonce ){
+        var userData = {};
+        userData.user = {}
+        var dob = $("#s-dob").val().trim();
+        userData.user.dob = moment(dob, "MM-DD-YYYY").valueOf();
+        userData.user.first_name = $("#s-firstName").val().trim();
+        userData.user.last_name = $("#s-lastName").val().trim();
+        userData.user.email = $("#s-email").val().trim();
+        userData.addresses = [];
+        for( var address in _validUserAddresses ) {
+            var formatedAddress = {};
+            formatedAddress.full_address = _validUserAddresses[address].formatted_address;
+            formatedAddress.address = _validUserAddresses[address].street_number + ' ' + _validUserAddresses[address].route;
+            formatedAddress.city = _validUserAddresses[address].locality;
+            formatedAddress.state = _validUserAddresses[address].administrative_area_level_1;
+            formatedAddress.country = _validUserAddresses[address].country;
+            formatedAddress.zip_code = _validUserAddresses[address].postal_code;
+            formatedAddress.code_name = $('#'+ address +'Code').val().trim();
+            var suite = $('#'+ address +'Suite').val().trim();
+            if( suite ) formatedAddress.suite = suite;
+            var addressed_to = $('#'+ address +'DeliveryFor').val().trim();
+            if( addressed_to ) formatedAddress.addressed_to = addressed_to;
+            userData.addresses.push( formatedAddress );
+        }
+        for( var param in _queryData ) {
+            userData.user[param] = _queryData[param];
+        }
+        if( signUpType === 'incompleteRegistered' ) {
+            userData.transaction = {};
+            userData.transaction.shipToAddressCode = $('#s-selectedShippingAddress').val().trim();
+        }
+        userData.payments = {};
+        userData.payments.nonce = nonce;
+        return userData;
+    }
+
     function addStylingFunctionality(){
-        $("#s-dob").inputmask('mm/dd/yyyy', {yearrange: { minyear: 1900, maxyear: 2000 }, 'clearIncomplete': true});
+        $("#s-dob").inputmask('mm/dd/yyyy', {yearrange: { minyear: 1900, maxyear: 2000 }, 'clearIncomplete': true, "placeholder": "MM/DD/YYYY"});
 
         // Highlight the top nav as scrolling occurs
         $('body').scrollspy({
@@ -67,8 +175,10 @@
         });
     }
 
-    function validateForm(){
-        var dob = $("#s-dob").val();
+    function validateForm( signUpType ){
+        removeAllErrors();
+
+        var dob = $("#s-dob").val().trim();
         var email = $("#s-email").val().trim();
         var addressCodeHasAddress = {};
         var formErrors = false;
@@ -76,9 +186,15 @@
         // C: validate email
         var validEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
         if( !validEmail ) {
-            console.log( 'not valid Email' );
             $('#s-emailError').text( 'Please enter a valid email' ).show();
             $('#s-emailError').closest('.form-group').addClass('has-error');
+            formErrors = true;
+        }
+
+        // C: validate dob
+        if( dob === 'MM/DD/YYYY' || dob === '' ) {
+            $('#s-dobError').text( 'Please enter a valid date of Date of Birth' ).show();
+            $('#s-dobError').closest('.form-group').addClass('has-error');
             formErrors = true;
         }
 
@@ -104,9 +220,35 @@
             }
         }
 
+        //C: Check that all filled address fileds have valid shipping addresses (e.g !Golden Gate Park)
+        var addresses = {};
+        for( var address in _googleAddresses ) {
+            var location = _googleAddresses[address].getPlace()
+            if( location && location.address_components ) {
+                addresses[address] = {};
+                location.address_components.forEach(function(addressComp){
+                    addresses[address][addressComp.types[0]] = addressComp.long_name;
+                });
+                var a = addresses[address];
+                if( !(a.street_number && a.route && a.locality && a.postal_code && a.administrative_area_level_1) ) {
+                    $( '#' + address + 'Error' ).text( 'Please a valid shipping address' ).show();
+                    $( '#' + address ).closest('.form-group').addClass('has-error');
+                    formErrors = true;
+                }
+                else {
+                    addresses[address].formatted_address = location.formatted_address;
+                    _validUserAddresses[address] = addresses[address];
+                }
+            } 
+            else if( (location && location.name) || $( '#' + address ).val() ) {
+                $( '#' + address + 'Error' ).text( 'Please a valid shipping address' ).show();
+                $( '#' + address ).closest('.form-group').addClass('has-error');
+            }
+        }
+
         //C: Check that input code matches one of the shipping codes provieded in addresses section
         var selectedAddressCode = $('#s-selectedShippingAddress').val().trim();
-        if( !addressCodeHasAddress[ selectedAddressCode ] ) {
+        if( signUpType === 'incompleteRegistered' && !addressCodeHasAddress[ selectedAddressCode ] ) {
             console.log( 'code does not match any of your address codes' );
             $( '#s-selectedShippingAddressError' ).text( 'Please enter a code that matches one of address codes entered above' ).show();
             $( '#s-selectedShippingAddressError' ).closest('.form-group').addClass('has-error');
@@ -122,4 +264,13 @@
         return formErrors;
     }
 
-})(jQuery); // End of use strict
+    function removeAllErrors(){
+        var allErrorElements = ['#s-emailError', '#s-dobError', '#s-addressOneError', '#s-addressTwoError', '#s-addressThreeError', '#s-addressFourError', 
+            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError', '#s-selectedShippingAddress'];
+        allErrorElements.forEach(function(element){
+            $(element).hide();
+            $(element).closest('.form-group').removeClass('has-error');
+        });
+    }
+
+})(jQuery);

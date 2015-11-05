@@ -29,7 +29,7 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" class="signup-top">
 
     <!-- Nav Bar -->
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
@@ -51,186 +51,246 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="btn btn-signup page-scroll" href="#subscriptions" style="color: white;">Sign Up</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#what">What</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#how">How</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#gifts">Gifts</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="#what">Home</a>
                     </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container-fluid -->
     </nav>
     <!-- Nav Bar End -->
 
-    <!-- Sign Up -->
-    <div class="container top-40">
+    <div id="s-signup-view">
+        <!-- Top Header -->
+        <div class="container top-40">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 top-40 text-center wow tada">
+                    <h1 class="section-heading">Sign Up</h1>
+                    <p class="h4 text-thin">Some txt about the sign up process</p>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Header -->
+
+        <!-- Sign Up Form -->
+        <form autocomplete="off">
+            <div class="container">
+                <div class="row">
+                    
+                    <!-- Basic Info -->
+                    <div class="top-20">
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">First Name</label>
+                            <input type="text" class="form-control" id="s-firstName" placeholder="First Name" required />
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Last Name</label>
+                            <input type="text" class="form-control" id="s-lastName" placeholder="Last Name" required />
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Date Of Birth</label>
+                            <input type="text" placeholder="MM/DD/YYYY (Date of Birth)" class="form-control" id="s-dob" />
+                            <small class="text-danger" id="s-dobError" style="display: none;"></small>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Email</label>
+                            <input type="text" class="form-control" id="s-email" placeholder="Email" required />
+                            <small class="text-danger" id="s-emailError" style="display: none;"></small>
+                        </div>
+                    </div>
+                    <!-- Basic Info End -->
+
+                    <!-- Shipping Addresses -->
+                    <div>
+                        <div class="col-sm-12 text-center">
+                            <hr class="primary">
+                            <h2 class="section-heading">Shipping Addresses</h2>
+                            <p class="h4 col-sm-10 col-sm-offset-1 text-thin">
+                                Please enter all shipping addresses you might want to send the gift to (e.g. home, her work, your work...).
+                                For each address enter an address code (EXPALAIN WHY A CODE?).
+                            </p>
+                        </div>
+                        <div class="col-xs-12 top-20">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses One*</label>
+                                        <input type="text" class="form-control" id="s-addressOne" placeholder="Address" required />
+                                        <small class="text-danger" id="s-addressOneError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Suite/Apt</label>
+                                        <input type="text" class="form-control" id="s-addressOneSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                        <small class="text-danger" id="s-addressOneSuiteError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses One - Code Name*</label>
+                                        <input type="text" class="form-control" id="s-addressOneCode" placeholder="Address Code Name (e.g. home, work)" required />
+                                        <small class="text-danger" id="s-addressOneCodeError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses One - Delivery For</label>
+                                        <input type="text" class="form-control" id="s-addressOneDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" id="s-addressGroupTwo" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses Two</label>
+                                        <input type="text" class="form-control" id="s-addressTwo" />
+                                        <small class="text-danger" id="s-addressTwoError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Suite/Apt</label>
+                                        <input type="text" class="form-control" id="s-addressTwoSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                        <small class="text-danger" id="s-addressTwoSuiteError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses Two - Code Name</label>
+                                        <input type="text" class="form-control" id="s-addressTwoCode" placeholder="Address Code Name (e.g. home, work)" />
+                                        <small class="text-danger" id="s-addressTwoCodeError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses Two - Delivery For</label>
+                                        <input type="text" class="form-control" id="s-addressTwoDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" id="s-addressGroupThree" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses Three</label>
+                                        <input type="text" class="form-control" id="s-addressThree" />
+                                        <small class="text-danger" id="s-addressThreeError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Suite/Apt</label>
+                                        <input type="text" class="form-control" id="s-addressThreeSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                        <small class="text-danger" id="s-addressThreeSuiteError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses Three - Code Name</label>
+                                        <input type="text" class="form-control" id="s-addressThreeCode" placeholder="Address Code Name (e.g. home, work)" />
+                                        <small class="text-danger" id="s-addressThreeCodeError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">    
+                                        <label class="control-label">Addresses Three - Delivery For</label>
+                                        <input type="text" class="form-control" id="s-addressThreeDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" id="s-addressGroupFour" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses Four</label>
+                                        <input type="text" class="form-control" id="s-addressFour" />
+                                        <small class="text-danger" id="s-addressFourError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Suite/Apt</label>
+                                        <input type="text" class="form-control" id="s-addressFourSuite" placeholder="Suite or Apt# (e.g. Suite D, Apt 245, #104)" maxlength="15" />
+                                        <small class="text-danger" id="s-addressFourSuiteError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Addresses Four - Code Name</label>
+                                        <input type="text" class="form-control" id="s-addressFourCode" placeholder="Address Code Name (e.g. home, work)" />
+                                        <small class="text-danger" id="s-addressFourCodeError" style="display: none;"></small>
+                                    </div>
+                                    <div class="form-group">    
+                                        <label class="control-label">Addresses Four - Delivery For</label>
+                                        <input type="text" class="form-control" id="s-addressFourDeliveryFor" placeholder="Addressed To (e.g. Her Name, Your Name)" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="hidden-xs" style="height: 85px"></div>
+                                    <a class="btn btn-secondary btn-xl page-scroll col-sm-8 col-sm-offset-2 col-xs-12 bottom-30" 
+                                        id="s-addAddress"> Add Additional Address </a>
+                                    <span class="clearfix"></span>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                    <!-- Shipping Addresses End -->
+                    
+                    <!-- Shipping Addresses Option -->
+                    <div id="s-select-shipping-address-section">
+                        <div class="col-sm-12 text-center top-20">
+                            <p class="h4 col-sm-10 col-sm-offset-1 text-thin"> 
+                                Please choose an address you'd like the {{ SELECTED_GIFT }} gift to be shipped 
+                                to by entering one of the codes you entered above. 
+                            </p>
+                        </div>
+                        <div class="form-group col-sm-6 col-sm-offset-3 top-20">
+                            <label class="control-label">Code for This Gifts Shipping Address</label>
+                            <input type="text" class="form-control" id="s-selectedShippingAddress" placeholder="Code of Address to Ship Present To" />
+                            <small class="text-danger" id="s-selectedShippingAddressError" style="display: none;"></small>
+                        </div>
+                    </div>
+                    <!-- Shipping Addresses Option End-->
+
+                    <!-- Card Info -->
+                    <div>
+                        <div class="col-sm-12 text-center">
+                            <hr class="primary">
+                            <h2 class="section-heading">Card Info</h2>                    
+                            <p class="h4 text-thin"><i>Just a reminder that we only charge after you have placed an order</i></p>
+                        </div>
+
+                        <div class="form-group col-sm-6 col-sm-offset-3">
+                            <div id="payments"> 
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card Info End -->
+
+                    <div class="col-sm-6 col-sm-offset-3 text-center">
+                        <small class="help-block top-20">
+                            By continuing, I agree to the 
+                            <a href="#" target="_blank">
+                                Terms of Service
+                            </a>
+                        </small>
+                    </div>
+
+                    <div class="col-sm-12 text-center">
+                        <input type="submit" id="s-submit" class="btn btn-primary btn-xl page-scroll col-sm-8 col-sm-offset-2 col-xs-12 bottom-25" />
+                    </div>
+
+                    <div id="s-formError" style="display: none;" class="alert alert-danger col-sm-8 col-sm-offset-2 col-xs-12">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- End Sign Up Form -->
+    </div>
+
+    <!-- Successful Unregistered User Signup view -->
+    <div id="s-signup-unregistered-success" class="container top-40" style="display: none;">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 top-40 text-center wow tada">
-                <h1 class="section-heading">Sign Up</h1>
-                <p class="h4">Some txt about the sign up process</p>
+            <div class="col-sm-8 col-sm-offset-2 top-40 text-center wow tada">
+                <h1 class="top-50">You Just Completed Registrations in Record Time!</h1>
+                <hr class="primary">
+                <p class="h4 text-thin top-20">
+                    (jk, but seriously)!
+                    You will now have awesome gift options for your girl sent straight 
+                    to your phone on the 20th of each month. When you see a gift you want, 
+                    one-text is all it takes and the gift will be on its way (Yeah, it’s that easy).   
+                </p>
+                <hr class="primary">
             </div>
         </div>
     </div>
-    <!-- Sign Up End -->
 
-    <!-- Sign Up -->
-    <form autocomplete="off">
-        <div class="container">
-            <div class="row">
-                
-                <!-- Basic Info -->
-                <div class="form-group col-sm-6">
-                    <label class="control-label">First Name</label>
-                    <input type="text" class="form-control" id="s-firstName" required />
-                </div>
-                <div class="form-group col-sm-6">
-                    <label class="control-label">Last Name</label>
-                    <input type="text" class="form-control" id="s-lastName" required />
-                </div>
-
-                <div class="form-group col-sm-6">
-                    <label class="control-label">Date Of Birth</label>
-                    <input type="text" placeholder="MM/DD/YYYY" class="form-control" id="s-dob" required />
-                </div>
-                <div class="form-group col-sm-6">
-                    <label class="control-label">Email</label>
-                    <input type="text" class="form-control" id="s-email" required />
-                    <small class="text-danger" id="s-emailError" style="display: none;"></small>
-                </div>
-                <!-- Basic Info End -->
-
-                <!-- Shipping Addresses -->
-                <div class="col-sm-12 text-center">
-                    <hr class="primary">
-                    <h2 class="section-heading">Shipping Addresses</h2>
-                    <p class="h4 col-sm-10 col-sm-offset-1">
-                        Please enter all shipping addresses you might want to send the gift to (e.g. home, her work, your work...).
-                        For each address enter an address code (EXPALAIN WHY A CODE?).
-                    </p>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">Addresses One*</label>
-                        <input type="text" class="form-control" id="s-addressOne" required />
-                        <small class="text-danger" id="s-addressOneError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Addresses One - Code Name*</label>
-                        <input type="text" class="form-control" id="s-addressOneCode" required />
-                        <small class="text-danger" id="s-addressOneCodeError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Addresses One - Delivery For</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-                <div class="col-sm-6" id="s-addressGroupTwo" style="display: none;">
-                    <div class="form-group">
-                        <label class="control-label">Addresses Two</label>
-                        <input type="text" class="form-control" id="s-addressTwo" />
-                        <small class="text-danger" id="s-addressTwoError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Addresses Two - Code Name</label>
-                        <input type="text" class="form-control" id="s-addressTwoCode" />
-                        <small class="text-danger" id="s-addressTwoCodeError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Addresses Two - Delivery For</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-                <div class="col-sm-6" id="s-addressGroupThree" style="display: none;">
-                    <div class="form-group">
-                        <label class="control-label">Addresses Three</label>
-                        <input type="text" class="form-control" id="s-addressThree" />
-                        <small class="text-danger" id="s-addressThreeError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Addresses Three - Code Name</label>
-                        <input type="text" class="form-control" id="s-addressThreeCode" />
-                        <small class="text-danger" id="s-addressThreeCodeError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">    
-                        <label class="control-label">Addresses Three - Delivery For</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-                <div class="col-sm-6" id="s-addressGroupFour" style="display: none;">
-                    <div class="form-group">
-                        <label class="control-label">Addresses Four</label>
-                        <input type="text" class="form-control" id="s-addressFour" />
-                        <small class="text-danger" id="s-addressFourError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Addresses Four - Code Name</label>
-                        <input type="text" class="form-control" id="s-addressFourCode" />
-                        <small class="text-danger" id="s-addressFourCodeError" style="display: none;"></small>
-                    </div>
-                    <div class="form-group">    
-                        <label class="control-label">Addresses Four - Delivery For</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="hidden-xs" style="height: 70px"></div>
-                    <a class="btn btn-secondary btn-xl page-scroll col-sm-8 col-sm-offset-2 col-xs-12 bottom-30" 
-                        id="s-addAddress"> Add Additional Address </a>
-                    <span class="clearfix"></span>
-                </div>
-                <!-- Shipping Addresses End -->
-                
-                <!-- Shipping Addresses Option -->
-                <div class="col-sm-12 text-center">
-                    <p class="h4 col-sm-10 col-sm-offset-1"> 
-                        Please choose an address you'd like the {{ SELECTED_GIFT }} gift to be shipped 
-                        to by entering one of the codes you entered above. 
-                    </p>
-                </div>
-                <div class="form-group col-sm-6 col-sm-offset-3">
-                    <label class="control-label">Code for This Gifts Shipping Address</label>
-                    <input type="text" class="form-control" id="s-selectedShippingAddress" />
-                    <small class="text-danger" id="s-selectedShippingAddressError" style="display: none;"></small>
-                </div>
-                <!-- Shipping Addresses Option End-->
-
-                <!-- Card Info -->
-                <div class="col-sm-12 text-center">
-                    <hr class="primary">
-                    <h2 class="section-heading">Card Info</h2>                    
-                    <p class="h4"><i>Just a reminder that we only charge after you have placed an order</i></p>
-                </div>
-
-                <div id="dropin-container"></div>
-                <!-- Card Info End -->
-
-                <div class="col-sm-6 col-sm-offset-3 text-center">
-                    <small class="help-block top-20">
-                        By continuing, I agree to the 
-                        <a href="#" target="_blank">
-                            Terms of Service
-                        </a>
-                    </small>
-                </div>
-
-                <div class="col-sm-12 text-center">
-                    <input type="submit" id="s-submit" class="btn btn-primary btn-xl page-scroll col-sm-8 col-sm-offset-2 col-xs-12 bottom-25" />
-                </div>
+    <!-- Successful Incomplete Registered User Signup view -->
+    <div id="s-signup-incomplete-success" class="container top-40" style="display: none;">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 top-40 text-center wow tada">
+                <h1 class="top-50">GREAT SUCCESS!</h1>
+                <hr class="primary">
+                <p class="h4 text-thin top-20">
+                    We’ll start working on this bad boy now (Gift you ordered!). You should probably 
+                    start preparing for all the smiles and kisses and general happiness.  Oh and next time
+                    you order it will all be done with one txt!  Yeah it pretty awesome!
+                </p>
+                <hr class="primary">
             </div>
         </div>
-    </form>
-    <!-- Sign Up End -->
+    </div>
 
     <footer>
         

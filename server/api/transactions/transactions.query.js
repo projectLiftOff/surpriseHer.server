@@ -13,6 +13,6 @@ exports.pendingUserRegistration = (userId, callback) => {
   connection.query("SELECT * FROM transactions WHERE status = 'pending user registration' AND user_id = ?", userId, callback)
 }
 
-exports.update = (data, callback) => {
-  connection.query("UPDATE transactions SET ? WHERE transactions_id = ?", data, callback)
+exports.update = (id, transaction, callback) => {
+  connection.query("UPDATE transactions SET ? WHERE id = ?", [transaction, id], callback)
 }

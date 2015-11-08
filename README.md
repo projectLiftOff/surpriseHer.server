@@ -34,26 +34,36 @@ const router = express.Router() // eslint-disable-line new-cap`
 
 APIs
 ----------------
-### POST /users/incomplete
-POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"tos": 1, "phone": 5413124834}' http://localhost:6060/users`
+### POST /transactions
+POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"From": 1234567890, "Body": "13 bottle home"}' http://localhost:6060/transactions`
 ```json
 {
-    "tos": 1,
-    "phone": 5413124834
+  "From": 5413124834,
+  "Body": "13 bottle home"
+}
+```
+
+### POST /users/incomplete
+POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"tos": 1, "phone": 5413124834}' http://localhost:6060/users/incomplete`
+```json
+{
+  "tos": 1,
+  "phone": 5413124834
 }
 ```
 * Note payload.tos can be 1:agreed or 0:didn't agree. *
 
 ### POST /users/complete
+POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"user": {"first_name": "Juan","last_name": "Don","email": "a@b.com","dob":  "2015-01-12","phone": "1234567890","tos": 1},"addresses": [{"full_address": "123 Main St San Francisco CA, 94103 USA","address": "123 Main St","city": "San Francisco","state": "California","zip_code": 94103,"country": "USA","code_name": "home"}],"transaction": {"shipToAddressCode": "home"},"payments": {"nonce": "fake-valid-nonce"}}' http://localhost:6060/users/complete`
 ```json
 {
   "user": {
-      "first_name": "Juan",
-      "last_name": "Don",
-      "email": "a@b.com",
-      "dob":  "2015-01-12",
-      "phone": "1234567890",
-      "tos": 1
+    "first_name": "Juan",
+    "last_name": "Don",
+    "email": "a@b.com",
+    "dob":  "2015-01-12",
+    "phone": "1234567890",
+    "tos": 1
   },
   "addresses": [
     {
@@ -61,7 +71,7 @@ POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"tos": 1, 
       "address": "123 Main St",
       "city": "San Francisco",
       "state": "California",
-      "zip_code": 94103,
+      "zip_code": "94103",
       "country": "USA",
       "code_name": "home"
     }
@@ -72,31 +82,33 @@ POST payload = `curl -X POST -H 'Content-Type: application/json' -d '{"tos": 1, 
   "payments": {
     "nonce": "fake-valid-nonce"
   }
-}```
+}
+```
 * Note payload.tos can be 1:agreed or 0:didn't agree. *
 
 ### PUT /users/:id
+PUT payload = `curl -X PUT -H 'Content-Type: application/json' -d '{"user": {"first_name": "Tom","last_name": "Dooley","email": "tom@dooley.com","dob":  "2015-01-12"},"addresses": [{"full_address": "222 Wall St New York NY, 02111 USA","address": "222 Wall St","city": "New York","state": "New York","zip_code": "02111","country": "USA","code_name": "work"}],"transaction": {"shipToAddressCode": "work"},"payments": {"nonce": "fake-valid-nonce"}}' http://localhost:6060/users/1`
 ```json
 {
   "user": {
-      "first_name": "Juan",
-      "last_name": "Don",
-      "email": "a@b.com",
+      "first_name": "Tom",
+      "last_name": "Dooley",
+      "email": "tom@dooley.com",
       "dob":  "2015-01-12"
   },
   "addresses": [
     {
-      "full_address": "123 Main St San Francisco CA, 94103 USA",
-      "address": "123 Main St",
-      "city": "San Francisco",
-      "state": "California",
-      "zip_code": 94103,
+      "full_address": "222 Wall St New York NY, 02111 USA",
+      "address": "222 Wall St",
+      "city": "New York",
+      "state": "New York",
+      "zip_code": "02111",
       "country": "USA",
-      "code_name": "home"
+      "code_name": "work"
     }
   ],
   "transaction": {
-    "shipToAddressCode": "home"
+    "shipToAddressCode": "work"
   },
   "payments": {
     "nonce": "fake-valid-nonce"

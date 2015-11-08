@@ -1,12 +1,13 @@
 const braintree = require("braintree")
 const log = require("../../config/log")
-const httpStatus = require("../../../httpStatuses.json")
+// const httpStatus = require("../../../httpStatuses.json")
 const gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
   merchantId: process.env.braintree_merchant_id,
   publicKey: process.env.braintree_public_key,
   privateKey: process.env.braintree_private_key
 })
+// const Users = require("../users/users.query.js")
 
 exports.gateway = gateway
 
@@ -29,19 +30,18 @@ exports.createCustomer = (nonce, callback) => {
   })
 }
 
-exports.checkout = (req, res) => {
-  const nonceFromTheClient = req.body.payment_method_nonce
-  // Use payment method nonce here
+exports.charge = (userBraintreeId, amount, callback) => {
   gateway.transaction.sale({
-    amount: "10.00",
-    paymentMethodNonce: nonceFromTheClient
+    amount,
+    customerId: userBraintreeId
   }, (error, result) => {
     if (error) {
-      res.send(httpStatus["Internal Server Error"].code)
-      throw error
+      return callback({message: `payments.charge ${userBraintreeId} for $${amount} error`, error})
+    } else if (!result.transaction || !result.transaction.status || result.transaction.status !== "authorized") {
+      return callback({message: `payments.charge ${userBraintreeId} for $${amount} not authorized`, result})
     } else {
-      log.info("payment received", {statusHistory: result.transaction.statusHistory})
-      res.send(httpStatus.OK.code)
+      log.debug("payment received", {charge: result.transaction.status})
+      return callback()
     }
   })
 }

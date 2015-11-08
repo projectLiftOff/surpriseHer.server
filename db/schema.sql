@@ -48,7 +48,7 @@ CREATE TABLE addresses(
 CREATE TABLE transactions(
     transactions_id BIGINT NOT NULL AUTO_INCREMENT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    status VARCHAR(40) NOT NULL, -- pendingUserRegistration, unfulfilled, fulfilled, shippied, delivered
+    status VARCHAR(40) NOT NULL, -- pending user registration, unfulfilled, fulfilled, shippied, delivered
     paid INT(1) NOT NULL,
     -- refund_status
     -- charge_back

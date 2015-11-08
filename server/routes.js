@@ -2,7 +2,7 @@ const addressesRequestHandlers = require("./api/addresses/addresses.main")
 const usersRequestHandlers = require("./api/users/users.routes")
 const paymentsRequestHandlers = require("./api/payments/payments.routes")
 const subscriptionsRequestHandlers = require("./api/subscriptions/subscriptions.main")
-const transactionsRequestHandlers = require("./api/transactions/transactions.main")
+const transactionsRequestHandlers = require("./api/transactions/transactions.routes")
 const viewsRequestHandlers = require("./public/views.routing")
 
 function routes (app) {

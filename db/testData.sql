@@ -20,6 +20,5 @@ insert into gifts(gift_name, look_up, month_of, price) values ( 'The Best F-ing 
 insert into gifts(gift_name, look_up, month_of, price) values ( "Love Me Some S'more", 'smores', '0', 45);
 insert into gifts(gift_name, look_up, month_of, price) values ( 'Bubbly Bath', 'bubbles', '0', 45);
 
--- insert into transactions(status, paid, gift_id, user_id) values ( 'pendingUserRegistration', 0, 1, 1 );
--- insert into transactions(status, paid, gift_id, user_id) values ( 'pendingUserRegistration', 0, 1, 4 );
-
+insert into transactions(status, paid, gift_id, user_id) values ( 'pending user registration', 0, 1, 1 );
+insert into transactions(status, paid, gift_id, user_id) values ( 'pending user registration', 0, 1, 2 );

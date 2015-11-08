@@ -144,7 +144,7 @@ exports.create = (req, res) => {
           const transactionCreationData = {
             user_id: user.user_id, // eslint-disable-line camelcase
             gift_id: reqData.selectedGiftInfo.gift_id, // eslint-disable-line camelcase
-            status: "pendingUserRegistration",
+            status: "pending user registration",
             paid: 0
           }
           callback(null, transactionCreationData)

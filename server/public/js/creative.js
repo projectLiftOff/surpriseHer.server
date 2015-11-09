@@ -26,12 +26,19 @@
             }
             function error(xhr, error, obj){
                 // TODO: handle duplicate error
+                $('#error-message > div').text('Hmmm... There seems to be a connections issue.  Please try entering your number again or contact customer support: support@surpriseher.com');
                 $('#error-message').show()
             }
         });
 
         $('#s-signup').click(function(){
+            $('#error-message').hide();
             var number = $('#s-phone').val();
+            if( number.length < 10 ) {
+                $('#error-message > div').text('Please Enter Vaild Phone Number');
+                $('#error-message').show()
+                return;
+            }
             $('#s-goto-signup').attr('href', '/signup?p=' + number);
             $("#s-modal-signup").modal('show');
         });
@@ -62,13 +69,6 @@
             $('.navbar-toggle:visible').click();
         });
 
-        // Fit Text Plugin for Main Header
-        $(".header-content h1").fitText(
-            1.2, {
-                minFontSize: '35px',
-                maxFontSize: '65px'
-            }
-        );
 
         // Offset for Main Navigation
         $('#mainNav').affix({

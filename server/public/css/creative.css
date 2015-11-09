@@ -61,7 +61,7 @@ p {
 }
 
 section {
-    padding: 100px 0;
+    padding: 50px 0;
 }
 
 aside {
@@ -116,6 +116,16 @@ aside {
 .navbar-default .nav>li.active>a:focus:hover {
     background-color: transparent;
 }
+.quote {
+    margin-top: -50px;
+}
+.quote-block{
+    font-size: 18px;
+}
+.base {
+    height: 120px;
+    border-top: 8px solid #F0F0F0;
+}
 
 @media(min-width:768px) {
     .navbar-default {
@@ -168,16 +178,30 @@ aside {
     .navbar-default.affix .nav>li>a:focus:hover {
         color: #0ABAB5;
     }
+    .social-media-container {
+        right: 10px;
+    }
+    section {
+        padding: 100px 0;
+    }
+    .quote {
+        margin-top: 50px;
+    }
+    .quote-block{
+        font-size: 24px;
+    }
 }
 
 header {
+    top: -45px;
     position: relative;
     width: 100%;
-    min-height: auto;
+    margin-top: 100px;
+    min-height: 60%;
     text-align: center;
     color: #404041;
     background-image: url(../img/header.jpg);
-    background-position: center;
+    background-position: top;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -186,38 +210,42 @@ header {
 
 header .header-content {
     position: relative;
-    width: 100%;
-    padding: 100px 15px;
+    padding: 0px 30px;
     text-align: center;
 }
 
 header .header-content .header-content-inner h1 {
+    font-size: 26px;
     margin-top: 0;
     margin-bottom: 0;
     text-transform: uppercase;
-    font-weight: 700;
 }
-
-header .header-content .header-content-inner hr {
-    margin: 30px auto;
+.header-title {
+    background-color: hsla(0, 100%, 100%, 0.5);
+    box-shadow: 0px 0px 20px hsla(0, 100%, 100%, 8);
+    border-radius: 25%;
 }
 
 header .header-content .header-content-inner p {
     margin-bottom: 50px;
-    font-size: 16px;
-    font-weight: 300;
-    color: rgba(255,255,255,.7);
+    font-size: 20px;
+    font-weight: 500;
+    color: #505050;
+}
+header .header-content .header-content-inner hr {
+    /*margin: 35px auto;*/
 }
 
 @media(min-width:768px) {
     header {
         min-height: 100%;
+        margin-top: 100px;
     }
 
     header .header-content {
         position: absolute;
-        top: 50%;
-        padding: 0 50px;
+        top: 215px;
+        padding-left: 40px;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
@@ -228,12 +256,17 @@ header .header-content .header-content-inner p {
         margin-left: auto;
         max-width: 1000px;
     }
-
+    header .header-content .header-content-inner h1 {
+        font-size: 50px;
+    }
     header .header-content .header-content-inner p {
         margin-right: auto;
         margin-left: auto;
         max-width: 80%;
-        font-size: 18px;
+        font-size: 30px;
+    }
+    .landing-page .landing-phone-input {
+        width: 60%;
     }
 }
 
@@ -525,7 +558,7 @@ img::-moz-selection {
     z-index: 10;
 }
 .landing-page .landing-phone-input {
-    width: 66%;
+    width: 57%;
     height: 50px;
     border-radius: 0px; 
     margin-right: -1px;
@@ -534,9 +567,11 @@ img::-moz-selection {
     line-height: 2;
 }
 .landing-page .btn-get-gifts {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 18px;
     line-height: 1.12;
+    text-transform: none;
+    min-width: 125px;
 }
 .signup-top .form-control {
     border-left: none;
@@ -562,6 +597,23 @@ img::-moz-selection {
 #braintree-paypal-button {
     width: 100%;
     border-radius: 0px;
+}
+.highlight {
+    color: #089F9B;
+}
+.landing-page .header-title {
+
+}
+.signup {
+    color: white;
+    margin-top: 100px;
+    background-color: #9B9B9B;
+}
+.social-media-container {
+    position: absolute;
+    right: 18px;
+    top: 50px;
+    width: 10px;
 }
 
 .top-0       { margin-top:0px !important;}

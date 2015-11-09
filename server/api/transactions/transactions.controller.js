@@ -8,6 +8,7 @@ const async = require("async")
 // const txtMessenger = require("../../services/twilio/twilio.main.js")
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
+const finishRegistrationUrl = "http://localhost:6060/signup"
 
 function findUserFromPhone (data, callback) {
   // phone -> User
@@ -19,23 +20,27 @@ function findUserFromPhone (data, callback) {
   })
 }
 function parseUserText (data, callback) {
-  // userText -> Gift, Date, Address
   const parsedText = data.userText.split(" ")
   data.dayOfMonth = parsedText[0]
   data.giftName = parsedText[1]
   data.addressName = parsedText[2]
   // async.parallel(dateFromDayOfMonth, giftFromName, addressFromName)
-  data.date = `${data.dayOfMonth}/${(new Date()).getMonth() + 1}`
+  data.date = `${(new Date()).getMonth() + 1}/${data.dayOfMonth}`
   Gifts.findByName(data.giftName, (giftError, gift) => {
     if (giftError) { return callback({message: "findGiftByName error", giftError, data}) }
     if (!gift.length) { return callback({message: `Gift with name ${data.giftName} does not exist`}) }
     data.gift = gift[0]
-    Addresses.findByUserAndName(data.user.id, data.addressName, (addressError, address) => {
-      if (addressError) { return callback({message: "findAddressByUserAndName error", addressError, data}) }
-      if (!address.length) { return callback({message: `Address with from user ${data.user.id} and name ${data.giftName} does not exist`}) }
-      data.address = address[0]
+    if (data.addressName) {
+      Addresses.findByUserAndName(data.user.id, data.addressName, (addressError, address) => {
+        if (addressError) { return callback({message: "findAddressByUserAndName error", addressError, data}) }
+        if (!address.length) { return callback({message: `Address with name ${data.addressName} for user ${data.user.id} does not exist`}) }
+        data.address = address[0]
+        return callback(null, data)
+      })
+    } else {
+      data.address = null
       return callback(null, data)
-    })
+    }
   })
 }
 function validateDate (data, callback) { // TODO
@@ -49,7 +54,7 @@ function createPendingTransaction (data, callback) {
     status: "pending user registration",
     user_id: data.user.id,
     gift_id: data.gift.id,
-    address_id: data.address.id,
+    address_id: data.address ? data.address.id : null,
     paid: 0
   }
   Transactions.create(data.transaction, (error, result) => {
@@ -58,9 +63,15 @@ function createPendingTransaction (data, callback) {
     return callback(null, data)
   })
 }
+
+function sendFinishRegistrationText (data) {
+  const message = `We'll get your '${data.gift.gift_name}' ready for ${data.date}! To confirm your order, please enter your shipping address and payment here: ${finishRegistrationUrl}?u=${data.user.id}`
+  log.error({message})
+}
+
 function finishRegistrationIfIncomplete (data, callback) { // TODO
   if (data.user.registration_complete === 0) {
-    sendFinishRegistrationText()
+    sendFinishRegistrationText(data)
     return callback({message: "user not fully registered", data})
   } else {
     return callback(null, data)

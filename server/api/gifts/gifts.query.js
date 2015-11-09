@@ -23,3 +23,7 @@ exports.afterSignUp = callback => {
 exports.findByName = (name, callback) => {
   connection.query("SELECT * FROM gifts WHERE look_up = ?", name, callback)
 }
+
+exports.findById = (id, callback) => {
+  connection.query("SELECT * FROM gifts WHERE id = ?", id, callback)
+}

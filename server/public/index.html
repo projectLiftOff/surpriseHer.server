@@ -50,13 +50,18 @@
                 <a class="navbar-brand page-scroll" href="#page-top">
                     <img class="" src="img/surpriseHer-logo.png">
                 </a>
+                <div class="pull-right top-10 social-media-container">
+                    <i class="fa fa-1x fa-facebook" data-wow-delay=".3s"></i>
+                    <i class="fa fa-1x fa-twitter" data-wow-delay=".3s"></i>
+                    <i class="fa fa-1x fa-pinterest" data-wow-delay=".3s"></i>
+                </div>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="btn btn-signup page-scroll" href="#subscriptions" style="color: white;">Sign Up</a>
+                        <a class="btn btn-signup page-scroll" href="#signup" style="color: white !important; text-align: left;">Sign Up</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#what">What</a>
@@ -65,7 +70,7 @@
                         <a class="page-scroll" href="#how">How</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#gifts">Gifts</a>
+                        <a class="page-scroll" href="#about-gifts">Gifts</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -82,21 +87,36 @@
     <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1>Remind Her She’s Special</h1>
+                <h1 class="header-title">
+                    <div class="header-title">
+                        Make Ordinary Days Special
+                    </div> 
+                </h1>
                 <hr>
-                <h2>with an Unexpected Gift on an Ordinary Day</h2>
+                <p class="header-title">
+                    Surprise her with something she'll love
+                </p>
                 <!-- <a href="#what" class="btn btn-primary btn-xl page-scroll">Find Out More</a> -->
             </div>
         </div>
     </header>
     <!-- Splash Image End -->
 
+    <div class="container quote">
+        <div class="row">
+            <div class="quote-block col-lg-10 col-lg-offset-1 text-center highlight top-0">
+                "Surprise your girl a few times a year with a small gesture and she will make you a much happier guy for it. All it takes is one text."
+                <b> <i>- One Happy Dude </i> </b>
+            </div>
+        </div>
+    </div>
+
     <!-- What We Do -->
     <section id="what">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center wow">
-                    <h1 class="section-heading">What we do</h1>
+                    <h1 class="section-heading">What We Do</h1>
                     <!-- <hr class="light"> -->
                     <hr class="primary">
                     <p class="h4">
@@ -112,53 +132,75 @@
     <!-- What We Do End -->
 
     <!-- New Section -->
-    <div style="width: 90%; height: 2px; margin: 0 5%; background-color: #B9B9B9"></div>
+    <div style="width: 90%; height: 4px; margin: 0 5%; background-color: #F0F0F0"></div>
 
     <!-- How Its Done -->
     <section id="how">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h1 class="section-heading">How we do it</h1>
+                    <h1 class="section-heading">How It Works</h1>
                     <hr class="primary">
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-gift wow bounceIn text-primary"></i>
-                        <h3>Gift List Texted to You</h3>
-                        <p class="text-muted">
-                            Receive One Text the 25th of Each Month with Two Gift Options She’ll Love
+                <div class="col-xs-12">
+                    <div class="col-xs-3">
+                        <i class="fa fa-4x fa-mobile wow bounceIn text-primary pull-right top-25"></i>
+                    </div>
+                    <div class="col-xs-9 col-md-8">
+                        <h3 class="bottom-0">Gifts By Text</h3>
+                        <p class="text-muted bottom-0">
+                            Receive one text the 25th of Each Month with Two Gift Options She’ll Love
                         </p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-calendar-o wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                        <h3>Select a Gift</h3>
-                        <p class="text-muted">
-                            If it’s been a while since you’ve done something special for her, it might be time to put a smile on her face.  
+                <div class="col-xs-12">
+                    <div class="col-xs-3">
+                        <i class="fa fa-4x fa-calendar-o wow bounceIn text-primary pull-right top-25" data-wow-delay=".1s"></i>
+                    </div>
+                    <div class="col-xs-9 col-md-8">
+                        <h3 class="bottom-0">Decide When To Order</h3>
+                        <p class="text-muted bottom-0">
+                            Order when ever you want! However, if it’s been awhile since you’ve done something special for her, 
+                            it might be time to put a smile on her face!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="col-xs-3">
+                        <i class="fa fa-4x fa-gift wow bounceIn text-primary pull-right top-25" data-wow-delay=".1s"></i>
+                    </div>
+                    <div class="col-xs-9 col-md-8">
+                        <h3 class="bottom-0">Select a Gift</h3>
+                        <p class="text-muted bottom-0">
                             We make it easy! Just decide which gift she’ll love the most.
                         </p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-envelope-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                        <h3>Text Back To Order</h3>
-                        <p class="text-muted">
-                            Text us which gift, the ship date and where to deliver by the 28th.
+                <div class="col-xs-12">
+                    <div class="col-xs-3">
+                        <i class="fa fa-4x fa-envelope-o wow bounceIn text-primary pull-right top-25" data-wow-delay=".2s"></i>
+                    </div>
+                    <div class="col-xs-9 col-md-8">
+                        <h3 class="bottom-0">Text Back To Order</h3>
+                        <p class="text-muted bottom-0">
+                            Text us by the 28th which gift you want, the ship date and where to deliver.
                         </p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-trophy wow bounceIn text-primary" data-wow-delay=".3s"></i>
-                        <h3>We Handle the Rest</h3>
-                        <p class="text-muted">We send the gift to you (so you can give it to her in person!) or to her (so she can show off how awesome you are!)</p>
+                <div class="col-xs-12">
+                    <div class="col-xs-3">
+                        <i class="fa fa-4x fa-trophy wow bounceIn text-primary pull-right top-25" data-wow-delay=".3s"></i>
+                    </div>
+                    <div class="col-xs-9 col-md-8">
+                        <h3 class="bottom-0">We Handle the Rest</h3>
+                        <p class="text-muted bottom-0">
+                            We send the gift to her so she can show off how awesome you are! 
+                        </p>
+                        <div class="top-0 text-muted">(or to you so you can give it to her in person!)</div>
                     </div>
                 </div>
             </div>
@@ -167,74 +209,31 @@
     <!-- How Its Done End -->
 
     <!-- New Section -->
-    <div style="width: 90%; height: 2px; margin: 0 5%; background-color: #B9B9B9"></div>
-
-    <!-- Gestures -->
-    <section id="gestures">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 col-lg-offset-1 wow">
-                    <h1 class="section-heading text-center">Small Gestures Go a Long Way </h1>
-                    <!-- <hr class="light"> -->
-                    <hr class="primary">
-                    <div class="col-sm-6">
-                        <img data-src="holder.js/300x300" alt="300x300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTA0YzhiOTYyMiB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MDRjOGI5NjIyIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA1NDY4NzUiIHk9Ijc0LjUiPjE0MHgxNDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true" style="width: 400px; height: 300px;">
-                    </div>
-                    <div class="col-sm-6">
-                        <p>
-                            While we can’t do the rest of your relationship for you, we can help you crush it on the small things. Making 
-                            small unexpected gestures lets her know you’re thinking of her and that she matters to you. 
-                        </p>
-                        <p>
-                            The following are some of the side-effects of doing the small things right: 
-                        </p>
-                        <ul>
-                            <li>Fewer Arguments</li>
-                            <li>She’ll Ignore the Little Things</li>
-                            <li>She’ll Reciprocate by Doing More of the Things You Want</li>
-                            <li>You’ll Stand Out Above the Crowd of Other Guys</li>
-                            <li>A More Exciting Relationship</li>
-                            <li>Fun Memories Together</li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-12 text-center top-20">
-                        <p class="col-lg-10 col-lg-offset-1">
-                            Surprise your girl a few times a year with a small gesture and she will make you a much happier guy for it. All it takes is one text. 
-                        </p>
-                    </div>
-                    <!-- <a href="#" class="btn btn-default btn-xl">Get Started!</a> -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Gestures End -->
-
-    <!-- New Section -->
-    <div style="width: 90%; height: 2px; margin: 0 5%; background-color: #B9B9B9"></div>
+    <div style="width: 90%; height: 4px; margin: 0 5%; background-color: #F0F0F0"></div>
 
     <!-- About Gifts -->
     <section id="about-gifts">
         <div class="container">
             <div class="row">
-                <div class="col-lg-10 col-lg-offset-1 wow">
+                <div class="col-lg-12 wow">
                     <h1 class="section-heading text-center">The Gifts</h1>
                     <!-- <hr class="light"> -->
                     <hr class="primary">
-                    <div class="col-sm-6">
-                        <img data-src="holder.js/300x300" alt="300x300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTA0YzhiOTYyMiB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MDRjOGI5NjIyIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA1NDY4NzUiIHk9Ijc0LjUiPjE0MHgxNDA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true" style="width: 400px; height: 300px;">
+                    <div class="col-sm-6 top-20">
+                        <img src="img/wrapped-gift.jpg" class="img-responsive" data-holder-rendered="true">
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 top-20">
                         <p>
                             Our Gifts are Foolproof, She’ll Love Getting Any One of Them. You Can’t Go Wrong!
                         </p>
-                        <ul>
-                            <li>Fresh Ideas: Two new gift boxes are developed every month </li>
-                            <li>Limited Release: Each gift is available for one month only</li>
-                            <li>Simple Pricing: $48 +shipping any time you order</li>
-                            <li>Hassle-Free Ordering: One-Text Order Process</li>
-                            <li>72-Hour Ordering Window: Order within 72 Hours to Lock in Your Gift for the Month</li>
-                            <li>Direct Delivery: Delivered wherever she is to maximize the surprise (plus she’ll get to show off how awesome you are and make her friends jealous!)</li>
-                        </ul>
+                        <div>
+                            <p class="top-0 bottom-0" style="font-size: 15px;"><b>Fresh Ideas:</b> Two new gift boxes are developed every month </p>
+                            <p class="top-10 bottom-0" style="font-size: 15px;"><b>limited Release:</b> Each gift is available for one month only</p>
+                            <p class="top-10 bottom-0" style="font-size: 15px;"><b>Simple Pricing:</b> $48 +shipping any time you order</p>
+                            <p class="top-10 bottom-0" style="font-size: 15px;"><b>Hassle-Free Ordering:</b> One-Text Order Process</p>
+                            <p class="top-10 bottom-0" style="font-size: 15px;"><b>72-Hour Ordering Window:</b> Order within 72 Hours to Lock in Your Gift for the Month</p>
+                            <p class="top-10 bottom-0" style="font-size: 15px;"><b>Direct Delivery:</b> Delivered wherever she is to maximize the surprise (plus she’ll get to show off how awesome you are and make her friends jealous!)</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,11 +241,13 @@
     </section>
     <!-- About Gifts End -->
 
+    <div style="width: 90%; height: 4px; margin: 0 5%; background-color: #F0F0F0"></div>
+
     <!-- Gift -->
-    <aside class="bg-dark" id="gifts">
+    <aside id="gifts">
         <div class="container text-center">
             <div class="call-to-action">
-                <h1>A Few of our Gifts</h1>
+                <h1>A Few Of Our Gifts</h1>
                 <hr />
             </div>
         </div>
@@ -256,7 +257,7 @@
         <div class="container-fluid">
             <div class="row no-gutter">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a class="portfolio-box">
                         <img src="img/gift-tiles/1.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -271,7 +272,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a class="portfolio-box">
                         <img src="img/gift-tiles/2.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -286,7 +287,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a class="portfolio-box">
                         <img src="img/gift-tiles/3.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -301,7 +302,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a class="portfolio-box">
                         <img src="img/gift-tiles/4.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -316,7 +317,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a class="portfolio-box">
                         <img src="img/gift-tiles/5.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -331,7 +332,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a class="portfolio-box">
                         <img src="img/gift-tiles/6.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -351,28 +352,55 @@
     <!-- Gift End -->
 
     <!-- SignUp -->
-    <section id="subscriptions" class="section-padding">
+    <section id="signup" class="section-padding signup">
         <div class="container">
             <div class="row wow animated fadeInDown animated">
                 <div class="col-md-12 text-center">
-                    <h1 class="">Sign Up!</h1>
-                    <h4>Take the next step to a happy her</h4>
-                    <p class="col-lg-10 col-lg-offset-1 text-muted">
+                    <h1 class="top-0">Sign Up!</h1>
+                    <hr class="light">
+                    <p class="h4 col-lg-10 col-lg-offset-1">
                         Start getting gift options she’ll love sent straight to your phone once a month. When you think 
                         it’s time to put a smile on her face, simply text back and we’ll handle the rest. It’s that easy.
                     </p>
                 </div>
             </div>
             
-            <div class="row price-list wow animated fadeInUp animated">
-                <div class="col-md-offset-3 col-md-7 col-sm-offset-2 col-sm-9 col-xs-12">
-                    <input type="text" class="form-control landing-phone-input pull-left" id="s-phone" placeholder="ENTER PHONE NUMBER" required />
+            <div class="row price-list wow animated fadeInUp animated top-30">
+                <div class="col-md-offset-3 col-md-7 col-sm-offset-2 col-sm-9 col-xs-12 bottom-40">
+                    <input type="text" class="form-control landing-phone-input pull-left" id="s-phone" placeholder="Enter Phone" required />
                     <button class="btn btn-primary btn-inline btn-xl col-xs-4 btn-get-gifts" id="s-signup" type="button" style="padding: 15px">Get Gift List</button>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <div>
+                                <i class="fa fa-3x fa-credit-card" data-wow-delay=".3s"></i>
+                            </div>
+                            <p>
+                                You are only charged when you order
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div>
+                                <i class="fa fa-3x fa-money" data-wow-delay=".3s"></i>
+                            </div>
+                            <p>
+                                100% refund if we don’t meet your expectations
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div>
+                                <i class="fa fa-3x fa-thumbs-o-up" data-wow-delay=".3s"></i>
+                            </div>
+                            <p class="bottom-0">
+                                No commitments, no minimum orders
+                            </p>
+                            <!-- <small> We (unlike some people) have no problem with an inability to commit ;) </small> -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Sucess  -->
-            <!-- <div class="row top-30" style="display: none;"> -->
             <div class="row top-30" id="success-message" style="display: none;">
                 <div class="alert alert-info col-md-offset-3 col-md-7 col-sm-offset-2 col-sm-9 col-xs-12">
                     You successfully signed up for our monthly gift list!  You will also receive your first txt message shortly with our limited signup gift list.  blah blah blah...
@@ -388,21 +416,58 @@
     <!-- SignUp Ends-->
 
     <!-- New Section -->
-    <div style="width: 90%; height: 2px; margin: 0 5%; background-color: #B9B9B9"></div>
+    <div style="width: 90%; height: 4px; margin: 0 5%; background-color: #F0F0F0"></div>
+
+    <!-- By Guys For Guys -->
+    <section id="by-guys-for-guys">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 wow">
+                    <h1 class="section-heading text-center">By Guys, For Guys</h1>
+                    <!-- <hr class="light"> -->
+                    <hr class="primary">
+                    <div class="col-sm-6 top-20">
+                        <h4><b>Our Story</b></h4>
+                        <p>
+                            We’re guys like you so we know it can be hard sometimes to keep the girl in your life feeling special. 
+                            We’ve sent flowers, tried making homemade gifts from Pinterest, ordered gifts from Etsy, bought teddy bears, 
+                            but usually we do nothing because it takes a lot of work to get it right.  We founded Surprise Her to 
+                            make it easier for you to make small gestures that have a huge impact. We send you one text per month 
+                            with two different gift boxes she’ll love available for that month only. If you want one sent to your girl, 
+                            text back. That’s how easy it is.
+                        </p>
+                        <p>
+                            Send a text, make her happier. No craft stores. No malls. No Pinterest, Etsy, or Amazon. 
+                        </p>
+                    </div>
+                    <div class="col-sm-6 top-20">
+                        <img src="img/wrapped-gift.jpg" class="img-responsive" data-holder-rendered="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- By Guys For Guys End -->
+
+    <!-- New Section -->
+    <div style="width: 90%; height: 4px; margin: 0 5%; background-color: #F0F0F0"></div>
 
     <!-- Contact Us -->
     <section id="contact">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center bottom-30">
-                    <h1 class="section-heading">Contact Us!</h1>
+                    <h1 class="section-heading">Contact Us</h1>
                     <hr class="primary">
-                    <h3>Have any questions? Feedback? Comments? Complements?</h3>
-                    <h3 class="top-0">Give us a hollar!</h3>
+                    <h3>Contact Us To:</h3>
+                    <h4 class="top-0">Have Your Questions Answered | Get Help with Any Issues | Share Your Experience!</h4>
                 </div>
                 <div class="col-lg-4 col-lg-offset-2 text-center">
                     <i class="fa fa-phone fa-3x wow bounceIn"></i>
-                    <h3>123.456.6789</h3>
+                    <!-- <h3>123.456.6789</h3> -->
+                    <h3>
+                        <a href="tel:+14123572016">123.456.6789</a>
+                    </h3>
                 </div>
                 <div class="col-lg-4 text-center">
                     <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
@@ -413,29 +478,74 @@
     </section>
     <!-- Contact Us End -->
 
+
     <!-- SignUp Modal -->
     <div class="modal fade" id="s-modal-signup">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
+                    <h3 class="modal-title text-center">Sign Up Options</h3>
                 </div>
                 <div class="modal-body">
-                    <p>One fine body&hellip;</p>
+                    <p>
+                        You’re now signed up to have 2 gift options texted to you on the 20th of each 
+                        month. Once you find a gift you like, all you have to do is text back when and 
+                        where and your gift will be on the way. 
+                    </p>
+                    <p>
+                        To enable one-text ordering now, click below to complete your registration. 
+                        Otherwise, you can complete registration when you order your first gift.  
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 text-right">
+                        <small class="help-block top-20">
+                            By continuing, I agree to the 
+                            <a href="#" target="_blank">
+                                Terms of Service
+                            </a>
+                        </small>
                     </div>
-                    <div class="modal-footer">
-                    <a type="button" class="btn btn-secondary" id="s-just-get-text" data-dismiss="modal">No Thanks</a>
-                    <a type="button" class="btn btn-primary" id="s-goto-signup" href="/signup" style="padding: 8px 12px;">Finish Signup!</a>
+                    <a type="button" class="btn btn-secondary" id="s-just-get-text" data-dismiss="modal" style="padding: 8px 10px;">Just Get Texts</a>
+                    <a type="button" class="btn btn-primary" id="s-goto-signup" href="/signup" style="padding: 10px 11px;">Finish Signup!</a>
                 </div>
             </div>
         </div>
     </div>
     <!-- SignUp Modal End -->
 
-    <footer>
-        
-    </footer>
+    <div class="base">
+        <div class="container top-20">
+            <div class="row">
+                <div class="col-sm-4 text-center">
+                    <i class="fa fa-2x fa-facebook" style="margin: 0px 10px" data-wow-delay=".3s"></i>
+                    <i class="fa fa-2x fa-twitter" style="margin: 0px 10px" data-wow-delay=".3s"></i>
+                    <i class="fa fa-2x fa-pinterest" style="margin: 0px 10px" data-wow-delay=".3s"></i>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <div>
+                        © COPYRIGHT 2015 SURPRISEHER
+                    </div>
+                    <div>
+                        Our
+                        <a href="#" target="_blank">
+                            Terms of Service
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <div>
+                        P: <a href="tel:+14123572016">123.456.6789</a>
+                    </div>
+                    <div>
+                        E: <a href="mailto:your-email@your-domain.com">hello@surpriseHer.com</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery -->
     <script src="js/libs/jquery.js"></script>

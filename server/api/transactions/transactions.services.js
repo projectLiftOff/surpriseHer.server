@@ -1,3 +1,5 @@
+"use strict"
+
 const moment = require("moment")
 const twilio = require("twilio")
 const log = require("./../../config/log.js")

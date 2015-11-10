@@ -4,17 +4,18 @@ const winstonSlack = require("winston-bishop-slack").Slack
 winston.emitErrs = true
 const winstonLogger = new winston.Logger({
   transports: [
-    new winston.transports.File({
-      level: "info",
-      filename: "./logs/all.log",
-      name: "file.all",
-      handleExceptions: true,
-      json: true,
-      timestamp: true,
-      maxsize: 5242880, // 5MB
-      maxFiles: 5,
-      colorize: true
-    }),
+    // new winston.transports.Console({
+    //   level: "info",
+    //   // filename: "./logs/all.log",
+    //   // name: "file.all",
+    //   handleExceptions: true,
+    //   json: true,
+    //   timestamp: true,
+    //   // maxsize: 5242880, // 5MB
+    //   // maxFiles: 5,
+    //   colorize: true,
+    //   prettyPrint: true
+    // }),
 
     new winston.transports.Console({
       level: "debug",
@@ -23,19 +24,20 @@ const winstonLogger = new winston.Logger({
       timestamp: true,
       colorize: true,
       prettyPrint: true
-    }),
-
-    new winston.transports.File({
-      level: "error",
-      filename: "./logs/error.log",
-      name: "file.error",
-      handleExceptions: true,
-      json: true,
-      timestamp: true,
-      maxsize: 5242880, // 5MB
-      maxFiles: 5,
-      colorize: true
     })
+
+    // new winston.transports.Console({
+    //   level: "error",
+    //   // filename: "./logs/error.log",
+    //   // name: "file.error",
+    //   handleExceptions: true,
+    //   json: true,
+    //   timestamp: true,
+    //   // maxsize: 5242880, // 5MB
+    //   maxFiles: 5,
+    //   prettyPrint: true
+    //   // colorize: true
+    // })
   ],
   exitOnError: false,
   colors: {

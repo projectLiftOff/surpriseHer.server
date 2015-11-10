@@ -14,6 +14,7 @@ routes(app)
 // todo const monthlyGiftMessenger = require("./services/schedulers/monthly.schedule.js")
 // todo monthlyGiftMessenger.monthlyScheduler()
 
-const port = 6060
+const port = process.env.PORT || 6060;
+const host = process.env.HOST || '0.0.0.0';
 app.listen(port)
 log.info("listening to PORT:", port)

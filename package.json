@@ -2,10 +2,15 @@
   "name": "gentleman.server",
   "version": "0.0.1",
   "description": "Server for ***ThoughtfulGentleman",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
-    "start": "mysql.server start; node_modules/.bin/nodemon --use_strict server/server.js",
-    "lint": "node_modules/.bin/eslint ./**/*.js --fix"
+    "start": "node server/server.js",
+    "sql": "mysql.server start",
+    "lint": "node_modules/.bin/eslint ./**/*.js --fix",
+    "tail": "azure site log tail testsurpriseher"
+  },
+  "engines": {
+    "node": "4.0.0"
   },
   "repository": {
     "type": "git",

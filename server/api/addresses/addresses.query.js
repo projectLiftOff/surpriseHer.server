@@ -19,3 +19,7 @@ exports.ofUserWithPhone = (phone, callback) => {
 exports.ofUserAndCode = (data, callback) => {
   connection.query("SELECT address_id FROM addresses WHERE code_name = ? AND user_id = ?", data, callback)
 }
+
+exports.findByUserAndName = (userId, name, callback) => {
+  connection.query("SELECT * FROM addresses WHERE user_id = ? AND code_name = ?", [userId, name], callback)
+}

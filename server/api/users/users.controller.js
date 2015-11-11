@@ -1,5 +1,6 @@
 const Users = require("./users.query.js")
 const Addresses = require("../addresses/addresses.query.js")
+const Transactions = require("../transactions/transactions.controller.js")
 const payments = require("../payments/payments.controller.js")
 const async = require("async")
 const log = require("../../config/log.js")
@@ -23,13 +24,14 @@ function createUser (data, callback) { // data: {user, addresses, payments}
   Users.create(data.user, (error, results) => {
     if (error) { return callback({message: "createUser error", error, user: data.user}) }
     data.user_id = results.insertId
-    log.debug("created user", data.user)
+    log.debug("Created user", data.user)
     return callback(null, data)
   })
 }
 
 function addAddresses (data, callback) {
   const pendingQueries = {count: 0}
+  const codeNames = data.addresses.map(a => a.code_name)
   data.addresses.forEach(address => {
     pendingQueries.count = pendingQueries.count + 1
     address.user_id = address.user_id || data.user_id
@@ -37,7 +39,7 @@ function addAddresses (data, callback) {
       if (error) { return callback({message: "address create failed", error, address}) }
       pendingQueries.count = pendingQueries.count - 1
       if (pendingQueries.count === 0) {
-        log.debug("created addresses for user", data.user.user_id, data.addresses)
+        log.debug(`Created addresses ${codeNames} for user ${data.user_id}`)
         return callback(null, data)
       }
     })
@@ -47,7 +49,6 @@ function addAddresses (data, callback) {
 function addBraintreeCustomer (data, callback) {
   payments.createCustomer(data.payments.nonce, (error, customerId) => {
     if (error) { return callback({message: "addBraintreeCustomer error", error}) }
-    log.debug("created Braintree customer", customerId, "for user", data.user_id)
     data.user.braintree_id = customerId
     return callback(null, data)
   })
@@ -61,10 +62,11 @@ function markCompleted (data, callback) {
 function updateUser (data, callback) {
   return Users.update([data.user, data.user_id], error => {
     if (error) { return callback({message: "user update failed", error, user: data.user, user_id: data.user_id}) }
-    log.debug("updated user", data.user, data.user_id)
+    log.debug(`Updated user ${data.user_id}`)
     return callback(null, data)
   })
 }
+
 
 exports.createIncomplete = (req, res) => {
   const data = {user: {phone: req.body.phone, tos: req.body.tos, registration_complete: 0}}
@@ -80,7 +82,13 @@ exports.createIncomplete = (req, res) => {
 }
 
 exports.createComplete = (req, res) => {
-  async.seq(markCompleted, createUser, addAddresses, addBraintreeCustomer, updateUser)(req.body, error => {
+  async.seq(
+    markCompleted,
+    createUser,
+    addAddresses,
+    addBraintreeCustomer,
+    updateUser
+  )(req.body, error => {
     if (error) {
       log.error({error})
       res.status(httpStatus["Bad Request"].code).send(error)
@@ -93,7 +101,13 @@ exports.createComplete = (req, res) => {
 exports.finishRegistration = (req, res) => {
   const data = req.body
   data.user_id = req.params.id
-  async.seq(markCompleted, addAddresses, addBraintreeCustomer, updateUser)(data, error => {
+  async.seq(
+    markCompleted,
+    addAddresses,
+    addBraintreeCustomer,
+    updateUser,
+    Transactions.completePendingTransaction
+  )(data, error => {
     if (error) {
       log.error({error})
       res.status(httpStatus["Bad Request"].code).send(error)

@@ -49,9 +49,13 @@ function validateDate (data, callback) { // TODO
 function validateGift (data, callback) { // TODO
   return callback(null, data)
 }
-function createPendingTransaction (data, callback) {
+function validateAddress (data, callback) { // TODO
+  // if user.registration_complete && address bad, fail out else continue
+  return callback(null, data)
+}
+function createTransaction (data, callback) {
   data.transaction = {
-    status: "pending user registration",
+    status: data.user.registration_complete ? "unfilfilled" : "pending user registration",
     user_id: data.user.id,
     gift_id: data.gift.id,
     address_id: data.address ? data.address.id : null,
@@ -75,9 +79,6 @@ function finishRegistrationIfIncomplete (data, callback) { // TODO
     return callback(null, data)
   }
 }
-function validateAddress (data, callback) { // TODO
-  return callback(null, data)
-}
 function chargeUser (data, callback) {
   Payments.charge(data.user.braintree_id, data.gift.price, error => {
     if (error) { return callback({message: "payment failed", error, data}) }
@@ -86,7 +87,10 @@ function chargeUser (data, callback) {
   })
 }
 function completeTransaction (data, callback) {
-  data.transaction.status = "unfulfilled"
+  data.transaction.status = "unfilfilled"
+  return callback(null, data)
+}
+function updateTransaction (data, callback) {
   return Transactions.update(data.transaction_id, data.transaction, error => {
     if (error) { return callback({message: "transaction update failed", error, data}) }
     return callback(null, data)
@@ -107,11 +111,11 @@ exports.create = (req, res) => {
     parseUserText,
     validateDate,
     validateGift,
-    createPendingTransaction,
-    finishRegistrationIfIncomplete,
     validateAddress,
+    createTransaction,
+    finishRegistrationIfIncomplete,
     chargeUser,
-    completeTransaction
+    updateTransaction
   )(data, error => {
     if (error) {
       log.error({error})
@@ -126,7 +130,7 @@ exports.create = (req, res) => {
 function latestPendingTransactionForUser (data, callback) {
   Transactions.pendingUserRegistration(data.user_id, (error, transactions) => {
     if (error) { return callback({message: `error finding latest pending transaction for user ${data.user_id}`, error, data}) }
-    if (transactions.length !== 1) { return callback({message: `Latest pending transactions for user ${data.user_id} returned wrong number of results`}) }
+    if (transactions.length !== 1) { return callback({message: `Latest pending transactions for user ${data.user_id} returned wrong number of results`}) } // TODO handle multiple pending transactions
     data.transaction = transactions[0]
     log.debug("Found transaction", data.transaction)
     return callback(null, data)
@@ -161,8 +165,9 @@ exports.completePendingTransaction = (data, callback) => {
     latestPendingTransactionForUser,
     selectTransactionGift,
     selectTransactionAddress,
+    completeTransaction,
     chargeUser,
-    completeTransaction
+    updateTransaction
   )(data, error => {
     if (error) { return callback({message: `error completing pending transaction for user ${data.user_id}`, error}) }
     log.debug("Pending transaction completed for registering user!")

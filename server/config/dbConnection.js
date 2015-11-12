@@ -1,5 +1,8 @@
+"use strict"
+
 const mysql = require("mysql")
 const log = require("./log.js")
+const dbReconnectionInterval = 3000
 
 function connectToDB () {
   const connection_params = {
@@ -8,8 +11,13 @@ function connectToDB () {
     password: process.env.db_password || "",
     database: process.env.db_database || "gentleman"
   }
-  log.debug({connection_params})
-  const connection = mysql.createConnection(connection_params)
+  let connection = mysql.createConnection(connection_params)
+  connection.on("error", err => {
+    log.error("ARMANDO DOESN'T BELIEVE", err.code)
+    setTimeout(() => {
+      connection = connectToDB()
+    }, dbReconnectionInterval)
+  })
   connection.connect(error => {
     if (error) {
       log.debug("Error connecting to db.", {error})

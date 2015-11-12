@@ -8,7 +8,7 @@ const async = require("async")
 // const txtMessenger = require("../../services/twilio/twilio.main.js")
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
-const finishRegistrationUrl = "http://localhost:6060/signup"
+const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://testsurpriseher.azurewebsites.net/signup" : "http://localhost:6060/signup"
 
 function findUserFromPhone (data, callback) {
   // phone -> User

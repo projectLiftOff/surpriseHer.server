@@ -68,8 +68,8 @@
             $('#s-signup-incomplete-success').show();
         }
         function onError( error ){
-            console.log('FAILED: user updated!!');
-            $('#s-formError').text().show();
+            console.log('FAILED: user updated!!', arguments);
+            $('#s-formError').text('error').show();
         }
     }
 

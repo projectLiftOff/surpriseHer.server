@@ -1,6 +1,6 @@
 const Transactions = require("./transactions.query.js")
 const Payments = require("../payments/payments.controller.js")
-// const TransactionsServices = require("./transactions.services.js")
+const TransactionsServices = require("./transactions.services.js")
 const Gifts = require("../gifts/gifts.query.js")
 const Addresses = require("../addresses/addresses.query.js")
 const Users = require("../users/users.query.js")
@@ -11,8 +11,8 @@ const httpStatus = require("../../../httpStatuses.json")
 const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://testsurpriseher.azurewebsites.net/signup" : "http://localhost:6060/signup"
 
 function findUserFromPhone (data, callback) {
-  // phone -> User
-  Users.findByPhone(data.phone, (error, user) => {
+  const userPhone = TransactionsServices.formatPhoneForQuery( data.phone );
+  Users.findByPhone(userPhone, (error, user) => {
     if (error) { return callback({message: "findUserFromPhone error", error, data}) }
     if (!user.length) { return callback({message: `User with phone ${data.phone} does not exist`}) }
     data.user = user[0]
@@ -24,8 +24,7 @@ function parseUserText (data, callback) {
   data.dayOfMonth = parsedText[0]
   data.giftName = parsedText[1]
   data.addressName = parsedText[2]
-  // async.parallel(dateFromDayOfMonth, giftFromName, addressFromName)
-  data.date = `${(new Date()).getMonth() + 1}/${data.dayOfMonth}`
+  data.date = `${ ((new Date()).getMonth() + 2) === 13 ? 1 : ((new Date()).getMonth() + 2) }/${data.dayOfMonth}`
   Gifts.findByName(data.giftName, (giftError, gift) => {
     if (giftError) { return callback({message: "findGiftByName error", giftError, data}) }
     if (!gift.length) { return callback({message: `Gift with name ${data.giftName} does not exist`}) }
@@ -68,7 +67,7 @@ function createTransaction (data, callback) {
   })
 }
 function sendFinishRegistrationText (data) {
-  const message = `We'll get your '${data.gift.gift_name}' ready for ${data.date}! To confirm your order, please enter your shipping address and payment here: ${finishRegistrationUrl}?u=${data.user.id}`
+  const message = `We'll get your '${data.gift.gift_name}' ready for ${data.date}! To confirm your order, please enter your shipping address and payment here: ${finishRegistrationUrl}?u=${data.user.id}` //'
   log.error({message})
 }
 function finishRegistrationIfIncomplete (data, callback) { // TODO
@@ -108,10 +107,10 @@ exports.create = (req, res) => {
   }
   async.seq(
     findUserFromPhone,
-    parseUserText,
     validateDate,
     validateGift,
     validateAddress,
+    parseUserText,
     createTransaction,
     finishRegistrationIfIncomplete,
     chargeUser,
@@ -119,10 +118,14 @@ exports.create = (req, res) => {
   )(data, error => {
     if (error) {
       log.error({error})
+      // TODO: send proper error message by txt
       res.status(httpStatus["Bad Request"].code).send(error)
     } else {
       log.debug("Completed transaction created for registered user!")
-      res.sendStatus(httpStatus.Created.code)
+      // C: assumes res is always a response to a txting service (twilio)
+      const message = TransactionsServices.composeSuccessMessage(data, true)
+      res.set("Content-Type", "text/xml")
+      res.status(httpStatus.OK.code).send(message)
     }
   })
 }

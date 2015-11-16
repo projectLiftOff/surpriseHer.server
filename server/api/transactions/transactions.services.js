@@ -80,21 +80,13 @@ exports.sendErrorMessage = (message, res) => {
   res.set("Content-Type", "text/xml")
   res.status(httpStatus["Bad Request"].code).send(twiml.toString())
 }
-exports.sendSuccessMessageCR = (reqData, res) => {
+exports.composeSuccessMessage = (data, userRegistered) => {
   const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
-  const message = `Your order of ${reqData.giftsOfTheMonth[reqData.gift].gift_name} has been placed and will be shipped on ${reqData.date}. If there are any issues please email us: akjdlfj@kasdjfl.com or call us @ 555555555` // Todo add real values
+  let message = "";
+  if(userRegistered) message = `Your order of ${data.gift.gift_name} has been placed and will be shipped on ${data.date}. If there are any issues please email us: akjdlfj@kasdjfl.com or call us @ 555.555.5555` // Todo add real values
+  else message = `Your order of ${data.gift.gift_name} has been placed! To finish up the process please complete your registration and provide a billing option by clicking on the following link: ${url}?u=${data.user.id}`
   twiml.message(message)
-  res.set("Content-Type", "text/xml")
-  res.status(httpStatus.OK.code).send(twiml.toString())
-}
-
-exports.sendSuccessMessageIR = (reqData, res) => {
-  // const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
-  const message = `Your order of ${reqData.giftsOfTheMonth[reqData.gift].gift_name} has been placed! To finish up the process please complete your registration and provide a billing option by clicking on the following link: ${url}?u=${reqData.userId}`
-  // twiml.message(message)
-  // res.set("Content-Type", "text/xml")
-  // res.status(httpStatus.OK.code).send(twiml.toString())
-  res.status(httpStatus.OK.code).send(message)
+  return twiml.toString()
 }
 exports.formatPhoneForQuery = phone => {
   const phoneFormated = []

@@ -1,4 +1,4 @@
-const localInfo = [process.env.NODE_ENV, process.env.USER, process.env.LOGNAME]
+const localInfo = [process.env.NODE_ENV, process.env.USER]
 const isProduction = process.env.NODE_ENV === "production"
 const winston = require("winston")
 const winstonSlack = require("winston-bishop-slack").Slack

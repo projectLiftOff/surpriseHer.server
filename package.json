@@ -5,6 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
+    "db": "mysql.server restart",
     "sql": "mysql.server restart",
     "lint": "node_modules/.bin/eslint ./**/*.js --fix",
     "tail": "azure site log tail testsurpriseher"

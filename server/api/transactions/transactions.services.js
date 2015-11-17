@@ -8,7 +8,11 @@ const userErrorMessageLookUp = {
   phoneNumberNotFound: "Hmm... we don't seem to recognize this number... to register for awesome gifts! go to surpriseher.com",
   wrongNumberArgumentsCompleteUser: "Please only send the following info: date, gift, address. In the following format: \n \n date gift address",
   wrongNumberArgumentsIncompleteUser: "Please only send the following info: date and gift. In the following format: \n \n date gift",
-  // noAddress: "Hmm.. there seems to be a problem with your address.. please contact customer support",
+  invalidDate: "You have provided an invalid date. Please correct the error and text us back!",
+  invalidGiftName: "You have provided an invalid gift. Please correct the error and text us back!",
+  invalidAddressCodeName: "You have provided an invalid gift. Please correct the error and text us back!",
+  paymentFaild: "Hmm.. Seems like there was a problem charging your card... please contact customer support: adfkjdf@ask.com or 444444444 ",
+  giftNotAvalible: "Hmm... the gift you ordered is not avalible this month, please order one of the gifts provided in this months list",
   // secondTransaction: "You have already ordered a gift this month... If you want to change your order or order an additional gift please contact customer support",
   // missedOrderWindow: "Sorry but you missed the order window... but dont worry in about XXX days we are going to have another gift choice!!",
   generic: "oops.. looks like there was an error please try again or contact customer support: adfkjdf@ask.com or 444444444"
@@ -16,52 +20,6 @@ const userErrorMessageLookUp = {
 const url = "idk" // todo
 const digitsInPhone = 10
 
-exports.organizeDataCR = dataStr => {
-  const data = {}
-  if (!dataStr) {
-    data.errorMessage = "Please send the following info: date, gift and address"
-    log.error("empty user response to organizeDataCR", {dataStr})
-    return data
-  }
-  const dataList = dataStr.split(" ")
-  data.date = dataList[0]
-  data.gift = dataList[1]
-  data.address = dataList[2]
-  data.giftsOfTheMonth = {}
-  if (dataList.length !== ["date", "gift", "address"].length) {
-    data.errorMessage = "Please only send the following info: date, gift and address."
-    log.error("malformed user response to organizeDataCR", {dataList})
-  }
-  return data
-}
-exports.organizeDataIR = dataStr => {
-  const data = {}
-  if (!dataStr) {
-    data.errorMessage = "Please send the following info: date, gift"
-    log.error("empty user response to organizeDataIR", {dataStr})
-    return data
-  }
-  const dataList = dataStr.split(" ")
-  data.date = dataList[0]
-  data.gift = dataList[1]
-  data.giftsOfTheMonth = {}
-  if (dataList.length !== 2) {
-    data.errorMessage = "Please only send the following info: date, gift."
-    log.error("malformed user response to organizeDataIR", {dataList})
-  }
-  return data
-}
-exports.verifyDate = data => {
-  data.date = data.date.trim()
-  for (let i = 0; i < data.date.length; i = i + 1) {
-    if (!(/\d/).test(data.date[i])) { return "You have provided an invalid format for the selected date." }
-  }
-  if (data.date.length > 2) { return "You have provided an invalid format for the selected date." }
-  const dateStr = `${moment().get("year")} ${data.date} ${(moment().get("month") + 1)}`
-  const date = moment(dateStr, "YYYY DD MM")
-  if (!date.isValid()) { return "You have provided an invalid date." }
-  return ""
-}
 exports.createDate = () => {
   const date = {}
   const currentDate = new Date()
@@ -71,20 +29,9 @@ exports.createDate = () => {
   date.month = currentDate.getMonth() + 1
   return date
 }
-exports.sendErrorMessage = (message, res) => {
-  log.debug("---- Inside sendErrorMessage Message: \n", message, "\n")
-  if (Boolean(errorMessageLookUp[message])) {
-    message = errorMessageLookUp[message]
-  } else {
-    log.error("error message lookup failed", {message})
-  }
-  const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
-  twiml.message(message)
-  res.set("Content-Type", "text/xml")
-  res.status(httpStatus["Bad Request"].code).send(twiml.toString())
-}
 exports.composeSuccessMessage = composeSuccessMessage
 exports.formatPhoneForQuery = formatPhoneForQuery
+exports.getErrorMessage = getErrorMessage
 
 function getErrorMessage( errorCode ) {
   errorCode = !errorCode ? 'generic' : errorCode;

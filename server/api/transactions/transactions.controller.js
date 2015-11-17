@@ -13,36 +13,29 @@ const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://te
 function findUserFromPhone (data, callback) {
   const userPhone = TransactionsServices.formatPhoneForQuery( data.phone );
   Users.findByPhone(userPhone, (error, user) => {
-    if (error) { return callback({message: "findUserFromPhone error", error, data}) }
-    if (!user.length) { return callback({message: `User with phone ${data.phone} does not exist`}) }
+    if (error) { return callback({message: "Users.findByPhone Error", error, data}) }
+    if (!user.length) { return callback({userMessageCode:'phoneNumberNotFound', message: `User with phone ${data.phone} does not exist`}) }
     data.user = user[0]
     return callback(null, data)
   })
 }
-function parseUserText (data, callback) {
-  const parsedText = data.userText.split(" ")
-  data.dayOfMonth = parsedText[0]
+function organizeUserText (data, callback) {
+  const dataList = data.userText.split(" ").filter(function(elm){ return elm !== "" })
+  if( dataList.length !== ["date", "gift", "address"].length || dataList.length !== ["date", "gift"].length ) {
+    const userMessageCode = data.user.registration_complete ? "wrongNumberArgumentsCompleteUser" : "wrongNumberArgumentsIncompleteUser"
+    return callback({message: "Wrong Number of Arguments error", data, userMessageCode})
+  }
+  data.dayOfMonth = dataList[0];
   data.giftName = parsedText[1]
-  data.addressName = parsedText[2]
-  data.date = `${ ((new Date()).getMonth() + 2) === 13 ? 1 : ((new Date()).getMonth() + 2) }/${data.dayOfMonth}`
-  Gifts.findByName(data.giftName, (giftError, gift) => {
-    if (giftError) { return callback({message: "findGiftByName error", giftError, data}) }
-    if (!gift.length) { return callback({message: `Gift with name ${data.giftName} does not exist`}) }
-    data.gift = gift[0]
-    if (data.addressName) {
-      Addresses.findByUserAndName(data.user.id, data.addressName, (addressError, address) => {
-        if (addressError) { return callback({message: "findAddressByUserAndName error", addressError, data}) }
-        if (!address.length) { return callback({message: `Address with name ${data.addressName} for user ${data.user.id} does not exist`}) }
-        data.address = address[0]
-        return callback(null, data)
-      })
-    } else {
-      data.address = null
-      return callback(null, data)
-    }
-  })
+  data.addressCodeName = parsedText[2]
+  callback(null, data)
 }
 function validateDate (data, callback) { // TODO
+  const dateStr = `${moment().get("year")} ${(moment().get("month") + 1)} ${data.dayOfMonth}`
+  const date = moment(dateStr, "YYYY MM DD", true)
+  if (!date.isValid()) { 
+    return callback({message: "User entered invalid date", data, userMessageCode: "invalidDate"})
+  }
   return callback(null, data)
 }
 function validateGift (data, callback) { // TODO
@@ -51,6 +44,29 @@ function validateGift (data, callback) { // TODO
 function validateAddress (data, callback) { // TODO
   // if user.registration_complete && address bad, fail out else continue
   return callback(null, data)
+}
+function parseUserText (data, callback) {
+  const parsedText = data.userText.split(" ")
+  data.dayOfMonth = parsedText[0]
+  data.giftName = parsedText[1]
+  data.addressCodeName = parsedText[2]
+  data.date = `${ ((new Date()).getMonth() + 2) === 13 ? 1 : ((new Date()).getMonth() + 2) }/${data.dayOfMonth}`
+  Gifts.findByName(data.giftName, (giftError, gift) => {
+    if (giftError) { return callback({message: "findGiftByName error", giftError, data}) }
+    if (!gift.length) { return callback({message: `Gift with name ${data.giftName} does not exist`}) }
+    data.gift = gift[0]
+    if (data.addressCodeName) {
+      Addresses.findByUserAndName(data.user.id, data.addressCodeName, (addressError, address) => {
+        if (addressError) { return callback({message: "findAddressByUserAndName error", addressError, data}) }
+        if (!address.length) { return callback({message: `Address with code name ${data.addressCodeName} for user ${data.user.id} does not exist`}) }
+        data.address = address[0]
+        return callback(null, data)
+      })
+    } else {
+      data.address = null
+      return callback(null, data)
+    }
+  })
 }
 function createTransaction (data, callback) {
   data.transaction = {
@@ -116,15 +132,15 @@ exports.create = (req, res) => {
     chargeUser,
     updateTransaction
   )(data, error => {
+    // C: assumes res is always a response to a txting service (twilio)
+    res.set("Content-Type", "text/xml")
     if (error) {
       log.error({error})
-      // TODO: send proper error message by txt
-      res.status(httpStatus["Bad Request"].code).send(error)
+      const errorTxtMessage = TransactionsServices.getErrorMessage( error.userMessageCode )
+      res.status(httpStatus["Bad Request"].code).send(errorTxtMessage)
     } else {
       log.debug("Completed transaction created for registered user!")
-      // C: assumes res is always a response to a txting service (twilio)
       const message = TransactionsServices.composeSuccessMessage(data, true)
-      res.set("Content-Type", "text/xml")
       res.status(httpStatus.OK.code).send(message)
     }
   })

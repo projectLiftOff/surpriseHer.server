@@ -146,10 +146,11 @@ exports.create = (req, res) => {
   })
 }
 
+// TODO: should handle multiple pending transactions
 function latestPendingTransactionForUser (data, callback) {
   Transactions.pendingUserRegistration(data.user_id, (error, transactions) => {
     if (error) { return callback({message: `error finding latest pending transaction for user ${data.user_id}`, error, data}) }
-    if (transactions.length !== 1) { return callback({message: `Latest pending transactions for user ${data.user_id} returned wrong number of results`}) } // TODO handle multiple pending transactions
+    if (transactions.length !== 1) { return callback({message: `Latest pending transactions for user ${data.user_id} returned wrong number of results`, data}) } // TODO handle multiple pending transactions
     data.transaction = transactions[0]
     log.debug("Found transaction", data.transaction)
     return callback(null, data)
@@ -158,7 +159,7 @@ function latestPendingTransactionForUser (data, callback) {
 function selectTransactionGift (data, callback) {
   Gifts.findById(data.transaction.gift_id, (error, results) => {
     if (error) { return callback({message: `error finding gift by id ${data.transaction.gift_id}`, error, data}) }
-    if (results.length !== 1) { return callback({message: `Gift ${data.transaction.gift_id} returned wrong number of results`, results}) }
+    if (results.length !== 1) { return callback({message: `Gift ${data.transaction.gift_id} returned wrong number of results`, results, data}) }
     data.gift = results[0]
     log.debug(`Found gift ${data.gift.gift_name}`)
     callback(null, data)
@@ -167,7 +168,7 @@ function selectTransactionGift (data, callback) {
 function selectTransactionAddress (data, callback) {
   Addresses.findByUserAndName(data.user_id, data.address_name, (error, results) => {
     if (error) { return callback({message: `error finding address for user ${data.user_id} with name ${data.address_name}`, error, data}) }
-    if (results.length !== 1) { return callback({message: `Address for user ${data.user_id} with name ${data.address_name} returned wrong number of results`, results}) }
+    if (results.length !== 1) { return callback({message: `Address for user ${data.user_id} with name ${data.address_name} returned wrong number of results`, results, data}) }
     data.address = results[0]
     log.debug(`Found address ${data.address.full_address}`)
     callback(null, data)
@@ -190,7 +191,7 @@ exports.completePendingTransaction = (data, callback) => {
     chargeUser,
     updateTransaction
   )(data, error => {
-    if (error) { return callback({message: `error completing pending transaction for user ${data.user_id}`, error}) }
+    if (error) { return callback({message: `error completing pending transaction for user ${data.user_id}`, error, data}) }
     log.debug("Pending transaction completed for registering user!")
     return callback(null, data)
   })

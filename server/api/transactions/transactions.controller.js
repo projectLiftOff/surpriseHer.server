@@ -13,7 +13,6 @@ const startOfOrderWindowDay = 25;
 const endOfOrderWindowDay = 29;
 const endOfOrderWindowHour = 3;
 
-
 function validateOrderWindow( data, callback ) {
   const today = moment().date()
   const hour = moment().hour()

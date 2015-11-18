@@ -4,31 +4,10 @@ const moment = require("moment")
 const twilio = require("twilio")
 const log = require("./../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
-const userErrorMessageLookUp = {
-  phoneNumberNotFound: "Hmm... we don't seem to recognize this number... to register for awesome gifts! go to surpriseher.com",
-  wrongNumberArgumentsCompleteUser: "Please only send the following info: date, gift, address. In the following format: \n \n date gift address",
-  wrongNumberArgumentsIncompleteUser: "Please only send the following info: date and gift. In the following format: \n \n date gift",
-  invalidDate: "You have provided an invalid date. Please correct the error and text us back!",
-  invalidGiftName: "You have provided an invalid gift. Please correct the error and text us back!",
-  invalidAddressCodeName: "You have provided an invalid gift. Please correct the error and text us back!",
-  paymentFaild: "Hmm.. Seems like there was a problem charging your card... please contact customer support: adfkjdf@ask.com or 444444444 ",
-  giftNotAvalible: "Hmm... the gift you ordered is not avalible this month, please order one of the gifts provided in this months list",
-  // secondTransaction: "You have already ordered a gift this month... If you want to change your order or order an additional gift please contact customer support",
-  missedOrderWindow: "Sorry but you missed the order window... but don't worry we send out a new gift list on the 25th of each month!",
-  generic: "oops.. looks like there was an error please try again or contact customer support: adfkjdf@ask.com or 444444444"
-}
+const UserErrorMessageLookUp = require("./transactions.errors.js")
 const url = "idk" // todo
 const digitsInPhone = 10
 
-exports.createDate = () => {
-  const date = {}
-  const currentDate = new Date()
-  date.day = currentDate.getDate()
-  date.hour = currentDate.getHours()
-  date.year = currentDate.getFullYear()
-  date.month = currentDate.getMonth() + 1
-  return date
-}
 exports.composeSuccessMessage = composeSuccessMessage
 exports.formatPhoneForQuery = formatPhoneForQuery
 exports.getErrorMessage = getErrorMessage
@@ -36,7 +15,7 @@ exports.getErrorMessage = getErrorMessage
 function getErrorMessage( errorCode ) {
   errorCode = !errorCode ? 'generic' : errorCode;
   const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
-  const message = userErrorMessageLookUp[errorCode]
+  const message = UserErrorMessageLookUp[errorCode]
   twiml.message(message)
   return twiml.toString()
 }

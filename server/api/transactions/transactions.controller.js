@@ -6,11 +6,22 @@ const Addresses = require("../addresses/addresses.query.js")
 const Users = require("../users/users.query.js")
 const async = require("async")
 const moment = require("moment")
-// const txtMessenger = require("../../services/twilio/twilio.main.js")
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
 const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://testsurpriseher.azurewebsites.net/signup" : "http://localhost:6060/signup"
+const startOfOrderWindowDay = 25;
+const endOfOrderWindowDay = 29;
+const endOfOrderWindowHour = 3;
 
+
+function validateOrderWindow( data, callback ) {
+  const today = moment().date()
+  const hour = moment().hour()
+  if( today < startOfOrderWindowDay || today > endOfOrderWindowDay || (today === endOfOrderWindowDay && hour > endOfOrderWindowHour) ) {
+    return callback({userMessageCode:'missedOrderWindow', message: `user missed order window`, data})
+  }
+  return callback(null, data)
+}
 function findUserFromPhone (data, callback) {
   const userPhone = TransactionsServices.formatPhoneForQuery( data.phone );
   Users.findByPhone(userPhone, (error, user) => {
@@ -55,7 +66,9 @@ function validateAddress (data, callback) {
   if (data.user.registration_complete) {
     Addresses.findByUserAndName(data.user.id, data.addressCodeName, (addressError, address) => {
       if (addressError) { return callback({message: "findAddressByUserAndName error", addressError, data}) }
-      if (!address.length) { return callback({message: `Address with code name ${data.addressCodeName} for user ${data.user.id} does not exist`, data, userMessageCode: "invalidAddressCodeName"}) }
+      if (!address.length) { 
+        return callback({message: `Address with code name ${data.addressCodeName} for user ${data.user.id} does not exist`, data, userMessageCode: "invalidAddressCodeName"}) 
+      }
       data.address = address[0]
       return callback(null, data)
     })
@@ -89,10 +102,6 @@ function chargeUser (data, callback) {
   }
   else { return callback(null, data) }
 }
-function completeTransaction (data, callback) {
-  data.transaction.status = "unfilfilled"
-  return callback(null, data)
-}
 function updateTransaction (data, callback) {
   if( data.transaction ) {
     return Transactions.update(data.transaction_id, data.transaction, error => {
@@ -113,6 +122,7 @@ exports.create = (req, res) => {
     address: null
   }
   async.seq(
+    validateOrderWindow,
     findUserFromPhone,
     organizeUserText,
     validateDate,
@@ -163,6 +173,10 @@ function selectTransactionAddress (data, callback) {
     log.debug(`Found address ${data.address.full_address}`)
     callback(null, data)
   })
+}
+function completeTransaction (data, callback) {
+  data.transaction.status = "unfilfilled"
+  return callback(null, data)
 }
 
 exports.completePendingTransaction = (data, callback) => {

@@ -14,7 +14,7 @@ const userErrorMessageLookUp = {
   paymentFaild: "Hmm.. Seems like there was a problem charging your card... please contact customer support: adfkjdf@ask.com or 444444444 ",
   giftNotAvalible: "Hmm... the gift you ordered is not avalible this month, please order one of the gifts provided in this months list",
   // secondTransaction: "You have already ordered a gift this month... If you want to change your order or order an additional gift please contact customer support",
-  // missedOrderWindow: "Sorry but you missed the order window... but dont worry in about XXX days we are going to have another gift choice!!",
+  missedOrderWindow: "Sorry but you missed the order window... but don't worry we send out a new gift list on the 25th of each month!",
   generic: "oops.. looks like there was an error please try again or contact customer support: adfkjdf@ask.com or 444444444"
 }
 const url = "idk" // todo

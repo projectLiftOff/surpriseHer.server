@@ -31,7 +31,7 @@ function findUserFromPhone (data, callback) {
   })
 }
 function organizeUserText (data, callback) {
-  const dataList = data.userText.split(" ").filter(function(elm){ return elm !== "" })
+  const dataList = data.userText.split(" ").filter(str => str !== "")
   if( dataList.length !== ["date", "gift", "address"].length && dataList.length !== ["date", "gift"].length ) {
     const userMessageCode = data.user.registration_complete ? "wrongNumberArgumentsCompleteUser" : "wrongNumberArgumentsIncompleteUser"
     return callback({message: "Wrong Number of Arguments error", data, userMessageCode})

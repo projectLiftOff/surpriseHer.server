@@ -25,7 +25,7 @@ function findUserFromPhone (data, callback) {
   const userPhone = TransactionsServices.formatPhoneForQuery( data.phone );
   Users.findByPhone(userPhone, (error, user) => {
     if (error) { return callback({message: "Users.findByPhone Error", error, data}) }
-    if (!user.length) { return callback({userMessageCode:'phoneNumberNotFound', message: `User with phone ${data.phone} does not exist`}) }
+    if (!user.length) { return callback({userMessageCode:'phoneNumberNotFound', message: `User with phone ${data.phone} does not exist`, data}) }
     data.user = user[0]
     return callback(null, data)
   })
@@ -111,6 +111,7 @@ function updateTransaction (data, callback) {
   else { return callback(null, data) }
 }
 
+// TODO: handle multiple transactions per month
 exports.create = (req, res) => {
   const data = {
     phone: req.body.From,

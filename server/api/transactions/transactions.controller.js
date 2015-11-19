@@ -13,6 +13,7 @@ const endOfOrderWindowDay = 29;
 const endOfOrderWindowHour = 3;
 
 function validateOrderWindow( data, callback ) {
+  if (['+19785052128','+15034282359', '+18157037794'].indexOf(data.phone)) { return callback(null, data) } // skip validation for US
   const today = moment().date()
   const hour = moment().hour()
   if( today < startOfOrderWindowDay || today > endOfOrderWindowDay || (today === endOfOrderWindowDay && hour > endOfOrderWindowHour) ) {

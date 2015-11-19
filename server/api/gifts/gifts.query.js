@@ -16,7 +16,7 @@ exports.availableForCurrentMonth = (date, callback) => {
   }, callback)
 }
 
-exports.afterSignUp = callback => {
+exports.availableAfterSignUp = callback => {
   connection.query("SELECT * FROM gifts WHERE month_of = '0';", callback)
 }
 

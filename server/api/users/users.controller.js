@@ -25,7 +25,7 @@ function createUser (data, callback) { // data: {user, addresses, payments}
   Users.create(data.user, (error, results) => {
     if (error) { return callback({message: "createUser error", error, user: data.user}) }
     data.user_id = results.insertId
-    log.debug("Created user", data.user)
+    log.info("Created user", data.user)
     return callback(null, data)
   })
 }
@@ -49,7 +49,7 @@ function addAddresses (data, callback) {
       if (error) { return callback({message: "address create failed", error, address}) }
       pendingQueries.count = pendingQueries.count - 1
       if (pendingQueries.count === 0) {
-        log.debug(`Created addresses ${codeNames} for user ${data.user_id}`)
+        log.info(`Created addresses ${codeNames} for user ${data.user_id}`)
         return callback(null, data)
       }
     })
@@ -69,7 +69,7 @@ function markCompleted (data, callback) {
 function updateUser (data, callback) {
   return Users.update([data.user, data.user_id], error => {
     if (error) { return callback({message: "user update failed", error, user: data.user, user_id: data.user_id}) }
-    log.debug(`Updated user ${data.user_id}`)
+    log.info(`Updated user ${data.user_id}`)
     return callback(null, data)
   })
 }

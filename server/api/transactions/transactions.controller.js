@@ -140,7 +140,7 @@ exports.create = (req, res) => {
       // C: status must be 200 for twilio to send message??
       res.status(httpStatus.OK.code).send(errorTxtMessage)
     } else {
-      log.debug("Completed transaction created for registered user!")
+      log.info("Completed transaction created for registered user!")
       const message = TransactionsServices.composeSuccessMessage(data, true)
       res.status(httpStatus.OK.code).send(message)
     }
@@ -193,7 +193,7 @@ exports.completePendingTransaction = (data, callback) => {
     updateTransaction
   )(data, error => {
     if (error) { return callback({message: `error completing pending transaction for user ${data.user_id}`, error, data}) }
-    log.debug("Pending transaction completed for registering user!")
+    log.info("Pending transaction completed for registering user!")
     return callback(null, data)
   })
 }

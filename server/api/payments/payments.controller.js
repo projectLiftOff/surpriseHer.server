@@ -20,7 +20,7 @@ exports.createCustomer = (nonce, callback) => {
     if (error) {
       return callback(error)
     } else {
-      log.debug(`Created Braintree customer ${result.customer.id}`)
+      log.info(`Created Braintree customer ${result.customer.id}`)
       return callback(null, result.customer.id)
     }
   })
@@ -36,7 +36,7 @@ exports.charge = (userBraintreeId, amount, callback) => {
     } else if (!result.transaction || !result.transaction.status || result.transaction.status !== "authorized") {
       return callback({message: `payments.charge ${userBraintreeId} for $${amount} not authorized`, result})
     } else {
-      log.debug(`Attempted payment ${result.transaction.status}`)
+      log.info(`Attempted payment ${result.transaction.status}`)
       return callback()
     }
   })

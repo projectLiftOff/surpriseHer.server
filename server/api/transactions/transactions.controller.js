@@ -141,7 +141,7 @@ exports.create = (req, res) => {
       res.status(httpStatus.OK.code).send(errorTxtMessage)
     } else {
       log.info("Completed transaction created for registered user!")
-      const message = TransactionsServices.composeSuccessMessage(data, true)
+      const message = TransactionsServices.composeSuccessMessage(data, data.user.registration_complete)
       res.status(httpStatus.OK.code).send(message)
     }
   })

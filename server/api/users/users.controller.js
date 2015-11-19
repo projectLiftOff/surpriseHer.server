@@ -1,6 +1,7 @@
 const Users = require("./users.query.js")
 const Addresses = require("../addresses/addresses.query.js")
 const Transactions = require("../transactions/transactions.controller.js")
+const Gifts = require("../addresses/addresses.query.js")
 const payments = require("../payments/payments.controller.js")
 const async = require("async")
 const log = require("../../config/log.js")
@@ -28,7 +29,16 @@ function createUser (data, callback) { // data: {user, addresses, payments}
     return callback(null, data)
   })
 }
-
+function getAvailableGifts(data, callback) {
+  Gifts.availableAfterSignUp( (error, gifts) => {
+    if (error) { return callback({message: "Gifts.availableAfterSignUp Error", error, data}) }
+    data.availableGifts = gifts
+    return callback( null, data )
+  })
+}
+function sendTxtMessage(data, callback) {
+  // TODO
+}
 function addAddresses (data, callback) {
   const pendingQueries = {count: 0}
   const codeNames = data.addresses.map(a => a.code_name)
@@ -45,7 +55,6 @@ function addAddresses (data, callback) {
     })
   })
 }
-
 function addBraintreeCustomer (data, callback) {
   payments.createCustomer(data.payments.nonce, (error, customerId) => {
     if (error) { return callback({message: "addBraintreeCustomer error", error}) }
@@ -53,12 +62,10 @@ function addBraintreeCustomer (data, callback) {
     return callback(null, data)
   })
 }
-
 function markCompleted (data, callback) {
   data.user.registration_complete = 1
   callback(null, data)
 }
-
 function updateUser (data, callback) {
   return Users.update([data.user, data.user_id], error => {
     if (error) { return callback({message: "user update failed", error, user: data.user, user_id: data.user_id}) }
@@ -70,7 +77,11 @@ function updateUser (data, callback) {
 
 exports.createIncomplete = (req, res) => {
   const data = {user: {phone: req.body.phone, tos: req.body.tos, registration_complete: 0}}
-  createUser(data, error => {
+  async.seq(
+    createUser,
+    getAvailableGifts,
+    sendTxtMessage
+  )(data, error => {
     if (error) {
       log.error({error})
       res.status(httpStatus["Bad Request"].code).send(error)
@@ -110,6 +121,7 @@ exports.finishRegistration = (req, res) => {
   )(data, error => {
     if (error) {
       log.error({error})
+      // TODO: Implement user message lookup with errorCodeKey
       res.status(httpStatus["Bad Request"].code).send(error)
     } else {
       res.sendStatus(httpStatus.Created.code)

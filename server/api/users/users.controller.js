@@ -1,7 +1,7 @@
 const Users = require("./users.query.js")
 const Addresses = require("../addresses/addresses.query.js")
 const Transactions = require("../transactions/transactions.controller.js")
-const Gifts = require("../addresses/addresses.query.js")
+const Gifts = require("../gifts/gifts.query.js")
 const payments = require("../payments/payments.controller.js")
 const async = require("async")
 const log = require("../../config/log.js")
@@ -38,6 +38,7 @@ function getAvailableGifts(data, callback) {
 }
 function sendTxtMessage(data, callback) {
   // TODO
+  return callback(null, data);
 }
 function addAddresses (data, callback) {
   const pendingQueries = {count: 0}
@@ -98,7 +99,9 @@ exports.createComplete = (req, res) => {
     createUser,
     addAddresses,
     addBraintreeCustomer,
-    updateUser
+    updateUser,
+    getAvailableGifts,
+    sendTxtMessage
   )(req.body, error => {
     if (error) {
       log.error({error})

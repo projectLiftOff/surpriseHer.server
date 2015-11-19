@@ -5,7 +5,7 @@ const twilio = require("twilio")
 const log = require("./../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
 const UserErrorMessageLookUp = require("./transactions.errors.js")
-const url = "idk" // todo
+const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://testsurpriseher.azurewebsites.net/signup" : "http://localhost:6060/signup"
 const digitsInPhone = 10
 
 exports.composeSuccessMessage = composeSuccessMessage
@@ -36,7 +36,7 @@ function composeSuccessMessage(data, userRegistered) {
   const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
   let message = "";
   if(userRegistered) message = `Your order of ${data.gift.gift_name} has been placed and will be shipped on ${data.date}. If there are any issues please email us: akjdlfj@kasdjfl.com or call us @ 555.555.5555` // Todo add real values
-  else message = `Your order of ${data.gift.gift_name} has been placed! To finish up the process please complete your registration and provide a billing option by clicking on the following link: ${url}?u=${data.user.id}`
+  else message = `Your order of ${data.gift.gift_name} has been placed! To finish up the process please complete your registration and provide a billing option by clicking on the following link: ${finishRegistrationUrl}?u=${data.user.id}`
   twiml.message(message)
   return twiml.toString()
 }

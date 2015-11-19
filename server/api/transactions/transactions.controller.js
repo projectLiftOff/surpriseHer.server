@@ -8,7 +8,6 @@ const async = require("async")
 const moment = require("moment")
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
-const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://testsurpriseher.azurewebsites.net/signup" : "http://localhost:6060/signup"
 const startOfOrderWindowDay = 25;
 const endOfOrderWindowDay = 29;
 const endOfOrderWindowHour = 3;

@@ -103,7 +103,6 @@ function chargeUser (data, callback) {
 }
 function updateTransaction (data, callback) {
   if( data.transaction ) {
-    console.log( 'inside updateTransaction, data:', data );
     return Transactions.update(data.transaction_id, data.transaction, error => {
       if (error) { return callback({message: "transaction update failed", error, data}) }
       return callback(null, data)

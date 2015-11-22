@@ -188,17 +188,19 @@
         // C: validate email
         var validEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
         if( !validEmail ) {
-            $('#s-emailError').text( 'Please enter a valid email' );
-            $('#s-emailError').show();
-            $('#s-emailError').closest('.form-group').addClass('has-error');
+            var emailErrorContainer = $('#s-emailError');
+            emailErrorContainer.text( 'Please enter a valid email' );
+            emailErrorContainer.show();
+            emailErrorContainer.closest('.form-group').addClass('has-error');
             formErrors = true;
         }
 
         // C: validate dob
         if( dob === 'MM/DD/YYYY' || dob === '' ) {
-            $('#s-dobError').text( 'Please enter a valid date of Date of Birth' );
-            $('#s-dobError').show();
-            $('#s-dobError').closest('.form-group').addClass('has-error');
+            var dobErrorContainer = $('#s-dobError');
+            dobErrorContainer.text( 'Please enter a valid date of Date of Birth' );
+            dobErrorContainer.show();
+            dobErrorContainer.closest('.form-group').addClass('has-error');
             formErrors = true;
         }
 
@@ -208,9 +210,10 @@
             if( _googleAddresses[address].getPlace() ) {
                 if( !addressCode  ) {
                     console.log( address, 'is missing a code' );
-                    $( '#' + address +'CodeError' ).text( 'Please enter a code for the above address' );
-                    $( '#' + address +'CodeError' ).show();
-                    $( '#' + address +'CodeError' ).closest('.form-group').addClass('has-error');
+                    var addressCodeErrorContainer = $( '#' + address +'CodeError' );
+                    addressCodeErrorContainer.text( 'Please enter a code for the above address' );
+                    addressCodeErrorContainer.show();
+                    addressCodeErrorContainer.closest('.form-group').addClass('has-error');
                     formErrors = true;
                 }
                 else {
@@ -218,8 +221,10 @@
                 }
             }
             else if( !_googleAddresses[address].getPlace() && addressCode )  {
-                $( '#' + address +'Error' ).text( 'Please enter an address associated with the code below or remove the code' ).show();
-                $( '#' + address +'Error' ).closest('.form-group').addClass('has-error');
+                var addressMissingErrorContainer = $( '#' + address +'Error' );
+                addressMissingErrorContainer.text( 'Please enter an address associated with the code below or remove the code' );
+                addressMissingErrorContainer.show();
+                addressMissingErrorContainer.closest('.form-group').addClass('has-error');
                 formErrors = true;
             }
         }
@@ -235,7 +240,9 @@
                 });
                 var a = addresses[address];
                 if( !(a.street_number && a.route && a.locality && a.postal_code && a.administrative_area_level_1) ) {
-                    $( '#' + address + 'Error' ).text( 'Please a valid shipping address' ).show();
+                    var addressErrorContainer = $( '#' + address + 'Error' );
+                    addressErrorContainer.text( 'Please a valid shipping address' );
+                    addressErrorContainer.show();
                     $( '#' + address ).closest('.form-group').addClass('has-error');
                     formErrors = true;
                 }
@@ -245,7 +252,8 @@
                 }
             } 
             else if( (location && location.name) || $( '#' + address ).val() ) {
-                $( '#' + address + 'Error' ).text( 'Please a valid shipping address' ).show();
+                $( '#' + address + 'Error' ).text( 'Please a valid shipping address' );
+                $( '#' + address + 'Error' ).show();
                 $( '#' + address ).closest('.form-group').addClass('has-error');
             }
         }
@@ -254,9 +262,10 @@
         var selectedAddressCode = $('#s-selectedShippingAddress').val().trim();
         if( signUpType === 'incompleteRegistered' && !addressCodeHasAddress[ selectedAddressCode ] ) {
             console.log( 'code does not match any of your address codes' );
-            $( '#s-selectedShippingAddressError' ).text( 'Please enter a code that matches one of address codes entered above' );
-            $( '#s-selectedShippingAddressError' ).show();
-            $( '#s-selectedShippingAddressError' ).closest('.form-group').addClass('has-error');
+            var selectedShippingAddressErrorContainer = $( '#s-selectedShippingAddressError' );
+            selectedShippingAddressErrorContainer.text( 'Please enter a code that matches one of address codes entered above' );
+            selectedShippingAddressErrorContainer.show();
+            selectedShippingAddressErrorContainer.closest('.form-group').addClass('has-error');
             formErrors = true;
         }
 

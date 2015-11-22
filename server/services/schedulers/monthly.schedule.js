@@ -17,7 +17,7 @@ function constructAvailableGiftsMessages (user, gifts, month) {
   const message = `Hello ${user.first_name}!\n
   Just reminding you to do something for your special someone! Here is our curated gift selection for this month:\n\n
   ${constructGiftOptionsString(gifts) + PRODUCT_URL}\n\n
-  txt back the gift code and the day in month you'd like us to ship (e.g 3/${month} ${gifts[0].look_up + gifts[0].gift_id}, 18/${month} ${gifts[1].look_up + gifts[1].gift_id}`
+  txt back the gift code and the day in month you'd like us to ship (e.g 3/${month} ${gifts[0].look_up + gifts[0].gift_id}, 18/${month} ${gifts[1].look_up + gifts[1].gift_id}` //'
   return message
 }
 

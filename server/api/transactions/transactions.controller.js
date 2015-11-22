@@ -141,7 +141,7 @@ exports.create = (req, res) => {
       res.status(httpStatus.OK.code).send(errorTxtMessage)
     } else {
       log.info("Completed transaction created for registered user!")
-      const message = TransactionsServices.composeSuccessMessage(data, true)
+      const message = TransactionsServices.composeSuccessMessage(data, data.user.registration_complete)
       res.status(httpStatus.OK.code).send(message)
     }
   })
@@ -152,8 +152,10 @@ function latestPendingTransactionForUser (data, callback) {
   Transactions.pendingUserRegistration(data.user_id, (error, transactions) => {
     if (error) { return callback({message: `error finding latest pending transaction for user ${data.user_id}`, error, data}) }
     if (transactions.length !== 1) { return callback({message: `Latest pending transactions for user ${data.user_id} returned wrong number of results`, data}) } // TODO handle multiple pending transactions
-    data.transaction = transactions[0]
     log.debug("Found transaction", data.transaction)
+    data.transaction_id = transactions[0].id
+    delete transactions[0].id;
+    data.transaction = transactions[0]
     return callback(null, data)
   })
 }
@@ -177,6 +179,7 @@ function selectTransactionAddress (data, callback) {
 }
 function completeTransaction (data, callback) {
   data.transaction.status = "unfilfilled"
+  data.transaction.address_id = data.address.id
   return callback(null, data)
 }
 

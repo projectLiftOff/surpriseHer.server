@@ -4,7 +4,7 @@ const moment = require("moment")
 const twilio = require("twilio")
 const log = require("./../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
-const UserErrorMessageLookUp = require("./transactions.errors.js")
+const UserErrorMessageDictionary = require("../errorsMessages.js")
 const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://testsurpriseher.azurewebsites.net/signup" : "http://localhost:6060/signup"
 const digitsInPhone = 10
 
@@ -15,7 +15,7 @@ exports.getErrorMessage = getErrorMessage
 function getErrorMessage( errorCode ) {
   errorCode = !errorCode ? 'generic' : errorCode;
   const twiml = twilio.TwimlResponse() // eslint-disable-line new-cap
-  const message = UserErrorMessageLookUp[errorCode]
+  const message = UserErrorMessageDictionary[errorCode]
   twiml.message(message)
   return twiml.toString()
 }

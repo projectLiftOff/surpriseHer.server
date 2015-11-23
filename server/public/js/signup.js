@@ -198,7 +198,7 @@
         // C: validate dob
         if( dob === 'MM/DD/YYYY' || dob === '' ) {
             var dobErrorContainer = $('#s-dobError');
-            dobErrorContainer.text( 'Please enter a valid date of Date of Birth' );
+            dobErrorContainer.text( 'Please enter a valid Date of Birth' );
             dobErrorContainer.show();
             dobErrorContainer.closest('.form-group').addClass('has-error');
             formErrors = true;
@@ -263,7 +263,7 @@
         if( signUpType === 'incompleteRegistered' && !addressCodeHasAddress[ selectedAddressCode ] ) {
             console.log( 'code does not match any of your address codes' );
             var selectedShippingAddressErrorContainer = $( '#s-selectedShippingAddressError' );
-            selectedShippingAddressErrorContainer.text( 'Please enter a code that matches one of address codes entered above' );
+            selectedShippingAddressErrorContainer.text( 'Please enter a code that matches one of the address codes entered above' );
             selectedShippingAddressErrorContainer.show();
             selectedShippingAddressErrorContainer.closest('.form-group').addClass('has-error');
             formErrors = true;

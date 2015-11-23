@@ -5,7 +5,7 @@ const twilio = require("twilio")
 const log = require("./../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
 const UserErrorMessageDictionary = require("../errorsMessages.js")
-const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://www.surpriseher.co/signup" : "http://localhost:6060/signup"
+const finishRegistrationUrl = process.env.NODE_ENV === "production" ? "http://surpriseher.co/signup" : "http://localhost:6060/signup"
 const digitsInPhone = 10
 
 exports.composeSuccessMessage = composeSuccessMessage

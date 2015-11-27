@@ -1,5 +1,4 @@
 const connectToDB = require("../../config/dbConnection")
-const connection = connectToDB()
 const log = require("./../../config/log.js")
 
 exports.getAll = callback => {

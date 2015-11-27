@@ -1,25 +1,40 @@
 const connectToDB = require("../../config/dbConnection")
-const connection = connectToDB()
 
-exports.getAll = callback => {
-  connection.query("SELECT * FROM addresses", callback)
-}
+// exports.getAll = callback => {
+//   connection.query("SELECT * FROM addresses", callback)
+// }
 
 exports.create = (address, callback) => {
-  connection.query({sql: "INSERT INTO addresses SET ?", values: address}, callback)
+  const connection = connectToDB()
+  connection.query({sql: "INSERT INTO addresses SET ?", values: address}, (error, results) => {
+    callback(error, results)
+    connection.end()
+  })
 }
 
 exports.ofUserWithPhone = (phone, callback) => {
+  const connection = connectToDB()
   connection.query({
     sql: "SELECT code_name, user_id FROM addresses JOIN users USING(user_id) WHERE phone = ?",
     values: [phone]
-  }, callback)
+  }, (error, results) => {
+    callback(error, results)
+    connection.end()
+  })
 }
 
 exports.ofUserAndCode = (data, callback) => {
-  connection.query("SELECT address_id FROM addresses WHERE code_name = ? AND user_id = ?", data, callback)
+  const connection = connectToDB()
+  connection.query("SELECT address_id FROM addresses WHERE code_name = ? AND user_id = ?", data, (error, results) => {
+    callback(error, results)
+    connection.end()
+  })
 }
 
 exports.findByUserAndName = (userId, name, callback) => {
-  connection.query("SELECT * FROM addresses WHERE user_id = ? AND code_name = ?", [userId, name], callback)
+  const connection = connectToDB()
+  connection.query("SELECT * FROM addresses WHERE user_id = ? AND code_name = ?", [userId, name], (error, results) => {
+    callback(error, results)
+    connection.end()
+  })
 }

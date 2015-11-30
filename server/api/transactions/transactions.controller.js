@@ -8,18 +8,30 @@ const async = require("async")
 const moment = require("moment")
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
-const startOfOrderWindowDay = 25;
-const endOfOrderWindowDay = 29;
-const endOfOrderWindowHour = 3;
 
 function validateOrderWindow( data, callback ) {
-  if (~['+19785052128','+15034282359', '+18157037794'].indexOf(data.phone)) { return callback(null, data) } // skip validation for US
-  const today = moment().date()
-  const hour = moment().hour()
-  if( today < startOfOrderWindowDay || today > endOfOrderWindowDay || (today === endOfOrderWindowDay && hour > endOfOrderWindowHour) ) {
-    return callback({userMessageCode:'missedOrderWindow', message: `user missed order window`, data})
+  // if (~['+19785052128','+15034282359', '+18157039093'].indexOf(data.phone)) { return callback(null, data) } // skip validation for US
+  Gifts.availableAfterSignUp( (error, gifts) => {
+    if( notWithinOrderWindow() && !availableGift( data.giftName, gifts ) ) {
+      return callback({userMessageCode:'missedOrderWindow', message: `user missed order window`, data})
+    }
+    return callback(null, data)
+  })
+  function notWithinOrderWindow() {
+    const startOfOrderWindowDay = 25;
+    const endOfOrderWindowDay = 29;
+    const endOfOrderWindowHour = 3;
+    const today = moment().date()
+    const hour = moment().hour()
+    return ( today < startOfOrderWindowDay || today > endOfOrderWindowDay || (today === endOfOrderWindowDay && hour > endOfOrderWindowHour) )
   }
-  return callback(null, data)
+
+  function availableGift( giftName, giftsAvailable ) {
+    for(var i = 0; i < giftsAvailable.length; i++){
+      if( giftsAvailable[i].look_up === giftName ) return true
+    }
+    return false
+  }
 }
 function findUserFromPhone (data, callback) {
   const userPhone = TransactionsServices.formatPhoneForQuery( data.phone );
@@ -122,9 +134,9 @@ exports.create = (req, res) => {
     address: null
   }
   async.seq(
-    validateOrderWindow,
     findUserFromPhone,
     organizeUserText,
+    validateOrderWindow,
     validateDate,
     validateGift,
     validateAddress,

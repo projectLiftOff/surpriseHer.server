@@ -16,7 +16,7 @@ exports.availableForCurrentMonth = (date, callback) => {
   })
 }
 
-exports.availableAfterSignUp = callback => {
+exports.availableAfterSignUp = (callback) => {
   const connection = connectToDB()
   connection.query("SELECT * FROM gifts WHERE month_of = '0';", (error, results) => {
     callback(error, results)

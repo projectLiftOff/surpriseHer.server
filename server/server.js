@@ -1,10 +1,11 @@
 const setupEnvironmentVariables = require("./config/environment.setup.js")
 setupEnvironmentVariables()
 
+global.Log = require("./config/log.js")
+
 const express = require("express")
 const configExpress = require("./config/express.middle.js")
 const routes = require("./routes")
-const log = require("./config/log.js")
 
 const app = express()
 configExpress(app)
@@ -14,7 +15,4 @@ routes(app)
 // todo const monthlyGiftMessenger = require("./services/schedulers/monthly.schedule.js")
 // todo monthlyGiftMessenger.monthlyScheduler()
 
-const port = process.env.PORT || 6060;
-const host = process.env.HOST || '0.0.0.0';
-app.listen(port)
-log.info("listening to PORT:", port)
+module.exports = app

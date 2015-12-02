@@ -1,15 +1,3 @@
-const connectToDB = require("../../config/dbConnection")
-
-global.Db = {
-  query: (sql, data, callback) => {
-    const connection = connectToDB()
-    connection.query(sql, data, (error, results) => {
-      connection.end()
-      return callback(error, results)
-    })
-  }
-}
-
 exports.getAll = callback => {
   global.Db.query("SELECT * FROM users", null, callback)
 }

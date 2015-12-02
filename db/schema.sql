@@ -11,12 +11,12 @@ CREATE TABLE users(
     id BIGINT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(40),
     last_name VARCHAR(40),
-    email VARCHAR(40) UNIQUE,
+    email VARCHAR(40),
     dob VARCHAR(40),
-    phone BIGINT NOT NULL UNIQUE,
+    phone BIGINT NOT NULL,
     registration_complete INT(1) NOT NULL,
     tos INT(1) NOT NULL,
-    braintree_id VARCHAR(40) UNIQUE,
+    braintree_id VARCHAR(40),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     -- processor_customer_token
     PRIMARY KEY(id)

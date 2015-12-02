@@ -43,7 +43,7 @@
             braintree.setup(clientToken, "dropin", {
                 container: "payments",
                 onPaymentMethodReceived: function (respose) {
-                    validateForm( signUpType );
+                    if( validateForm( signUpType ) ) return;
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
                 }
@@ -251,9 +251,10 @@
                 }
             } 
             else if( (location && location.name) || $( '#' + address ).val() ) {
-                $( '#' + address + 'Error' ).text( 'Please a valid shipping address' );
+                $( '#' + address + 'Error' ).text( 'Please select an address from the dropdown' );
                 $( '#' + address + 'Error' ).show();
                 $( '#' + address ).closest('.form-group').addClass('has-error');
+                formErrors = true;
             }
         }
 

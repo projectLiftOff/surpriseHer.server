@@ -99,8 +99,7 @@
     function getUserData( signUpType, nonce ){
         var userData = {};
         userData.user = {}
-        var dob = $("#s-dob").val().trim();
-        userData.user.dob = moment(dob, "MM-DD-YYYY").valueOf();
+        userData.user.dob = $("#s-dob").val().trim();
         userData.user.first_name = $("#s-firstName").val().trim();
         userData.user.last_name = $("#s-lastName").val().trim();
         userData.user.email = $("#s-email").val().trim();

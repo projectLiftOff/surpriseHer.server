@@ -18,7 +18,6 @@
     }
 
     function unregisteredUserViewSetup(){
-        console.log('unregisteredUserSignUp');
         $('#s-select-shipping-address-section').hide();
         var queryArgs = window.location.search.slice(1).split('?');
         if( queryArgs.length === 1 ) {
@@ -29,7 +28,6 @@
     }
 
     function incompleteRegisteredUserViewSetup(){
-        console.log('incompleteRegisteredUserSignUp');
         var queryArgs = window.location.search.slice(1).split('?');
         if( queryArgs.length === 1 ) {
             _queryData.userId = Number( queryArgs[0].split('=').pop() );
@@ -63,13 +61,12 @@
             error: onError
         });
         function onSuccess( data ){
-            console.log('user updated!!');
             $('#s-signup-view').hide();
             $('#s-signup-incomplete-success').show();
         }
         function onError( error ){
-            console.log('FAILED: user updated!!', arguments);
-            $('#s-formError').text(error);
+            if(!error.userMessage) $('#s-formError').text('There seems to be a problem... please try again or contact us at hello@surpriseher.co');
+            else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
         }
     }
@@ -85,13 +82,12 @@
             error: onError
         });
         function onSuccess( data ){
-            console.log('user created!!');
             $('#s-signup-view').hide();
             $('#s-signup-unregistered-success').show();
         }
         function onError( error ){
-            console.log('FAILED: user updated!!', arguments);
-            $('#s-formError').text(error);
+            if(!error.userMessage) $('#s-formError').text('There seems to be a problem... please try again or contact us at hello@surpriseher.co');
+            else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
         }
     }
@@ -208,7 +204,6 @@
             var addressCode = $( '#'+ address +'Code' ).val().trim();
             if( _googleAddresses[address].getPlace() ) {
                 if( !addressCode  ) {
-                    console.log( address, 'is missing a code' );
                     var addressCodeErrorContainer = $( '#' + address +'CodeError' );
                     addressCodeErrorContainer.text( 'Please enter a code for the above address' );
                     addressCodeErrorContainer.show();
@@ -240,7 +235,7 @@
                 var a = addresses[address];
                 if( !(a.street_number && a.route && a.locality && a.postal_code && a.administrative_area_level_1) ) {
                     var addressErrorContainer = $( '#' + address + 'Error' );
-                    addressErrorContainer.text( 'Please a valid shipping address' );
+                    addressErrorContainer.text( 'Please select a valid shipping address' );
                     addressErrorContainer.show();
                     $( '#' + address ).closest('.form-group').addClass('has-error');
                     formErrors = true;
@@ -261,7 +256,6 @@
         //C: Check that input code matches one of the shipping codes provieded in addresses section
         var selectedAddressCode = $('#s-selectedShippingAddress').val().trim();
         if( signUpType === 'incompleteRegistered' && !addressCodeHasAddress[ selectedAddressCode ] ) {
-            console.log( 'code does not match any of your address codes' );
             var selectedShippingAddressErrorContainer = $( '#s-selectedShippingAddressError' );
             selectedShippingAddressErrorContainer.text( 'Please enter a code that matches one of the address codes entered above' );
             selectedShippingAddressErrorContainer.show();

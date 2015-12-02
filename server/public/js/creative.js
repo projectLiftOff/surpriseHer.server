@@ -23,11 +23,13 @@
             function success(data) {
                 // TODO congrates message
                 $('#success-message').show()
+                $('#s-phone').val('');
             }
             function error(xhr, error, obj){
                 // TODO: handle duplicate error
                 $('#error-message > div').text('Hmmm... There seems to be a connections issue.  Please try entering your number again or contact customer support: support@surpriseher.com');
                 $('#error-message').show()
+                $('#s-phone').val('');
             }
         });
 

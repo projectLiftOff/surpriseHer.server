@@ -1,4 +1,4 @@
-gentleman.server
+gentleman.server [![Build Status](https://travis-ci.org/projectLiftOff/surpriseHer.server.svg?branch=master)](https://travis-ci.org/projectLiftOff/surpriseHer.server)
 ================
 
 Index

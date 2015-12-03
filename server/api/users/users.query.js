@@ -1,26 +1,13 @@
-const connectToDB = require("../../config/dbConnection")
-
-// exports.getAll = callback => {
-//   connection.query("SELECT * FROM users", (callback) => {
-//     callback()
-//     connection.end()
-//   })
-// }
+exports.getAll = callback => {
+  global.Db.query("SELECT * FROM users", null, callback)
+}
 
 exports.update = (data, callback) => {
-  const connection = connectToDB()
-  connection.query("UPDATE users SET ? WHERE id = ?", data, (error, results) => {
-    callback(error, results)
-    connection.end()
-  })
+  global.Db.query("UPDATE users SET ? WHERE id = ?", data, callback)
 }
 
 exports.create = (user, callback) => {
-  const connection = connectToDB()
-  connection.query("INSERT INTO users SET ?", user, (error, results) => {
-    callback(error, results)
-    connection.end()
-  })
+  global.Db.query("INSERT INTO users SET ?", user, callback)
 }
 
 // exports.availableForGifts = callback => {
@@ -28,9 +15,5 @@ exports.create = (user, callback) => {
 // }
 
 exports.findByPhone = (date, callback) => {
-  const connection = connectToDB()
-  connection.query("SELECT * FROM users WHERE phone = ?", date, (error, results) => {
-    callback(error, results)
-    connection.end()
-  })
+  global.Db.query("SELECT * FROM users WHERE phone = ?", date, callback)
 }

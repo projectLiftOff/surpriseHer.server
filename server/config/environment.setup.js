@@ -5,6 +5,8 @@ const fs = require("fs")
 function setupEnvironmentVariables () {
   if (process.env.NODE_ENV === "production") {
     require("./log.js").info("running in production mode") // eslint-disable-line global-require
+  } else if (process.env.NODE_ENV === "test") {
+    require("./log.js").info("running in test mode") // eslint-disable-line global-require
   } else {
     const environmentVariables = JSON.parse(fs.readFileSync("environmentVariables.json", "utf-8")) // eslint-disable-line no-sync
     for (let key in environmentVariables) { // eslint-disable-line prefer-const

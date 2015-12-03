@@ -1,0 +1,12 @@
+language: node_js
+
+node_js:
+  - "4.1"
+
+services:
+  - mysql
+
+before_script:
+  - mysql -u root -e 'create database gentleman;'
+  - mysql -u root -D gentleman < db/schema.sql
+  - mysql -u root -D gentleman < db/testData.sql

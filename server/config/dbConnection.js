@@ -30,4 +30,14 @@ function connectToDB () {
   return connection
 }
 
+global.Db = {
+  query: (sql, data, callback) => {
+    const connection = connectToDB()
+    connection.query(sql, data, (error, results) => {
+      connection.end()
+      return callback(error, results)
+    })
+  }
+}
+
 module.exports = connectToDB

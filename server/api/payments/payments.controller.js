@@ -1,7 +1,7 @@
 const braintree = require("braintree")
 const log = require("../../config/log")
 // const httpStatus = require("../../../httpStatuses.json")
-const gateway = braintree.connect({
+global.Braintree = braintree.connect({
   environment: braintree.Environment.Sandbox,
   merchantId: process.env.braintree_merchant_id,
   publicKey: process.env.braintree_public_key,
@@ -9,12 +9,12 @@ const gateway = braintree.connect({
 })
 // const Users = require("../users/users.query.js")
 
-exports.gateway = gateway
+exports.gateway = global.Braintree
 
 exports.createCustomer = (nonce, callback) => {
-  gateway.customer.create({
-    firstName: "Charity",
-    lastName: "Smith",
+  global.Braintree.customer.create({
+    firstName: "Charity", // TODO
+    lastName: "Smith", // TODO
     paymentMethodNonce: nonce
   }, (error, result) => {
     if (error) {
@@ -27,7 +27,7 @@ exports.createCustomer = (nonce, callback) => {
 }
 
 exports.charge = (userBraintreeId, amount, callback) => {
-  gateway.transaction.sale({
+  global.Braintree.transaction.sale({
     amount,
     customerId: userBraintreeId
   }, (error, result) => {

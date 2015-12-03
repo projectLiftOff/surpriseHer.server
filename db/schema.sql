@@ -11,13 +11,13 @@ CREATE TABLE users(
     id BIGINT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(40),
     last_name VARCHAR(40),
-    email VARCHAR(40) UNIQUE,
+    email VARCHAR(40),
     dob VARCHAR(40),
-    phone BIGINT NOT NULL UNIQUE,
+    phone BIGINT NOT NULL,
     registration_complete INT(1) NOT NULL,
     tos INT(1) NOT NULL,
-    braintree_id VARCHAR(40) UNIQUE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    braintree_id VARCHAR(40),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     -- processor_customer_token
     PRIMARY KEY(id)
 );
@@ -27,7 +27,7 @@ CREATE TABLE gifts(
     look_up VARCHAR(40) NOT NULL,
     month_of VARCHAR(10) NOT NULL,
     price DECIMAL(5, 2) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (id)
 );
 CREATE TABLE addresses(
@@ -47,7 +47,7 @@ CREATE TABLE addresses(
 );
 CREATE TABLE transactions(
     id BIGINT NOT NULL AUTO_INCREMENT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     status VARCHAR(40) NOT NULL, -- pending user registration, unfulfilled, fulfilled, shippied, delivered
     paid INT(1) NOT NULL,
     -- refund_status

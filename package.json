@@ -2,9 +2,11 @@
   "name": "gentleman.server",
   "version": "0.0.1",
   "description": "Server for ***ThoughtfulGentleman",
-  "main": "server/server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "NODE_ENV=dev node index.js",
+    "test": "node tests.js | node_modules/.bin/tap-spec",
+    "testing": "nodemon tests.js | node_modules/.bin/tap-spec",
     "db": "mysql.server restart",
     "sql": "mysql.server restart",
     "lint": "node_modules/.bin/eslint ./**/*.js --fix",
@@ -39,7 +41,10 @@
   "devDependencies": {
     "chai": "^3.4.0",
     "eslint": "^1.7.3",
-    "superagent": "^1.4.0"
+    "sinon": "^1.17.2",
+    "supertest": "^1.1.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.2.2"
   },
   "eslintConfig": {
     "rules": {

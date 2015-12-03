@@ -4,7 +4,7 @@
   "description": "Server for ***ThoughtfulGentleman",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=dev node index.js",
+    "start": "node index.js",
     "test": "node tests.js | node_modules/.bin/tap-spec",
     "testing": "nodemon tests.js | node_modules/.bin/tap-spec",
     "db": "mysql.server restart",

@@ -202,3 +202,5 @@ test.skip("completing an order charges a card money", t => {
   // expect twilio message
   t.pass()
 })
+
+test.skip("server doesn't barf on upper-case codes", t => {})

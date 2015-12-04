@@ -615,6 +615,29 @@ img::-moz-selection {
     top: 50px;
     width: 10px;
 }
+.banner {
+    background-color: #00B0F0;
+    color: white;
+    padding: 10px 0px;
+    margin-top: 50px;
+}
+@media(min-width:768px) {
+    .banner {
+        position: absolute;
+        z-index: 10;
+        width: 100%;
+        top: 50px;
+        margin-top: 0px;
+    }
+}
+.btn-onColorBackground {
+    border: 3px solid white;
+    color: white;
+}
+.btn-onColorBackground:hover {
+    background-color: white;
+    color: grey;
+}
 
 .top-0       { margin-top:0px !important;}
 .top-5       { margin-top:5px !important;}

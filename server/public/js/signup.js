@@ -41,6 +41,7 @@
             braintree.setup(clientToken, "dropin", {
                 container: "payments",
                 onPaymentMethodReceived: function (respose) {
+                    $('#s-signup-view #s-loading').show();
                     if( validateForm( signUpType ) ) return;
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
@@ -61,10 +62,12 @@
             error: onError
         });
         function onSuccess( data ){
+            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-incomplete-success').show();
         }
         function onError( error ){
+            $('#s-signup-view #s-loading').hide();
             if(!error.userMessage) $('#s-formError').text('There seems to be a problem... please try again or contact us at hello@surpriseher.co');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
@@ -82,10 +85,12 @@
             error: onError
         });
         function onSuccess( data ){
+            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-unregistered-success').show();
         }
         function onError( error ){
+            $('#s-signup-view #s-loading').hide();
             if(!error.userMessage) $('#s-formError').text('There seems to be a problem... please try again or contact us at hello@surpriseher.co');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();

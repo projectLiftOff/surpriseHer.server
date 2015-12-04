@@ -10,6 +10,7 @@
 
     function listenToButtons() {
         $('#s-just-get-text').click(function(){
+            $('#s-modal-signup #s-loading').show();
             var number = $('#s-phone').val();
             var userData = { tos: 1, phone: number };
             $.ajax({
@@ -21,12 +22,14 @@
             });
 
             function success(data) {
-                // TODO congrates message
+                $('#s-modal-signup #s-loading').hide();
+                $('#s-modal-signup').modal('hide');
                 $('#success-message').show()
                 $('#s-phone').val('');
             }
             function error(xhr, error, obj){
-                // TODO: handle duplicate error
+                $('#s-modal-signup #s-loading').hide();
+                $('#s-modal-signup').modal('hide');
                 $('#error-message > div').text('Hmmm... There seems to be a connections issue.  Please try entering your number again or contact customer support: support@surpriseher.com');
                 $('#error-message').show()
                 $('#s-phone').val('');

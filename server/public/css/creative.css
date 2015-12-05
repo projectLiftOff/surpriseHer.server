@@ -638,6 +638,14 @@ img::-moz-selection {
     background-color: white;
     color: grey;
 }
+.loading-signup {
+    position: relative;
+    top: 9px;
+    left: 50px;
+    z-index: 10;
+    margin-bottom: -40px;
+    display: none;
+}
 
 .top-0       { margin-top:0px !important;}
 .top-5       { margin-top:5px !important;}

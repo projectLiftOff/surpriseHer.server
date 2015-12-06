@@ -115,6 +115,51 @@ test("new user does complete sign up on site", t => {
   })
 })
 
+test("status confirms db works", t => {
+  // receive GET to /status
+  const DbStub = sinon.stub(global.Db, "query", (_, __, callback) => { return callback(null, {}) })
+  t.plan(3) // eslint-disable-line no-magic-numbers
+  request(app)
+  .get("/status")
+  .end((_, data) => {
+    t.equal(data.res.headers["content-type"], "text/plain; charset=utf-8", "it responds with plaintext")
+    t.equal(data.status, httpStatus.OK.code, "it responds successfully")
+    t.deepEqual(
+      DbStub.args.map(stripLastItem), // last arg is a callback
+      [["SELECT * FROM users WHERE id = 0;", null]],
+      "it makes a tiny query to the db"
+    )
+    DbStub.restore()
+  })
+})
+
+test("status fails when db is disconnected", t => {
+  // receive GET to /status
+  const LogErrorStub = sinon.stub(global.Log, "error")
+  const DbStub = sinon.stub(global.Db, "query", (_, __, callback) => { return callback("db disconnected") })
+  t.plan(4) // eslint-disable-line no-magic-numbers
+  request(app)
+  .get("/status")
+  .end((_, data) => {
+    t.equal(data.res.headers["content-type"], "text/plain; charset=utf-8", "it responds with plaintext")
+    t.equal(data.status, httpStatus["Internal Server Error"].code, "it responds with an error")
+    t.deepEqual(
+      LogErrorStub.args,
+      [
+        [{error: "db disconnected", message: "queryDbStatus failed"}]
+      ],
+      "it logs the error"
+    )
+    t.deepEqual(
+      DbStub.args.map(stripLastItem), // last arg is a callback
+      [["SELECT * FROM users WHERE id = 0;", null]],
+      "it makes a tiny query to the db"
+    )
+    LogErrorStub.restore()
+    DbStub.restore()
+  })
+})
+
 test.skip("incomplete user texts with day and gift_code", t => {
   // receive Twilio webhook POST to transactions
   // expect log

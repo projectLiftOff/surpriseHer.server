@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node ./tests/end_to_end_tests.js | node_modules/.bin/tap-spec",
-    "testing": "nodemon ./tests/end_to_end_tests.js | node_modules/.bin/tap-spec",
+    "test": "node ./tests/end_to_end_tests.js | node_modules/.bin/tap-difflet",
+    "testing": "nodemon ./tests/end_to_end_tests.js | node_modules/.bin/tap-difflet",
     "db": "mysql.server restart",
-    "sql": "mysql.server restart",
+    "dbconsole": "mysql -u root -D gentleman",
     "lint": "node_modules/.bin/eslint ./**/*.js --fix",
     "tail": "azure site log tail testsurpriseher"
   },
@@ -32,18 +32,17 @@
     "express": "^4.13.3",
     "moment": "^2.10.6",
     "mysql": "^2.8.0",
-    "nodemon": "^1.4.0",
     "twilio": "^2.3.0",
     "winston": "^1.0.1",
     "winston-bishop-slack": "^0.2.1",
     "winston-loggly": "^1.2.0"
   },
   "devDependencies": {
-    "chai": "^3.4.0",
+    "nodemon": "^1.4.0",
     "eslint": "^1.7.3",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0",
-    "tap-spec": "^4.1.1",
+    "tap-difflet": "^0.4.0",
     "tape": "^4.2.2"
   },
   "eslintConfig": {

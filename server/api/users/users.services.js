@@ -24,7 +24,6 @@ function constructSignUpGiftOptionsMessages (userRegistered, gifts, addresses) {
   //   message = `Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:
   //   \n${constructGiftOptionsStr(gifts)}PRODUCT URL
   //   \nTo begin the order process, txt back the gift CODE and the day in month you'd like us to ship (e.g 3 ${gifts[0].look_up}, 18 ${gifts[1].look_up})`
-  // }
   return message
 }
 

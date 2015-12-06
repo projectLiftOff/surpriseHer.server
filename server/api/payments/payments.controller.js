@@ -1,8 +1,9 @@
 const braintree = require("braintree")
 const log = require("../../config/log")
+const isProduction = process.env.NODE_ENV === "production"
 const httpStatus = require("../../../httpStatuses.json")
 global.Braintree = braintree.connect({
-  environment: braintree.Environment.Sandbox,
+  environment: isProduction ? braintree.Environment.Production : braintree.Environment.Sandbox,
   merchantId: process.env.braintree_merchant_id,
   publicKey: process.env.braintree_public_key,
   privateKey: process.env.braintree_private_key

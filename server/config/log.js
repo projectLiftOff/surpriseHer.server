@@ -7,19 +7,6 @@ require("winston-loggly")
 winston.emitErrs = true
 const winstonLogger = new winston.Logger({
   transports: [
-    // new winston.transports.Console({
-    //   level: "info",
-    //   // filename: "./logs/all.log",
-    //   // name: "file.all",
-    //   handleExceptions: true,
-    //   json: true,
-    //   timestamp: true,
-    //   // maxsize: 5242880, // 5MB
-    //   // maxFiles: 5,
-    //   colorize: true,
-    //   prettyPrint: true
-    // }),
-
     new winston.transports.Console({
       level: "debug",
       handleExceptions: true,
@@ -28,19 +15,6 @@ const winstonLogger = new winston.Logger({
       colorize: true,
       prettyPrint: true
     })
-
-    // new winston.transports.Console({
-    //   level: "error",
-    //   // filename: "./logs/error.log",
-    //   // name: "file.error",
-    //   handleExceptions: true,
-    //   json: true,
-    //   timestamp: true,
-    //   // maxsize: 5242880, // 5MB
-    //   maxFiles: 5,
-    //   prettyPrint: true
-    //   // colorize: true
-    // })
   ],
   exitOnError: false,
   colors: {
@@ -55,9 +29,9 @@ if (isProduction) {
     token: process.env.winston_loggly_token,
     subdomain: "surpriseher",
     tags: ["Winston-NodeJS"],
+    level: "info",
     json: true
   })
-
   winstonLogger.add(winstonSlack, {
     webhook_url: process.env.winston_slack_webhook, // eslint-disable-line camelcase
     icon_url: "https://twylalalala.files.wordpress.com/2014/01/dafuq-100981.jpg?w=390", // eslint-disable-line camelcase

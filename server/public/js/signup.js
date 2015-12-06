@@ -279,7 +279,7 @@
 
     function removeAllErrors(){
         var allErrorElements = ['#s-emailError', '#s-dobError', '#s-addressOneError', '#s-addressTwoError', '#s-addressThreeError', '#s-addressFourError', 
-            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError', '#s-selectedShippingAddress'];
+            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError'];
         allErrorElements.forEach(function(element){
             $(element).hide();
             $(element).closest('.form-group').removeClass('has-error');

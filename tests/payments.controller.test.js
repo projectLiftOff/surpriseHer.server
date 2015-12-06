@@ -60,7 +60,6 @@ describe("payments.controller.checkout", () => {
     }
     const res = {
       send: results => {
-        console.log(arguments)
         expect(results).to.equal(httpStatus["Bad Request"].code)
         done()
       }

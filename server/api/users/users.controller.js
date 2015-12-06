@@ -32,19 +32,19 @@ function createUser (data, callback) { // data: {user, addresses, payments}
     return callback(null, data)
   })
 }
-function getAvailableGifts(data, callback) {
-  Gifts.availableAfterSignUp( (error, gifts) => {
+function getAvailableGifts (data, callback) {
+  Gifts.availableAfterSignUp ((error, gifts) => {
     if (error) { return callback({message: "Gifts.availableAfterSignUp Error", error, data}) }
-    if (!gifts.length) { return callback({message: "No permanent gifts found with Gifts.availableAfterSignUp", userMessageCode: 'contactSupport', error, data}) }
+    if (!gifts.length) { return callback({message: "No permanent gifts found with Gifts.availableAfterSignUp", userMessageCode: "contactSupport", error, data}) }
     data.availableGifts = gifts
-    return callback( null, data )
+    return callback(null, data)
   })
 }
-function sendTxtMessage(data, callback) {
-  data.message = UsersServices.constructSignUpGiftOptionsMessages( data.user.registration_complete, data.availableGifts, data.addresses )
-  TxtMessenger.sendTxt( data.user.phone, data.message, (error) => {
-    if (error) { return callback({message: "TxtMessenger.sendTxt Error", userMessageCode: 'contactSupportTxtMessenger', error, data}) }
-    return callback(null, data);
+function sendTxtMessage (data, callback) {
+  data.message = UsersServices.constructSignUpGiftOptionsMessages(data.user.registration_complete, data.availableGifts, data.addresses)
+  TxtMessenger.sendTxt(data.user.phone, data.message, error => {
+    if (error) { return callback({message: "TxtMessenger.sendTxt Error", userMessageCode: "contactSupportTxtMessenger", error, data}) }
+    return callback(null, data)
   })
 }
 function addAddresses (data, callback) {
@@ -54,7 +54,7 @@ function addAddresses (data, callback) {
     pendingQueries.count = pendingQueries.count + 1
     address.user_id = address.user_id || data.user_id
     Addresses.create(address, error => {
-      if (error) { return callback({message: "Addresses.create error", userMessageCode: 'contactSupportAddresses', error, address, data }) }
+      if (error) { return callback({message: "Addresses.create error", userMessageCode: "contactSupportAddresses", error, address, data}) }
       pendingQueries.count = pendingQueries.count - 1
       if (pendingQueries.count === 0) {
         log.info(`Created addresses ${codeNames} for user ${data.user_id}`)
@@ -65,7 +65,7 @@ function addAddresses (data, callback) {
 }
 function addBraintreeCustomer (data, callback) {
   payments.createCustomer(data.payments.nonce, data.user, (error, customerId) => {
-    if (error) { return callback({message: "addBraintreeCustomer error", userMessageCode: 'contactSupportCreateBraintree', data, error}) }
+    if (error) { return callback({message: "addBraintreeCustomer error", userMessageCode: "contactSupportCreateBraintree", data, error}) }
     data.user.braintree_id = customerId
     return callback(null, data)
   })
@@ -76,7 +76,7 @@ function markCompleted (data, callback) {
 }
 function updateUser (data, callback) {
   return Users.update([data.user, data.user_id], error => {
-    if (error) { return callback({message: "Users.update error", userMessageCode: 'contactSupport', error, user: data.user, user_id: data.user_id, data}) }
+    if (error) { return callback({message: "Users.update error", userMessageCode: "contactSupport", error, user: data.user, user_id: data.user_id, data}) }
     log.info(`Updated user ${data.user_id}`)
     return callback(null, data)
   })
@@ -91,7 +91,7 @@ exports.createIncomplete = (req, res) => {
   )(data, error => {
     if (error) {
       log.error({error})
-      res.status(httpStatus["Bad Request"].code).send( UserErrorMessageDictionary[ error.userMessageCode ] )
+      res.status(httpStatus["Bad Request"].code).send(UserErrorMessageDictionary[error.userMessageCode])
     } else {
       res.sendStatus(httpStatus.Created.code)
     }
@@ -110,7 +110,7 @@ exports.createComplete = (req, res) => {
   )(req.body, error => {
     if (error) {
       log.error({error})
-      res.status(httpStatus["Bad Request"].code).send( UserErrorMessageDictionary[ error.userMessageCode ] )
+      res.status(httpStatus["Bad Request"].code).send(UserErrorMessageDictionary[error.userMessageCode])
     } else {
       res.sendStatus(httpStatus.Created.code)
     }
@@ -129,7 +129,7 @@ exports.finishRegistration = (req, res) => {
   )(data, error => {
     if (error) {
       log.error({error})
-      res.status(httpStatus["Bad Request"].code).send( UserErrorMessageDictionary[ error.userMessageCode ] )
+      res.status(httpStatus["Bad Request"].code).send(UserErrorMessageDictionary[error.userMessageCode])
     } else {
       res.sendStatus(httpStatus.Created.code)
     }

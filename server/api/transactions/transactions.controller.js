@@ -1,3 +1,5 @@
+"use strict"
+
 const Transactions = require("./transactions.query.js")
 const Payments = require("../payments/payments.controller.js")
 const TransactionsServices = require("./transactions.services.js")
@@ -9,52 +11,54 @@ const moment = require("moment")
 const log = require("../../config/log.js")
 const httpStatus = require("../../../httpStatuses.json")
 
-function validateOrderWindow( data, callback ) {
+function validateOrderWindow (data, callback) {
   // if (~['+19785052128','+15034282359', '+18157039093'].indexOf(data.phone)) { return callback(null, data) } // skip validation for US
-  Gifts.availableAfterSignUp( (error, gifts) => {
-    if( notWithinOrderWindow() && !availableGift( data.giftName, gifts ) ) {
-      return callback({userMessageCode:'missedOrderWindow', message: `user missed order window`, data})
-    }
-    return callback(null, data)
-  })
-  function notWithinOrderWindow() {
-    const startOfOrderWindowDay = 25;
-    const endOfOrderWindowDay = 29;
-    const endOfOrderWindowHour = 3;
+  function notWithinOrderWindow () {
+    const startOfOrderWindowDay = 25
+    const endOfOrderWindowDay = 29
+    const endOfOrderWindowHour = 3
     const today = moment().date()
     const hour = moment().hour()
-    return ( today < startOfOrderWindowDay || today > endOfOrderWindowDay || (today === endOfOrderWindowDay && hour > endOfOrderWindowHour) )
+    return Boolean(today < startOfOrderWindowDay || today > endOfOrderWindowDay || (today === endOfOrderWindowDay && hour > endOfOrderWindowHour))
   }
 
-  function availableGift( giftName, giftsAvailable ) {
-    for(var i = 0; i < giftsAvailable.length; i++){
-      if( giftsAvailable[i].look_up === giftName ) return true
+  function availableGift (giftName, giftsAvailable) {
+    for (let i = 0; i < giftsAvailable.length; i = i + 1) {
+      if (giftsAvailable[i].look_up === giftName) { return true }
     }
     return false
   }
+
+  Gifts.availableAfterSignUp((error, gifts) => {
+    if (error) { return callback({message: "Gifts.availableAfterSignUp error", error}) }
+    if (notWithinOrderWindow() && !availableGift(data.giftName, gifts)) {
+      return callback({userMessageCode: "missedOrderWindow", message: "user missed order window", data})
+    }
+    return callback(null, data)
+  })
 }
 function findUserFromPhone (data, callback) {
-  const userPhone = TransactionsServices.formatPhoneForQuery( data.phone );
+  const userPhone = TransactionsServices.formatPhoneForQuery(data.phone)
   Users.findByPhone(userPhone, (error, user) => {
     if (error) { return callback({message: "Users.findByPhone Error", error, data}) }
-    if (!user.length) { return callback({userMessageCode:'phoneNumberNotFound', message: `User with phone ${data.phone} does not exist`, data}) }
+    if (!user.length) { return callback({userMessageCode: "phoneNumberNotFound", message: `User with phone ${data.phone} does not exist`, data}) }
     data.user = user[0]
     return callback(null, data)
   })
 }
 function organizeUserText (data, callback) {
   const dataList = data.userText.split(" ").filter(str => str !== "")
-  if( dataList.length !== ["date", "gift", "address"].length && dataList.length !== ["date", "gift"].length ) {
+  if (dataList.length !== ["date", "gift", "address"].length && dataList.length !== ["date", "gift"].length) {
     const userMessageCode = data.user.registration_complete ? "wrongNumberArgumentsCompleteUser" : "wrongNumberArgumentsIncompleteUser"
     return callback({message: "Wrong Number of Arguments error", data, userMessageCode})
   }
-  data.dayOfMonth = dataList[0];
+  data.dayOfMonth = dataList[0]
   data.giftName = dataList[1]
   data.addressCodeName = dataList[2]
   callback(null, data)
 }
 function validateDate (data, callback) {
-  const month = (moment().add(1, 'month').get("month")) + 1
+  const month = (moment().add(1, "month").get("month")) + 1
   const dateStr = `${moment().get("year")} ${month} ${data.dayOfMonth}`
   const date = moment(dateStr, "YYYY MM DD", true)
   if (!date.isValid()) { return callback({message: "User entered invalid date", data, userMessageCode: "invalidDate"}) }
@@ -66,8 +70,8 @@ function validateGift (data, callback) {
   Gifts.findByName(data.giftName, (giftError, gift) => {
     if (giftError) { return callback({message: "findGiftByName error", giftError, data}) }
     if (!gift.length) { return callback({message: `Gift with name ${data.giftName} does not exist`, data, userMessageCode: "invalidGiftName"}) }
-    if ( gift[0].month_of !== data.allowGiftsForMonthOf && gift[0].month_of !== '0') { 
-      return callback({message: `Gift with name ${data.giftName} exist but is not avalible this month`, data, userMessageCode: "giftNotAvalible"}) 
+    if (gift[0].month_of !== data.allowGiftsForMonthOf && gift[0].month_of !== "0") {
+      return callback({message: `Gift with name ${data.giftName} exist but is not avalible this month`, data, userMessageCode: "giftNotAvalible"})
     }
     data.gift = gift[0]
     return callback(null, data)
@@ -77,14 +81,13 @@ function validateAddress (data, callback) {
   if (data.user.registration_complete) {
     Addresses.findByUserAndName(data.user.id, data.addressCodeName, (addressError, address) => {
       if (addressError) { return callback({message: "findAddressByUserAndName error", addressError, data}) }
-      if (!address.length) { 
-        return callback({message: `Address with code name ${data.addressCodeName} for user ${data.user.id} does not exist`, data, userMessageCode: "invalidAddressCodeName"}) 
+      if (!address.length) {
+        return callback({message: `Address with code name ${data.addressCodeName} for user ${data.user.id} does not exist`, data, userMessageCode: "invalidAddressCodeName"})
       }
       data.address = address[0]
       return callback(null, data)
     })
-  }
-  else {
+  } else {
     data.address = null
     return callback(null, data)
   }
@@ -110,17 +113,15 @@ function chargeUser (data, callback) {
       data.transaction.paid = 1
       return callback(null, data)
     })
-  }
-  else { return callback(null, data) }
+  } else { return callback(null, data) }
 }
 function updateTransaction (data, callback) {
-  if( data.transaction ) {
+  if (data.transaction) {
     return Transactions.update(data.transaction_id, data.transaction, error => {
       if (error) { return callback({message: "transaction update failed", error, data}) }
       return callback(null, data)
     })
-  }
-  else { return callback(null, data) }
+  } else { return callback(null, data) }
 }
 
 // TODO: handle multiple transactions per month
@@ -148,7 +149,7 @@ exports.create = (req, res) => {
     res.set("Content-Type", "text/xml")
     if (error) {
       log.error({error})
-      const errorTxtMessage = TransactionsServices.getErrorMessage( error.userMessageCode )
+      const errorTxtMessage = TransactionsServices.getErrorMessage(error.userMessageCode)
       // C: status must be 200 for twilio to send message??
       res.status(httpStatus.OK.code).send(errorTxtMessage)
     } else {
@@ -166,7 +167,7 @@ function latestPendingTransactionForUser (data, callback) {
     if (transactions.length !== 1) { return callback({message: `Latest pending transactions for user ${data.user_id} returned wrong number of results`, data}) } // TODO handle multiple pending transactions
     log.debug("Found transaction", data.transaction)
     data.transaction_id = transactions[0].id
-    delete transactions[0].id;
+    delete transactions[0].id
     data.transaction = transactions[0]
     return callback(null, data)
   })

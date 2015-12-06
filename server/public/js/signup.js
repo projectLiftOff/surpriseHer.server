@@ -42,6 +42,7 @@
                 container: "payments",
                 onPaymentMethodReceived: function (respose) {
                     $('#s-signup-view #s-loading').show();
+                    $('#s-submit').attr({disabled: 'disabled'});
                     if( validateForm( signUpType ) ) return;
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
@@ -59,18 +60,21 @@
             contentType: 'application/json',
             data: JSON.stringify( userData ),
             success: onSuccess,
-            error: onError
+            error: onError,
+            complete: finallyFunc
         });
         function onSuccess( data ){
-            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-incomplete-success').show();
         }
         function onError( error ){
-            $('#s-signup-view #s-loading').hide();
             if(!error.userMessage) $('#s-formError').text('There seems to have been an issue completing your registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
+        }
+        function finallyFunc(){
+            $('#s-submit').removeAttr('disabled');
+            $('#s-signup-view #s-loading').hide();
         }
     }
 
@@ -82,18 +86,21 @@
             contentType: 'application/json',
             data: JSON.stringify( userData ),
             success: onSuccess,
-            error: onError
+            error: onError,
+            complete: finallyFunc
         });
         function onSuccess( data ){
-            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-unregistered-success').show();
         }
         function onError( error ){
-            $('#s-signup-view #s-loading').hide();
             if(!error.userMessage) $('#s-formError').text('There seems to have been an issue wih registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
+        }
+        function finallyFunc(){
+            $('#s-submit').removeAttr('disabled');
+            $('#s-signup-view #s-loading').hide();
         }
     }
 

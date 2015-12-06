@@ -10,6 +10,8 @@
 
     function listenToButtons() {
         $('#s-just-get-text').click(function(){
+            $('#s-just-get-text').attr({disabled: 'disabled'});
+            $('#s-goto-signup').attr({disabled: 'disabled'});
             $('#s-modal-signup #s-loading').show();
             var number = $('#s-phone').val();
             var userData = { tos: 1, phone: number };
@@ -18,21 +20,23 @@
                 url: _baseUrl + '/users/incomplete',
                 data: userData,
                 success: success,
-                error: error
+                error: error,
+                complete: finallyFunc
             });
 
             function success(data) {
-                $('#s-modal-signup #s-loading').hide();
-                $('#s-modal-signup').modal('hide');
                 $('#success-message').show()
                 $('#s-phone').val('');
             }
             function error(xhr, error, obj){
-                $('#s-modal-signup #s-loading').hide();
-                $('#s-modal-signup').modal('hide');
                 $('#error-message > div').text('Hmmm... There seems to be a connections issue.  Please try entering your number again or contact customer support: support@surpriseher.co');
                 $('#error-message').show()
-                $('#s-phone').val('');
+            }
+            function finallyFunc(){
+                $('#s-modal-signup #s-loading').hide();
+                $('#s-modal-signup').modal('hide');
+                $('#s-just-get-text').removeAttr('disabled');
+                $('#s-goto-signup').removeAttr('disabled');
             }
         });
 

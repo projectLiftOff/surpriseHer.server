@@ -43,6 +43,7 @@
                 onPaymentMethodReceived: function (respose) {
                     $('#s-signup-view #s-loading').show();
                     if( validateForm( signUpType ) ) return;
+                    $('#s-submit').attr({disabled: 'disabled'});
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
                 }
@@ -59,18 +60,21 @@
             contentType: 'application/json',
             data: JSON.stringify( userData ),
             success: onSuccess,
-            error: onError
+            error: onError,
+            complete: finallyFunc
         });
         function onSuccess( data ){
-            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-incomplete-success').show();
         }
         function onError( error ){
-            $('#s-signup-view #s-loading').hide();
             if(!error.userMessage) $('#s-formError').text('There seems to have been an issue completing your registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
+        }
+        function finallyFunc(){
+            $('#s-submit').removeAttr('disabled');
+            $('#s-signup-view #s-loading').hide();
         }
     }
 
@@ -82,18 +86,21 @@
             contentType: 'application/json',
             data: JSON.stringify( userData ),
             success: onSuccess,
-            error: onError
+            error: onError,
+            complete: finallyFunc
         });
         function onSuccess( data ){
-            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-unregistered-success').show();
         }
         function onError( error ){
-            $('#s-signup-view #s-loading').hide();
             if(!error.userMessage) $('#s-formError').text('There seems to have been an issue wih registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
+        }
+        function finallyFunc(){
+            $('#s-submit').removeAttr('disabled');
+            $('#s-signup-view #s-loading').hide();
         }
     }
 
@@ -204,9 +211,19 @@
             formErrors = true;
         }
 
-        //C: Check that all filled address fileds have codes and all codes have addresses
+        // C: Check that all filled address fileds have codes, all codes have addresses and all codes are a single word
         for( var address in _googleAddresses ){
             var addressCode = $( '#'+ address +'Code' ).val().trim();
+
+            // C: Check that codes have no spaces
+            if( addressCode.split(' ').length > 1 ) {
+                var addressCodeErrorContainer = $( '#' + address +'CodeError' );
+                addressCodeErrorContainer.text( 'Please enter a Code name with no spaces' );
+                addressCodeErrorContainer.show();
+                addressCodeErrorContainer.closest('.form-group').addClass('has-error');
+                formErrors = true;
+            }
+
             if( _googleAddresses[address].getPlace() ) {
                 if( !addressCode  ) {
                     var addressCodeErrorContainer = $( '#' + address +'CodeError' );
@@ -279,7 +296,7 @@
 
     function removeAllErrors(){
         var allErrorElements = ['#s-emailError', '#s-dobError', '#s-addressOneError', '#s-addressTwoError', '#s-addressThreeError', '#s-addressFourError', 
-            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError'];
+            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError', '#s-formError'];
         allErrorElements.forEach(function(element){
             $(element).hide();
             $(element).closest('.form-group').removeClass('has-error');

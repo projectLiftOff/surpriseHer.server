@@ -25,9 +25,11 @@ test("new user does partial sign up on site", t => {
       [["Created user", {phone: "9785052128", registration_complete: 0, tos: 1}]],
       "it logs a user creation event"
     )
+    const afterBetaLaunchTxt = "Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:\n    \n>The Best F-ing Coffee! -- CODE: coffee\n>Love Me Some S\'more -- CODE: smores\n>Bubbly Bath -- CODE: bubbles\nPRODUCT URL\n    \nTo begin the order process, txt back the gift CODE and the day in month you\'d like us to ship (e.g 3 coffee, 18 smores)";
+    const beforeBetaLaunchTxt = "Hi, this is SurpriseHer, we’re excited you signed up! SurpriseHer: a simple way to keep the spark alive and remind her she’s special. You will receive a text early January with our first-ever gift list. You can start surprising her as early as next month!"
     t.deepEqual(
       TwilioStub.args.map(stripLastItem), // last arg is a callback
-      [[{body: "Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:\n    \n>The Best F-ing Coffee! -- CODE: coffee\n>Love Me Some S\'more -- CODE: smores\n>Bubbly Bath -- CODE: bubbles\nPRODUCT URL\n    \nTo begin the order process, txt back the gift CODE and the day in month you\'d like us to ship (e.g 3 coffee, 18 smores)", from: "+15005550006", to: "+19785052128"}]],
+      [[{body: beforeBetaLaunchTxt, from: "+15005550006", to: "+19785052128"}]],
       "it sends a text"
     )
     t.deepEqual(
@@ -89,9 +91,11 @@ test("new user does complete sign up on site", t => {
       ],
       "it logs a user creation event"
     )
+    const afterBetaLaunchTxt = "Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:\n    \n>The Best F-ing Coffee! -- CODE: coffee\n>Love Me Some S\'more -- CODE: smores\n>Bubbly Bath -- CODE: bubbles\nPRODUCT URL\n    \nTo begin the order process, txt back the gift CODE, the day in month you\'d like us to ship and the shipping address CODE (Your address CODEs are below) you want us to send the gift to (e.g 3 coffee home, 18 smores home)\n    \nAddress Codes:\nhome\n";
+    const beforeBetaLaunchTxt = "Hi, this is SurpriseHer, we’re excited you signed up! SurpriseHer: a simple way to keep the spark alive and remind her she’s special. You will receive a text early January with our first-ever gift list. You can start surprising her as early as next month!"
     t.deepEqual(
       TwilioStub.args.map(stripLastItem), // last arg is a callback
-      [[{body: "Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:\n    \n>The Best F-ing Coffee! -- CODE: coffee\n>Love Me Some S\'more -- CODE: smores\n>Bubbly Bath -- CODE: bubbles\nPRODUCT URL\n    \nTo begin the order process, txt back the gift CODE, the day in month you\'d like us to ship and the shipping address CODE (Your address CODEs are below) you want us to send the gift to (e.g 3 coffee home, 18 smores home)\n    \nAddress Codes:\nhome\n", from: "+15005550006", to: "+11234567890"}]],
+      [[{body: beforeBetaLaunchTxt, from: "+15005550006", to: "+11234567890"}]],
       "it sends a text"
     )
     t.deepEqual(

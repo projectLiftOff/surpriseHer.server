@@ -42,8 +42,8 @@
                 container: "payments",
                 onPaymentMethodReceived: function (respose) {
                     $('#s-signup-view #s-loading').show();
-                    $('#s-submit').attr({disabled: 'disabled'});
                     if( validateForm( signUpType ) ) return;
+                    $('#s-submit').attr({disabled: 'disabled'});
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
                 }
@@ -211,9 +211,19 @@
             formErrors = true;
         }
 
-        //C: Check that all filled address fileds have codes and all codes have addresses
+        // C: Check that all filled address fileds have codes, all codes have addresses and all codes are a single word
         for( var address in _googleAddresses ){
             var addressCode = $( '#'+ address +'Code' ).val().trim();
+
+            // C: Check that codes have no spaces
+            if( addressCode.split(' ').length > 1 ) {
+                var addressCodeErrorContainer = $( '#' + address +'CodeError' );
+                addressCodeErrorContainer.text( 'Please enter a Code name with no spaces' );
+                addressCodeErrorContainer.show();
+                addressCodeErrorContainer.closest('.form-group').addClass('has-error');
+                formErrors = true;
+            }
+
             if( _googleAddresses[address].getPlace() ) {
                 if( !addressCode  ) {
                     var addressCodeErrorContainer = $( '#' + address +'CodeError' );
@@ -286,7 +296,7 @@
 
     function removeAllErrors(){
         var allErrorElements = ['#s-emailError', '#s-dobError', '#s-addressOneError', '#s-addressTwoError', '#s-addressThreeError', '#s-addressFourError', 
-            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError'];
+            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError', '#s-formError'];
         allErrorElements.forEach(function(element){
             $(element).hide();
             $(element).closest('.form-group').removeClass('has-error');

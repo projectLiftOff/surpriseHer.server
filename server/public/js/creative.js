@@ -30,7 +30,7 @@
             function error(xhr, error, obj){
                 $('#s-modal-signup #s-loading').hide();
                 $('#s-modal-signup').modal('hide');
-                $('#error-message > div').text('Hmmm... There seems to be a connections issue.  Please try entering your number again or contact customer support: support@surpriseher.com');
+                $('#error-message > div').text('Hmmm... There seems to be a connections issue.  Please try entering your number again or contact customer support: support@surpriseher.co');
                 $('#error-message').show()
                 $('#s-phone').val('');
             }

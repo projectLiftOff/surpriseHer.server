@@ -1,7 +1,3 @@
-// exports.getAll = callback => {
-//   connection.query("SELECT * FROM addresses", callback)
-// }
-
 exports.create = (address, callback) => {
   global.Db.query("INSERT INTO addresses SET ?", address, callback)
 }

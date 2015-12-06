@@ -2,7 +2,7 @@ const localInfo = [process.env.NODE_ENV, process.env.USER]
 const isProduction = process.env.NODE_ENV === "production"
 const winston = require("winston")
 const winstonSlack = require("winston-bishop-slack").Slack
-const winstonLoggly = require('winston-loggly');
+require("winston-loggly")
 
 winston.emitErrs = true
 const winstonLogger = new winston.Logger({
@@ -52,10 +52,10 @@ const winstonLogger = new winston.Logger({
 
 if (isProduction) {
   winstonLogger.add(winston.transports.Loggly, {
-     token: process.env.winston_loggly_token,
-     subdomain: "surpriseher",
-     tags: ["Winston-NodeJS"],
-     json:true
+    token: process.env.winston_loggly_token,
+    subdomain: "surpriseher",
+    tags: ["Winston-NodeJS"],
+    json: true
   })
 
   winstonLogger.add(winstonSlack, {

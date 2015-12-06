@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node tests.js | node_modules/.bin/tap-spec",
-    "testing": "nodemon tests.js | node_modules/.bin/tap-spec",
+    "test": "node ./tests/end_to_end_tests.js | node_modules/.bin/tap-spec",
+    "testing": "nodemon ./tests/end_to_end_tests.js | node_modules/.bin/tap-spec",
     "db": "mysql.server restart",
     "sql": "mysql.server restart",
     "lint": "node_modules/.bin/eslint ./**/*.js --fix",

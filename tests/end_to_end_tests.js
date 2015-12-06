@@ -1,8 +1,8 @@
 const test = require("tape").test
 const request = require("supertest")
 const sinon = require("sinon")
-const httpStatus = require("./httpStatuses.json")
-const app = require("./server/server.js")
+const httpStatus = require("./../httpStatuses.json")
+const app = require("./../server/server.js")
 
 function stripLastItem (list) { return list.slice(0, list.length - 1) }
 
@@ -91,7 +91,7 @@ test("new user does complete sign up on site", t => {
     )
     t.deepEqual(
       TwilioStub.args.map(stripLastItem), // last arg is a callback
-      [[{body: "Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:\n    \n>The Best F-ing Coffee! -- CODE: coffee\n>Love Me Some S\'more -- CODE: smores\n>Bubbly Bath -- CODE: bubbles\nPRODUCT URL \n    \nTo begin the order process, txt back the gift CODE, the day in month you\'d like us to ship and the shipping address CODE (Your address CODEs are below) you want us to send the gift to (e.g 3 coffee home, 18 smores home) \n    \nAddress Codes:\nhome\n", from: "+15005550006", to: "+11234567890"}]],
+      [[{body: "Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:\n    \n>The Best F-ing Coffee! -- CODE: coffee\n>Love Me Some S\'more -- CODE: smores\n>Bubbly Bath -- CODE: bubbles\nPRODUCT URL\n    \nTo begin the order process, txt back the gift CODE, the day in month you\'d like us to ship and the shipping address CODE (Your address CODEs are below) you want us to send the gift to (e.g 3 coffee home, 18 smores home)\n    \nAddress Codes:\nhome\n", from: "+15005550006", to: "+11234567890"}]],
       "it sends a text"
     )
     t.deepEqual(
@@ -105,7 +105,7 @@ test("new user does complete sign up on site", t => {
     )
     t.deepEqual(
       BraintreeCustomerStub.args.map(stripLastItem), // last arg is a callback
-      [[{firstName: "Charity", lastName: "Smith", paymentMethodNonce: "fake-valid-nonce"}]],
+      [[{email: "a@b.com", firstName: "Juan", lastName: "Don", paymentMethodNonce: "fake-valid-nonce", phone: "1234567890"}]],
       "it creates a Braintree customer"
     )
     LogInfoStub.restore()
@@ -203,4 +203,4 @@ test.skip("completing an order charges a card money", t => {
   t.pass()
 })
 
-test.skip("server doesn't barf on upper-case codes", t => {})
+test.skip("server doesn't barf on upper-case codes", t => { t.pass() })

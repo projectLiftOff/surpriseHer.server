@@ -105,7 +105,7 @@ test("new user does complete sign up on site", t => {
     )
     t.deepEqual(
       BraintreeCustomerStub.args.map(stripLastItem), // last arg is a callback
-      [[{firstName: "Charity", lastName: "Smith", paymentMethodNonce: "fake-valid-nonce"}]],
+      [[{email: "a@b.com", firstName: "Juan", lastName: "Don", paymentMethodNonce: "fake-valid-nonce", phone: "1234567890"}]],
       "it creates a Braintree customer"
     )
     LogInfoStub.restore()

@@ -11,10 +11,12 @@ global.Braintree = braintree.connect({
 
 exports.gateway = global.Braintree
 
-exports.createCustomer = (nonce, callback) => {
+exports.createCustomer = (nonce, user, callback) => {
   global.Braintree.customer.create({
-    firstName: "Charity", // TODO
-    lastName: "Smith", // TODO
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
+    phone: user.phone,
     paymentMethodNonce: nonce
   }, (error, result) => {
     if (error) {

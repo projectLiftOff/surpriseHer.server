@@ -64,7 +64,7 @@ function addAddresses (data, callback) {
   })
 }
 function addBraintreeCustomer (data, callback) {
-  payments.createCustomer(data.payments.nonce, (error, customerId) => {
+  payments.createCustomer(data.payments.nonce, data.user, (error, customerId) => {
     if (error) { return callback({message: "addBraintreeCustomer error", userMessageCode: 'contactSupportCreateBraintree', data, error}) }
     data.user.braintree_id = customerId
     return callback(null, data)

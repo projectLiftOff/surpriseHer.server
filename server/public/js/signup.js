@@ -68,7 +68,7 @@
         }
         function onError( error ){
             $('#s-signup-view #s-loading').hide();
-            if(!error.userMessage) $('#s-formError').text('There seems to be a problem... please try again or contact us at hello@surpriseher.co');
+            if(!error.userMessage) $('#s-formError').text('There seems to have been an issue completing your registration... please try again or contact us at hello@surpriseher.com or 415-985-4438');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
         }
@@ -91,7 +91,7 @@
         }
         function onError( error ){
             $('#s-signup-view #s-loading').hide();
-            if(!error.userMessage) $('#s-formError').text('There seems to be a problem... please try again or contact us at hello@surpriseher.co');
+            if(!error.userMessage) $('#s-formError').text('There seems to have been an issue wih registration... please try again or contact us at hello@surpriseher.com or 415-985-4438');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
         }
@@ -210,7 +210,7 @@
             if( _googleAddresses[address].getPlace() ) {
                 if( !addressCode  ) {
                     var addressCodeErrorContainer = $( '#' + address +'CodeError' );
-                    addressCodeErrorContainer.text( 'Please enter a code for the above address' );
+                    addressCodeErrorContainer.text( 'Please enter a Code for the above address' );
                     addressCodeErrorContainer.show();
                     addressCodeErrorContainer.closest('.form-group').addClass('has-error');
                     formErrors = true;
@@ -221,7 +221,7 @@
             }
             else if( !_googleAddresses[address].getPlace() && addressCode )  {
                 var addressMissingErrorContainer = $( '#' + address +'Error' );
-                addressMissingErrorContainer.text( 'Please enter an address associated with the code below or remove the code' );
+                addressMissingErrorContainer.text( 'Please enter an address associated with the Code below or remove the code' );
                 addressMissingErrorContainer.show();
                 addressMissingErrorContainer.closest('.form-group').addClass('has-error');
                 formErrors = true;

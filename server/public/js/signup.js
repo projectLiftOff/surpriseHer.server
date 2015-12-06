@@ -18,7 +18,6 @@
     }
 
     function unregisteredUserViewSetup(){
-        console.log('unregisteredUserSignUp');
         $('#s-select-shipping-address-section').hide();
         var queryArgs = window.location.search.slice(1).split('?');
         if( queryArgs.length === 1 ) {
@@ -29,7 +28,6 @@
     }
 
     function incompleteRegisteredUserViewSetup(){
-        console.log('incompleteRegisteredUserSignUp');
         var queryArgs = window.location.search.slice(1).split('?');
         if( queryArgs.length === 1 ) {
             _queryData.userId = Number( queryArgs[0].split('=').pop() );
@@ -43,7 +41,8 @@
             braintree.setup(clientToken, "dropin", {
                 container: "payments",
                 onPaymentMethodReceived: function (respose) {
-                    validateForm( signUpType );
+                    $('#s-signup-view #s-loading').show();
+                    if( validateForm( signUpType ) ) return;
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
                 }
@@ -63,13 +62,14 @@
             error: onError
         });
         function onSuccess( data ){
-            console.log('user updated!!');
+            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-incomplete-success').show();
         }
         function onError( error ){
-            console.log('FAILED: user updated!!', arguments);
-            $('#s-formError').text(error);
+            $('#s-signup-view #s-loading').hide();
+            if(!error.userMessage) $('#s-formError').text('There seems to have been an issue completing your registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
+            else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
         }
     }
@@ -85,13 +85,14 @@
             error: onError
         });
         function onSuccess( data ){
-            console.log('user created!!');
+            $('#s-signup-view #s-loading').hide();
             $('#s-signup-view').hide();
             $('#s-signup-unregistered-success').show();
         }
         function onError( error ){
-            console.log('FAILED: user updated!!', arguments);
-            $('#s-formError').text(error);
+            $('#s-signup-view #s-loading').hide();
+            if(!error.userMessage) $('#s-formError').text('There seems to have been an issue wih registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
+            else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
         }
     }
@@ -99,8 +100,7 @@
     function getUserData( signUpType, nonce ){
         var userData = {};
         userData.user = {}
-        var dob = $("#s-dob").val().trim();
-        userData.user.dob = moment(dob, "MM-DD-YYYY").valueOf();
+        userData.user.dob = $("#s-dob").val().trim();
         userData.user.first_name = $("#s-firstName").val().trim();
         userData.user.last_name = $("#s-lastName").val().trim();
         userData.user.email = $("#s-email").val().trim();
@@ -209,9 +209,8 @@
             var addressCode = $( '#'+ address +'Code' ).val().trim();
             if( _googleAddresses[address].getPlace() ) {
                 if( !addressCode  ) {
-                    console.log( address, 'is missing a code' );
                     var addressCodeErrorContainer = $( '#' + address +'CodeError' );
-                    addressCodeErrorContainer.text( 'Please enter a code for the above address' );
+                    addressCodeErrorContainer.text( 'Please enter a Code for the above address' );
                     addressCodeErrorContainer.show();
                     addressCodeErrorContainer.closest('.form-group').addClass('has-error');
                     formErrors = true;
@@ -222,7 +221,7 @@
             }
             else if( !_googleAddresses[address].getPlace() && addressCode )  {
                 var addressMissingErrorContainer = $( '#' + address +'Error' );
-                addressMissingErrorContainer.text( 'Please enter an address associated with the code below or remove the code' );
+                addressMissingErrorContainer.text( 'Please enter an address associated with the Code below or remove the code' );
                 addressMissingErrorContainer.show();
                 addressMissingErrorContainer.closest('.form-group').addClass('has-error');
                 formErrors = true;
@@ -241,7 +240,7 @@
                 var a = addresses[address];
                 if( !(a.street_number && a.route && a.locality && a.postal_code && a.administrative_area_level_1) ) {
                     var addressErrorContainer = $( '#' + address + 'Error' );
-                    addressErrorContainer.text( 'Please a valid shipping address' );
+                    addressErrorContainer.text( 'Please select a valid shipping address' );
                     addressErrorContainer.show();
                     $( '#' + address ).closest('.form-group').addClass('has-error');
                     formErrors = true;
@@ -252,16 +251,16 @@
                 }
             } 
             else if( (location && location.name) || $( '#' + address ).val() ) {
-                $( '#' + address + 'Error' ).text( 'Please a valid shipping address' );
+                $( '#' + address + 'Error' ).text( 'Please select an address from the dropdown' );
                 $( '#' + address + 'Error' ).show();
                 $( '#' + address ).closest('.form-group').addClass('has-error');
+                formErrors = true;
             }
         }
 
         //C: Check that input code matches one of the shipping codes provieded in addresses section
         var selectedAddressCode = $('#s-selectedShippingAddress').val().trim();
         if( signUpType === 'incompleteRegistered' && !addressCodeHasAddress[ selectedAddressCode ] ) {
-            console.log( 'code does not match any of your address codes' );
             var selectedShippingAddressErrorContainer = $( '#s-selectedShippingAddressError' );
             selectedShippingAddressErrorContainer.text( 'Please enter a code that matches one of the address codes entered above' );
             selectedShippingAddressErrorContainer.show();
@@ -280,7 +279,7 @@
 
     function removeAllErrors(){
         var allErrorElements = ['#s-emailError', '#s-dobError', '#s-addressOneError', '#s-addressTwoError', '#s-addressThreeError', '#s-addressFourError', 
-            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError', '#s-selectedShippingAddress'];
+            '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError'];
         allErrorElements.forEach(function(element){
             $(element).hide();
             $(element).closest('.form-group').removeClass('has-error');

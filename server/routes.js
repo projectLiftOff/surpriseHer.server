@@ -2,6 +2,7 @@ const addressesRequestHandlers = require("./api/addresses/addresses.main")
 const usersRequestHandlers = require("./api/users/users.routes")
 const paymentsRequestHandlers = require("./api/payments/payments.routes")
 const transactionsRequestHandlers = require("./api/transactions/transactions.routes")
+const statusRequestHandler = require("./api/status")
 const viewsRequestHandlers = require("./public/views.routing")
 
 function routes (app) {
@@ -9,6 +10,7 @@ function routes (app) {
   app.use("/users", usersRequestHandlers)
   app.use("/payments", paymentsRequestHandlers)
   app.use("/transactions", transactionsRequestHandlers)
+  app.use("/status", statusRequestHandler)
   app.use("/", viewsRequestHandlers)
 }
 

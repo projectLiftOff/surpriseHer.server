@@ -47,10 +47,11 @@ exports.charge = (userBraintreeId, amount, callback) => {
 exports.generateToken = (req, res) => {
   global.Braintree.clientToken.generate({}, (error, response) => {
     if (error) {
-      const errorMessage = {message: "braintree failed to generate token", error}
+      const errorMessage = {message: "Braintree failed to generate token", error}
       log.error(errorMessage)
-      return res.send(httpStatus["Internal Server Error"].code, errorMessage)
+      return res.status(httpStatus["Internal Server Error"].code).send(errorMessage)
     } else {
+      res.set("Content-Type", "text/plain") // response is not html
       res.send(response.clientToken)
     }
   })

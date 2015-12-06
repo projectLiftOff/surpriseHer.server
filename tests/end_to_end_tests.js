@@ -160,6 +160,49 @@ test("status fails when db is disconnected", t => {
   })
 })
 
+test("generates a braintree token for the client", t => {
+  const BraintreeClientTokenStub = sinon.stub(global.Braintree.clientToken, "generate", (_, callback) => { return callback(null, {clientToken: "aBc123=="}) })
+  t.plan(4) // eslint-disable-line no-magic-numbers
+  request(app)
+  .get("/payments/client_token")
+  .end((_, data) => {
+    t.equal(data.res.headers["content-type"], "text/plain; charset=utf-8", "it responds with plaintext")
+    t.equal(data.status, httpStatus.OK.code, "it responds with status 200 OK")
+    t.deepEqual(
+      BraintreeClientTokenStub.args.map(stripLastItem), // last arg is a callback
+      [[{}]],
+      "it generates a Braintree client token"
+    )
+    t.equal(data.text, "aBc123==", "it gives the client a Braintree token")
+    BraintreeClientTokenStub.restore()
+  })
+})
+
+test("fails to generate a braintree token for the client", t => {
+  const LogErrorStub = sinon.stub(global.Log, "error")
+  const BraintreeClientTokenStub = sinon.stub(global.Braintree.clientToken, "generate", (_, callback) => { return callback({authenticationError: "authenticationError"}) })
+  t.plan(5) // eslint-disable-line no-magic-numbers
+  request(app)
+  .get("/payments/client_token")
+  .end((_, data) => {
+    t.deepEqual(
+      BraintreeClientTokenStub.args.map(stripLastItem), // last arg is a callback
+      [[{}]],
+      "it attempts to generate a Braintree client token"
+    )
+    t.deepEqual(
+      LogErrorStub.args,
+      [[{error: {authenticationError: "authenticationError"}, message: "Braintree failed to generate token"}]],
+      "it logs the error"
+    )
+    t.equal(data.res.headers["content-type"], "application/json; charset=utf-8", "it responds with JSON")
+    t.equal(data.status, httpStatus["Internal Server Error"].code, "it responds with status 500 Internal Server Error")
+    t.deepEqual(data.body, {message: "Braintree failed to generate token", error: {authenticationError: "authenticationError"}}, "it responds with the error")
+    LogErrorStub.restore()
+    BraintreeClientTokenStub.restore()
+  })
+})
+
 test.skip("incomplete user texts with day and gift_code", t => {
   // receive Twilio webhook POST to transactions
   // expect log

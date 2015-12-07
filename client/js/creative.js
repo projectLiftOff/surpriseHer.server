@@ -6,7 +6,7 @@
         addStylingFunctionality();
         listenToButtons();
     });
-    
+
 
     function listenToButtons() {
         $('#s-just-get-text').click(function(){
@@ -48,7 +48,7 @@
                 $('#error-message').show()
                 return;
             }
-            $('#s-goto-signup').attr('href', '/signup?p=' + number);
+            $('#s-goto-signup').attr('href', '/signup.html?p=' + number);
             $("#s-modal-signup").modal('show');
         });
     }

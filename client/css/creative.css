@@ -640,8 +640,8 @@ img::-moz-selection {
 }
 .loading-signup {
     position: relative;
-    top: 9px;
-    left: 50px;
+    top: 5px;
+    right: 420px;
     z-index: 10;
     margin-bottom: -40px;
     display: none;

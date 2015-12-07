@@ -35,9 +35,14 @@
         setUpOnSignUpSubmit('incompleteRegistered');
     }
 
-    function setUpOnSignUpSubmit( signUpType ){
-        $.get( _baseUrl + "/payments/client_token", function( clientToken ) {
-            // TODO: error handling
+    function setUpOnSignUpSubmit( signUpType, retries ){
+        $.ajax({
+            method: 'GET',
+            url: _baseUrl + "/payments/client_token",
+            success: onSuccess,
+            error: onBrainTreeError,
+        });
+        function onSuccess(clientToken){
             braintree.setup(clientToken, "dropin", {
                 container: "payments",
                 onPaymentMethodReceived: function (respose) {
@@ -46,9 +51,15 @@
                     $('#s-submit').attr({disabled: 'disabled'});
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
-                }
+                },
+                onError: onBrainTreeError
             });
-        });
+        }
+        function onBrainTreeError(){
+            retries = (retries || 4) - 1;
+            if( retries ) setUpOnSignUpSubmit( signUpType, retries );
+            else $('#s-nonce-load-error').show();
+        }
     }
 
     function updateIncompleteRegisteredUser( userData ) {

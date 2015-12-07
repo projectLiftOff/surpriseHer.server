@@ -55,10 +55,12 @@
                 onError: onBrainTreeError
             });
         }
-        function onBrainTreeError(){
-            retries = (retries || 4) - 1;
-            if( retries ) setUpOnSignUpSubmit( signUpType, retries );
-            else $('#s-nonce-load-error').show();
+        function onBrainTreeError(error){
+            if( !error.type === 'VALIDATION' ) {
+                retries = (retries || 4) - 1;
+                if( retries ) setUpOnSignUpSubmit( signUpType, retries );
+                else $('#s-nonce-load-error').show();
+            }
         }
     }
 

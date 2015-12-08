@@ -47,7 +47,7 @@
                 container: "payments",
                 onPaymentMethodReceived: function (respose) {
                     $('#s-signup-view #s-loading').show();
-                    if( validateForm( signUpType ) ) return;
+                    if( validateForm( signUpType ) ) return $('#s-signup-view #s-loading').hide();
                     $('#s-submit').attr({disabled: 'disabled'});
                     var userData = getUserData( signUpType, respose.nonce );
                     signUpType === 'incompleteRegistered' ? updateIncompleteRegisteredUser(userData) : createCompleteUser(userData);
@@ -302,12 +302,14 @@
             $('#s-submit').removeClass('btn-primary').addClass('btn-danger');
             setTimeout(function(){
                 $('#s-submit').removeClass('btn-danger').addClass('btn-primary');
-            }, 3000);
+            }, 4000);
+            $('#s-formError').text('There is an issue with one or more of the fields above. Please review and correct the issues.');
+            $('#s-formError').show();
         }
         return formErrors;
     }
 
-    function removeAllErrors(){
+    function removeAllErrors() {
         var allErrorElements = ['#s-emailError', '#s-dobError', '#s-addressOneError', '#s-addressTwoError', '#s-addressThreeError', '#s-addressFourError', 
             '#s-addressOneCodeError', '#s-addressTwoCodeError', '#s-addressThreeCodeError', '#s-addressFourCodeError', '#s-formError'];
         allErrorElements.forEach(function(element){

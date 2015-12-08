@@ -29,7 +29,7 @@
                 $('#s-phone').val('');
             }
             function error(xhr, error, obj){
-                $('#error-message > div').text('Hmmm... There seems to be a connections issue.  Please try entering your number again or contact customer support: support@surpriseher.co');
+                $('#error-message > div').text('Hmmm... There was a connection issue.  Please try entering your number again or contact customer at hello@surpriseher.co or 415-985-4438');
                 $('#error-message').show()
             }
             function finallyFunc(){
@@ -44,7 +44,7 @@
             $('#error-message').hide();
             var number = $('#s-phone').val();
             if( number.length < 10 ) {
-                $('#error-message > div').text('Please Enter Vaild Phone Number');
+                $('#error-message > div').text('Please Enter Valid Phone Number');
                 $('#error-message').show()
                 return;
             }

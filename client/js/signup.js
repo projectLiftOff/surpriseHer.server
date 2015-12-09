@@ -107,7 +107,7 @@
             $('#s-signup-unregistered-success').show();
         }
         function onError( error ){
-            if(!error.userMessage) $('#s-formError').text('There seems to have been an issue wih registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
+            if(!error.userMessage) $('#s-formError').text('There seems to have been an issue with registration... please try again or contact us at hello@surpriseher.co or 415-985-4438');
             else $('#s-formError').text(error.userMessage);
             $('#s-formError').show();
         }

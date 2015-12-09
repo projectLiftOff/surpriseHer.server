@@ -13,7 +13,7 @@ function constructAddressCodesOptionsStr (addressCodes) {
 }
 
 function constructSignUpGiftOptionsMessages (userRegistered, gifts, addresses) {
-  let message = 'Hi, this is SurpriseHer, we’re excited you signed up! SurpriseHer: a simple way to keep the spark alive and remind her she’s special. You will receive a text early January with our first-ever gift list. You can start surprising her as early as next month!'
+  let message = 'Hi, this is SurpriseHer, we’re excited you signed up! We’re a simple way to keep the spark alive and remind her she’s special. You will receive a text early January with our first-ever gift list. You can start surprising her as early as next month!'
   // if (userRegistered) {
   //   const addressCodes = addresses.map(address => address.code_name)
   //   message = `Hey! You have successfully signed up for SurpriseHer monthly limited gift lists! Here is our curated gift selection only avalible to new signups:

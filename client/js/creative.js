@@ -29,7 +29,7 @@
                 $('#s-phone').val('');
             }
             function error(xhr, error, obj){
-                $('#error-message > div').text('Hmmm... There was a connection issue.  Please try entering your number again or contact customer at hello@surpriseher.co or 415-985-4438');
+                $('#error-message > div').text('Hmmm... There was a connection issue.  Please try entering your number again or contact customer support at hello@surpriseher.co or 415-985-4438');
                 $('#error-message').show()
             }
             function finallyFunc(){

@@ -49,8 +49,9 @@ function sendTxtMessage (data, callback) {
 }
 function addAddresses (data, callback) {
   const pendingQueries = {count: 0}
-  const codeNames = data.addresses.map(a => a.code_name)
+  const codeNames = data.addresses.map(a => a.code_name.toLowerCase())
   data.addresses.forEach(address => {
+    address.code_name = address.code_name.toLowerCase()
     pendingQueries.count = pendingQueries.count + 1
     address.user_id = address.user_id || data.user_id
     Addresses.create(address, error => {

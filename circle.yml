@@ -1,4 +1,9 @@
 machine:
   node:
     version: 5.1.0
-    
+
+database:
+  override:
+    - mysql -e 'create database gentleman;'
+    - mysql -D gentleman < db/schema.sql
+    - mysql -D gentleman < db/testData.sql

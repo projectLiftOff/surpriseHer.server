@@ -1,4 +1,4 @@
-gentleman.server [![Build Status](https://travis-ci.org/projectLiftOff/surpriseHer.server.svg?branch=master)](https://travis-ci.org/projectLiftOff/surpriseHer.server)
+gentleman.server [![Circle CI](https://circleci.com/gh/projectLiftOff/surpriseHer.server/tree/master.svg?style=svg)](https://circleci.com/gh/projectLiftOff/surpriseHer.server/tree/master)
 ================
 
 Index

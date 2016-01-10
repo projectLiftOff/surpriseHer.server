@@ -538,7 +538,7 @@ img::-moz-selection {
 .navbar-brand {
     padding: 8px 0 0 10px;
 }
-.inline { 
+.inline {
     display: inline;
 }
 .well-greyboarder {
@@ -559,7 +559,7 @@ img::-moz-selection {
 .landing-page .landing-phone-input {
     width: 57%;
     height: 50px;
-    border-radius: 0px; 
+    border-radius: 0px;
     margin-right: -1px;
     border-left: 7px solid #0ABAB5;
     font-size: 18px;

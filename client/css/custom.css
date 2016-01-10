@@ -1,0 +1,33 @@
+ul.gift-contents  {
+  -moz-column-count: 2;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 2;
+  -webkit-column-gap: 20px;
+  column-count: 2;
+  column-gap: 20px;
+  list-style: none;
+  padding-left: 0;
+}
+.gift-contents li::before {
+  content: '– ';
+}
+.signup-button {
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: #0ABAB5;
+}
+.signup-button:hover {
+  webkit-transition: all .35s;
+  -moz-transition: all .35s;
+  transition: all .35s;
+  background-color: #089F9B;
+}
+
+.signup-button {
+  margin: 0 auto;
+  max-width: 500px;
+}

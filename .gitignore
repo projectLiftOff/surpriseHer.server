@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+*.zip
 
 # Runtime data
 pids

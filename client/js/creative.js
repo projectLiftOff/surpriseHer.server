@@ -5,6 +5,10 @@
     $(document).ready(function(){
         addStylingFunctionality();
         listenToButtons();
+
+        setTimeout(function(){
+            $("#s-modal-beta").modal('show');
+        }, 500);
     });
 
 

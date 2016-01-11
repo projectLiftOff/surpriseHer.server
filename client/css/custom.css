@@ -1,10 +1,12 @@
-ul.gift-contents  {
+ul.gift-contents.two-columns {
   -moz-column-count: 2;
-  -moz-column-gap: 20px;
   -webkit-column-count: 2;
+  -moz-column-gap: 20px;
   -webkit-column-gap: 20px;
   column-count: 2;
   column-gap: 20px;
+}
+ul.gift-contents  {
   list-style: none;
   padding-left: 0;
 }
